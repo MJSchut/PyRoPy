@@ -31,10 +31,10 @@ def process_keylist(lbt, keylist, player):
     if not keylist:
         return
     if keylist[0] == 'left':
-        player.player_x -= 1
+        player.move(-1, 0)
     if keylist[0] == 'right':
-        player.player_x += 1
+        player.move(1, 0)
     if keylist[0] == 'down':
-        player.player_y += 1
+        player.move(0, 1)
     if keylist[0] == 'up':
-        player.player_y -= 1
+        player.move(0, -1)
