@@ -2,6 +2,9 @@ This is a python roguelike that I'll be maintaining as a hobby project.
 Parts of this will follow the libtcod tutorial.
 
 UPDATE log
+- 0.01b: Added an Entity system. Now we are getting OOP. Documentation..
+is still a bit lacking. I'll work on it once we get some semblance of a 
+game going.
 - 0.01a: Bare bones, an @ moves around the screen. Nothing much to see
 yet.
 
