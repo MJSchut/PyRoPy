@@ -1,13 +1,19 @@
 __author__ = 'Martijn Schut'
 
-from src.entities.Creatures.Player import Player
-from src.entities.Creatures.Creature import Creature
+from src.entities.Creatures.CreatureFactory import CreatureFactory
+from src.world.Level import Level
 
 from src.libtcod import libtcodpy as lbt
 
 from src.input import keyboard as kb
 
 from src import constants
+
+def getScrollX():
+    return max(0, min(player.x - constants.SCREEN_WIDTH / 2, level.level_width - constants.SCREEN_WIDTH))
+
+def getScrollY():
+    return max(0, min(player.y - constants.SCREEN_HEIGHT / 2, level.level_height - constants.SCREEN_HEIGHT))
 
 import random
 
@@ -19,29 +25,50 @@ con = lbt.console_new(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
 lbt.console_blit(con, 0, 0, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 0, 0, 0)
 lbt.console_set_default_foreground(0, lbt.white)
 
-# make a creature list, a bit unrefined for now, and add some creatures to it
-creatures = []
+
+level = Level(constants.MAP_WIDTH, constants.MAP_HEIGHT)
+cFactory = CreatureFactory(lbt, con, level)
 
 # add the player
-player = Player(lbt, con, constants.SCREEN_WIDTH/2, constants.SCREEN_HEIGHT/2)
-creatures.append(player)
+player = cFactory.make_player()
 
 # add some non-hostile creatures
 funguscount = 10
 for funi in range(0, funguscount):
-    fungus = Creature(lbt, con, constants.SCREEN_WIDTH/2 + random.randint(-10, 10), constants.SCREEN_HEIGHT/2 - + random.randint(-20, 20), 'f', lbt.green)
-    creatures.append(fungus)
+    fungus = cFactory.make_fungus()
 
 while not lbt.console_is_window_closed():
     # show stuff
+    sx = getScrollX()
+    sy = getScrollY()
+    for y in range(level.level_height):
+        for x in range(level.level_width):
+            wx = x - sx
+            wy = y - sy
+
+            if 0 <= wx <= constants.SCREEN_WIDTH and 0 <= wy <= constants.SCREEN_HEIGHT:
+
+                lbt.console_set_char_background(con, wx, wy, level.map[x][y].color, lbt.BKGND_SET )
+
+                if level.map[x][y].char is not None:
+                    if level.map[x][y].front_color is not None:
+                        lbt.console_set_default_foreground(con, level.map[x][y].front_color)
+                    else:
+                        lbt.console_set_default_foreground(con, lbt.white)
+
+                    lbt.console_put_char(con, wx, wy, level.map[x][y].char, lbt.BKGND_NONE)
+
+
     # player gets added to list first, but should be drawn last (over top of everything)
-    for creature in reversed(creatures):
-        creature.draw()
+    for creature in reversed(level.creatures):
+        wx = creature.x - sx
+        wy = creature.y - sy
+        creature.draw(wx, wy)
 
     lbt.console_blit(con, 0, 0, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 0, 0, 0)
     lbt.console_flush()
 
-    for creature in creatures:
+    for creature in level.creatures:
         creature.clear()
 
 
