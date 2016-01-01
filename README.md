@@ -2,6 +2,7 @@ This is a python roguelike that I'll be maintaining as a hobby project.
 Parts of this will follow the libtcod tutorial.
 
 UPDATE log
+- 0.01c: Camera system has been added. Walls are bumpable, pieces of fungus are killable.
 - 0.01b: Added an Entity system. Now we are getting OOP. Documentation..
 is still a bit lacking. I'll work on it once we get some semblance of a 
 game going.
