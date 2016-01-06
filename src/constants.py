@@ -4,11 +4,20 @@ from src.libtcod import libtcodpy as lbt
 
 import random
 
-SCREEN_WIDTH = 60
-SCREEN_HEIGHT = 40
+SCREEN_WIDTH = 64
+SCREEN_HEIGHT = 45
 MAP_WIDTH = 80
 MAP_HEIGHT = 60
 LIMIT_FPS = 30
+
+BAR_WIDTH = 20
+PANEL_HEIGHT = 7
+PANEL_Y = SCREEN_HEIGHT - PANEL_HEIGHT
+panel = lbt.console_new(SCREEN_WIDTH, PANEL_HEIGHT)
+
+MSG_X = BAR_WIDTH + 2
+MSG_WIDTH = SCREEN_WIDTH - BAR_WIDTH - 2
+MSG_HEIGHT = PANEL_HEIGHT - 1
 
 player_name = 'Steve'
 

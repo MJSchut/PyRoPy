@@ -1,1 +1,1 @@
-python main.py
+"\Python27\python.exe" "main.py"

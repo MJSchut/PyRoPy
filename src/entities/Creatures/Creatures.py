@@ -21,6 +21,13 @@ class Creature(Entity):
     def set_hp(self, hp):
         self.hp = hp
 
+    def hurt(self, amnt):
+        self.hp -= amnt
+
+        if self.hp < 0:
+            self.doAction('die')
+            self.level.remove(self)
+
     def set_maxhunger(self, hunger):
         self.maxhunger = hunger
         self.hunger = self.maxhunger
@@ -43,15 +50,58 @@ class Creature(Entity):
     def move(self, dx, dy):
         ux = self.x + dx
         uy = self.y + dy
+
         othercreature = self.level.check_for_creatures(ux, uy)
 
         if othercreature is not None:
-            self.attack_creature(othercreature)
+            if othercreature is not self:
+                self.attack_creature(othercreature)
         else:
             self.ai.on_enter(ux, uy, self.level.map[ux][uy])
 
+    def notify(self, message):
+        self.ai.on_notify(str(message))
+
     def attack_creature(self, creature):
-        self.level.remove(creature)
+        creature.ai.on_attacked(self)
+
+        amnt = max(0, self.attack - creature.defence)
+
+        self.notify("You attack the %s for %d damage." %(creature.type, amnt));
+        creature.notify("The %s attacks you for %d damage." %(self.type, amnt));
+
+        creature.hurt(amnt)
+
+    def doAction(self, message):
+        r = 9
+        for ox in range(-r, r+1):
+            for oy in range(-r, r+1):
+                if (ox*ox + oy*oy > r*r):
+                    continue
+
+                other_creature = self.level.check_for_creatures(self.x+ox, self.y+oy)
+
+                if other_creature is None:
+                    continue
+
+                if other_creature == self:
+                    other_creature.notify("You " + message + ".")
+                else:
+                    other_creature.notify(str("The %s %s.") %(self.type, makeSecondPerson(message)))
+
+def makeSecondPerson(text):
+    new_text_array = text.split(" ")
+    new_text_array[0] += "s"
+
+    new_text = " ".join(new_text_array)
+
+    return new_text
+
+
+def sap_creature(self, creature, value):
+    if creature.maxhunger > 0:
+        amnt = creature.hunger - abs(value)
+        creature.set_hunger(amnt)
 
 class Player(Creature):
     def __init__(self, lbt, con, level):

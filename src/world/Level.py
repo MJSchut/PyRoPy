@@ -36,12 +36,23 @@ class Level(object):
 
     def check_for_creatures(self, x, y):
         for creature in self.creatures:
-            if creature.x == x and creature.y == y:
-                return creature
+            # check for y first, as level height will always be lower than level width
+            if creature.y == y:
+                    if creature.x == x:
+                        return creature
         return None
 
     def remove(self, creature):
         self.creatures.remove(creature)
+
+    def is_empty(self, x, y):
+        if x < 0 or y < 0 or x >= self.level_width or y >= self.level_height:
+            return False
+
+        if self.map[x][y].blocked or self.check_for_creatures(x,y) is not None:
+            return False
+        else:
+            return True
 
     def add_at_empty_location(self, entity):
         x = random.randint(1, constants.MAP_WIDTH - 1)
@@ -56,3 +67,11 @@ class Level(object):
 
         # TODO: make specific for creatures
         self.creatures.append(entity)
+
+    def update(self):
+        # we slice the list (i.e. make a copy) so we don't get stuck in a loop
+        # where newly spawned fungus keep being added to the update que and break your computer
+        clist = self.creatures[:]
+        for creature in clist:
+            creature.ai.on_update()
+

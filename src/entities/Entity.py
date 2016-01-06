@@ -10,9 +10,13 @@ class Entity(object):
         self.level = level
         self.color = color
         self.name = 'No-name Simon'
+        self.type = 'No-type Timmy'
 
     def set_name(self, name):
         self.name = name
+
+    def set_type(self, ntype):
+        self.type = ntype
 
     def set_postion(self, new_x, new_y):
         self.x = new_x
