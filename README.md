@@ -2,6 +2,8 @@ This is a python roguelike that I'll be maintaining as a hobby project.
 Parts of this will follow the libtcod tutorial.
 
 UPDATE log
+- 0.01e: Combat has been expanded, message system is more coherent. Level generation
+is quite basic, but functioning. One more version and then we push to 0.02.
 - 0.01d: Added run.bat and a python 2.7 release. Just click and run the (not yet) game.
 Message system has been added, so has a basic combat system.
 - 0.01c: Camera system has been added. Walls are bumpable, pieces of fungus are killable.
