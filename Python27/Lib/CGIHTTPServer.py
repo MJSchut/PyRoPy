@@ -298,7 +298,7 @@ class CGIHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 # TODO(gregory.p.smith): Move this into an appropriate library.
 def _url_collapse_path_split(path):
     """
-    Given a URL path, remove extra '/'s and '.' path elements and collapse
+    Given a URL path, remove_creature extra '/'s and '.' path elements and collapse
     any '..' references.
 
     Implements something akin to RFC-2396 5.2 step 6 to parse relative paths.

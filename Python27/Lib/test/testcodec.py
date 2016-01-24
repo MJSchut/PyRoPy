@@ -38,7 +38,7 @@ decoding_map.update({
         0x78: u"abc", # 1-n decoding mapping
         "abc": 0x0078,# 1-n encoding mapping
         0x01: None,   # decoding mapping to <undefined>
-        0x79: u"",    # decoding mapping to <remove character>
+        0x79: u"",    # decoding mapping to <remove_creature character>
 })
 
 ### Encoding Map

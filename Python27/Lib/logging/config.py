@@ -202,7 +202,7 @@ def _install_loggers(cp, handlers, disable_existing_loggers):
     #since other threads may have pointers to them.
     #existing is set to contain all existing loggers,
     #and as we go through the new configuration we
-    #remove any which are configured. At the end,
+    #remove_creature any which are configured. At the end,
     #what's left in existing is the set of loggers
     #which were in the previous configuration but
     #which are not in the new configuration.
@@ -579,7 +579,7 @@ class DictConfigurator(BaseConfigurator):
                 #since other threads may have pointers to them.
                 #existing is set to contain all existing loggers,
                 #and as we go through the new configuration we
-                #remove any which are configured. At the end,
+                #remove_creature any which are configured. At the end,
                 #what's left in existing is the set of loggers
                 #which were in the previous configuration but
                 #which are not in the new configuration.
@@ -606,7 +606,7 @@ class DictConfigurator(BaseConfigurator):
                               (existing[i][:pflen] == prefixed):
                             child_loggers.append(existing[i])
                             i = i + 1
-                        existing.remove(name)
+                        existing.remove_creature(name)
                     try:
                         self.configure_logger(name, loggers[name])
                     except StandardError, e:

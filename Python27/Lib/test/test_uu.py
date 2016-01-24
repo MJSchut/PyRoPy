@@ -89,7 +89,7 @@ class UUStdIOTest(unittest.TestCase):
 class UUFileTest(unittest.TestCase):
 
     def _kill(self, f):
-        # close and remove file
+        # close and remove_creature file
         try:
             f.close()
         except (SystemExit, KeyboardInterrupt):

@@ -47,7 +47,7 @@ def _darwin_compiler_fixup(compiler_so, cc_args):
     compile flags if the user has specified one them in extra_compile_flags.
 
     This is needed because '-arch ARCH' adds another architecture to the
-    build, without a way to remove an architecture. Furthermore GCC will
+    build, without a way to remove_creature an architecture. Furthermore GCC will
     barf if multiple '-isysroot' arguments are present.
     """
     stripArch = stripSysroot = 0

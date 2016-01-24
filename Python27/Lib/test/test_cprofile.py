@@ -36,7 +36,7 @@ def main():
         regenerate_expected_output(__file__, CProfileTest)
 
 
-# Don't remove this comment. Everything below it is auto-generated.
+# Don't remove_creature this comment. Everything below it is auto-generated.
 #--cut--------------------------------------------------------------------------
 CProfileTest.expected_output['print_stats'] = """\
          126 function calls (106 primitive calls) in 1.000 CPU seconds

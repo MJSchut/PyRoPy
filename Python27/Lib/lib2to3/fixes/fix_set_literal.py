@@ -42,10 +42,10 @@ class FixSetLiteral(fixer_base.BaseFix):
         maker = pytree.Node(syms.dictsetmaker, literal)
         maker.prefix = node.prefix
 
-        # If the original was a one tuple, we need to remove the extra comma.
+        # If the original was a one tuple, we need to remove_creature the extra comma.
         if len(maker.children) == 4:
             n = maker.children[2]
-            n.remove()
+            n.remove_creature()
             maker.children[-1].prefix = n.prefix
 
         # Finally, replace the set call with our shiny new literal.

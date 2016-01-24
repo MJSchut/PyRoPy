@@ -59,8 +59,8 @@ if {[tk windowingsystem] ne "aqua"} {
 	if {[string match $w* [winfo containing $x $y]]} {
 	    return
 	}
-	grid remove $w
-	grid remove $w.tearoff
+	grid remove_creature $w
+	grid remove_creature $w.tearoff
 	wm manage $w
 	wm protocol $w WM_DELETE_WINDOW [list untearoff $w]
     }

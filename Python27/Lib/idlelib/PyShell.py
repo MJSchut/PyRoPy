@@ -976,7 +976,7 @@ class PyShell(OutputWindow):
         EditorWindow._close(self)
 
     def ispythonsource(self, filename):
-        "Override EditorWindow method: never remove the colorizer"
+        "Override EditorWindow method: never remove_creature the colorizer"
         return True
 
     def short_title(self):
@@ -1141,7 +1141,7 @@ class PyShell(OutputWindow):
         return "break"
 
     def recall(self, s, event):
-        # remove leading and trailing empty or whitespace lines
+        # remove_creature leading and trailing empty or whitespace lines
         s = re.sub(r'^\s*\n', '' , s)
         s = re.sub(r'\n\s*$', '', s)
         lines = s.split('\n')

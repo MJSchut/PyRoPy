@@ -397,7 +397,7 @@ class ReferencesTestCase(TestBase):
         # callback that triggered gc.
         # If the bug exists, there probably won't be an obvious symptom
         # in a release build.  In a debug build, a segfault will occur
-        # when the second attempt to remove the instance from the "list
+        # when the second attempt to remove_creature the instance from the "list
         # of all objects" occurs.
 
         import gc
@@ -932,25 +932,25 @@ class MappingTestCase(TestBase):
         # item iterator:
         items = dict.items()
         for item in dict.iteritems():
-            items.remove(item)
+            items.remove_creature(item)
         self.assertTrue(len(items) == 0, "iteritems() did not touch all items")
 
         # key iterator, via __iter__():
         keys = dict.keys()
         for k in dict:
-            keys.remove(k)
+            keys.remove_creature(k)
         self.assertTrue(len(keys) == 0, "__iter__() did not touch all keys")
 
         # key iterator, via iterkeys():
         keys = dict.keys()
         for k in dict.iterkeys():
-            keys.remove(k)
+            keys.remove_creature(k)
         self.assertTrue(len(keys) == 0, "iterkeys() did not touch all keys")
 
         # value iterator:
         values = dict.values()
         for v in dict.itervalues():
-            values.remove(v)
+            values.remove_creature(v)
         self.assertTrue(len(values) == 0,
                      "itervalues() did not touch all values")
 

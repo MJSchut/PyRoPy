@@ -90,7 +90,7 @@ def main():
         regenerate_expected_output(__file__, ProfileTest)
 
 
-# Don't remove this comment. Everything below it is auto-generated.
+# Don't remove_creature this comment. Everything below it is auto-generated.
 #--cut--------------------------------------------------------------------------
 ProfileTest.expected_output['print_stats'] = """\
          127 function calls (107 primitive calls) in 999.749 CPU seconds

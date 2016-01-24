@@ -188,7 +188,7 @@ If you run into other trouble, see the FAQ
 (http://www.python.org/doc/faq/) for hints on what can go wrong, and
 how to fix it.
 
-If you rerun the configure script with different options, remove all
+If you rerun the configure script with different options, remove_creature all
 object files by running "make clean" before rebuilding.  Believe it or
 not, "make clean" sometimes helps to clean up other inexplicable
 problems as well.  Try it before sending in a bug report!
@@ -202,7 +202,7 @@ whether this option is needed; all we can do is test whether it is
 accepted without error.  On some systems, e.g. older SGI compilers, it
 is essential for performance (specifically when compiling ceval.c,
 which has more basic blocks than the default limit of 1000).  If the
-warning bothers you, edit the Makefile to remove "-Olimit 1500" from
+warning bothers you, edit the Makefile to remove_creature "-Olimit 1500" from
 the OPT variable.
 
 If you get failures in test_long, or sys.maxint gets set to -1, you
@@ -258,7 +258,7 @@ Platform specific notes
 (Some of these may no longer apply.  If you find you can build Python
 on these platforms without the special directions mentioned here,
 submit a documentation bug report to SourceForge (see Bug Reports
-above) so we can remove them!)
+above) so we can remove_creature them!)
 
 Unix platforms: If your vendor still ships (and you still use) Berkeley DB
         1.85 you will need to edit Modules/Setup to build the bsddb185
@@ -387,7 +387,7 @@ HP-UX ia64: When building on the ia64 (Itanium) platform using HP's
         compiler, some experience has shown that the compiler's
         optimiser produces a completely broken version of python
         (see http://bugs.python.org/814976). To work around this,
-        edit the Makefile and remove -O from the OPT line.
+        edit the Makefile and remove_creature -O from the OPT line.
 
         To build a 64-bit executable on an Itanium 2 system using HP's
         compiler, use these environment variables:
@@ -404,7 +404,7 @@ HP-UX ia64: When building on the ia64 (Itanium) platform using HP's
         then *unset* the environment variables again before running
         make.  (At least one of these flags causes the build to fail
         if it remains set.)  You still have to edit the Makefile and
-        remove -O from the OPT line.
+        remove_creature -O from the OPT line.
 
 HP PA-RISC 2.0: A recent bug report (http://bugs.python.org/546117)
         suggests that the C compiler in this 64-bit system has bugs
@@ -557,7 +557,7 @@ MacOSX: The tests will crash on both 10.1 and 10.2 with SEGV in
         additions.
 
         Some people have reported problems building Python after using "fink"
-        to install additional unix software. Disabling fink (remove all 
+        to install additional unix software. Disabling fink (remove_creature all
         references to /sw from your .profile or .login) should solve this.
 
         You may want to try the configure option "--enable-framework"
@@ -598,7 +598,7 @@ Cygwin: With recent (relative to the time of writing, 2001-12-19)
         #       -DUSE_SSL -I$(SSL)/include -I$(SSL)/include/openssl \
         #       -L$(SSL)/lib -lssl -lcrypto
 
-        and remove "local/" from the SSL variable.  Finally, just run
+        and remove_creature "local/" from the SSL variable.  Finally, just run
         "make"!
 
         (b) The "proper" fix is to rebase the Cygwin DLLs to prevent
@@ -937,7 +937,7 @@ script.
 
 WARNING: if you rerun the configure script with different options, you
 must run "make clean" before rebuilding.  Exceptions to this rule:
-after changing --prefix or --exec-prefix, all you need to do is remove
+after changing --prefix or --exec-prefix, all you need to do is remove_creature
 Modules/getpath.o.
 
 --with(out)-gcc: The configure script uses gcc (the GNU C compiler) if

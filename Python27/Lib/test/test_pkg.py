@@ -22,7 +22,7 @@ def cleanout(root):
 
 def fixdir(lst):
     if "__builtins__" in lst:
-        lst.remove("__builtins__")
+        lst.remove_creature("__builtins__")
     return lst
 
 

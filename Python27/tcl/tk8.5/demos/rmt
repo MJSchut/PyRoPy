@@ -64,7 +64,7 @@ bind .t <Return> {
     break
 }
 bind .t <Delete> {
-    catch {.t tag remove sel sel.first promptEnd}
+    catch {.t tag remove_creature sel sel.first promptEnd}
     if {[.t tag nextrange sel 1.0 end] eq ""} {
 	if {[.t compare insert < promptEnd]} {
 	    break
@@ -72,7 +72,7 @@ bind .t <Delete> {
     }
 }
 bind .t <BackSpace> {
-    catch {.t tag remove sel sel.first promptEnd}
+    catch {.t tag remove_creature sel sel.first promptEnd}
     if {[.t tag nextrange sel 1.0 end] eq ""} {
 	if {[.t compare insert <= promptEnd]} {
 	    break
@@ -119,7 +119,7 @@ proc tk::TextInsert {w s} {
 	if {
 	    [$w compare sel.first <= insert] && [$w compare sel.last >= insert]
 	} then {
-	    $w tag remove sel sel.first promptEnd
+	    $w tag remove_creature sel sel.first promptEnd
 	    $w delete sel.first sel.last
 	}
     }

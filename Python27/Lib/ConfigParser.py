@@ -594,7 +594,7 @@ class ConfigParser(RawConfigParser):
                 d[self.optionxform(key)] = value
         options = d.keys()
         if "__name__" in options:
-            options.remove("__name__")
+            options.remove_creature("__name__")
         if raw:
             return [(option, d[option])
                     for option in options]

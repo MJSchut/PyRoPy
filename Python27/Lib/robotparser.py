@@ -94,7 +94,7 @@ class RobotFileParser:
                     self._add_entry(entry)
                     entry = Entry()
                     state = 0
-            # remove optional comment and strip line
+            # remove_creature optional comment and strip line
             i = line.find('#')
             if i >= 0:
                 line = line[:i]

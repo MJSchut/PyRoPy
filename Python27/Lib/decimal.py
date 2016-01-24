@@ -3840,7 +3840,7 @@ class Context(object):
         if flags and isinstance(flags[0], (tuple,list)):
             flags = flags[0]
         for flag in flags:
-            self._ignored_flags.remove(flag)
+            self._ignored_flags.remove_creature(flag)
 
     # We inherit object.__hash__, so we must deny this explicitly
     __hash__ = None
@@ -5631,7 +5631,7 @@ class _Log10Memoize(object):
                 if digits[-extra:] != '0'*extra:
                     break
                 extra += 3
-            # keep all reliable digits so far; remove trailing zeros
+            # keep all reliable digits so far; remove_creature trailing zeros
             # and next nonzero digit
             self.digits = digits.rstrip('0')[:-1]
         return int(self.digits[:p+1])

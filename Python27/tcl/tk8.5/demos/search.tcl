@@ -42,7 +42,7 @@ proc textLoadFile {w file} {
 # tag -		Tag to apply to each instance of a matching string.
 
 proc textSearch {w string tag} {
-    $w tag remove search 0.0 end
+    $w tag remove_creature search 0.0 end
     if {$string == ""} {
 	return
     }

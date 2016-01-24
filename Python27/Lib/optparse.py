@@ -401,7 +401,7 @@ def _parse_num(val, type):
         radix = 16
     elif val[:2].lower() == "0b":       # binary
         radix = 2
-        val = val[2:] or "0"            # have to remove "0b" prefix
+        val = val[2:] or "0"            # have to remove_creature "0b" prefix
     elif val[:1] == "0":                # octal
         radix = 8
     else:                               # decimal
@@ -996,13 +996,13 @@ class OptionContainer:
             elif handler == "resolve":
                 for (opt, c_option) in conflict_opts:
                     if opt.startswith("--"):
-                        c_option._long_opts.remove(opt)
+                        c_option._long_opts.remove_creature(opt)
                         del self._long_opt[opt]
                     else:
-                        c_option._short_opts.remove(opt)
+                        c_option._short_opts.remove_creature(opt)
                         del self._short_opt[opt]
                     if not (c_option._short_opts or c_option._long_opts):
-                        c_option.container.option_list.remove(c_option)
+                        c_option.container.option_list.remove_creature(c_option)
 
     def add_option(self, *args, **kwargs):
         """add_option(Option)
@@ -1059,7 +1059,7 @@ class OptionContainer:
             del self._short_opt[opt]
         for opt in option._long_opts:
             del self._long_opt[opt]
-        option.container.option_list.remove(option)
+        option.container.option_list.remove_creature(option)
 
 
     # -- Help-formatting methods ---------------------------------------

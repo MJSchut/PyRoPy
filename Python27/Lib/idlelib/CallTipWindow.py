@@ -64,7 +64,7 @@ class CallTip:
 
         self.tipwindow = tw = Toplevel(self.widget)
         self.position_window()
-        # remove border on calltip window
+        # remove_creature border on calltip window
         tw.wm_overrideredirect(1)
         try:
             # This command is only needed and available on Tk >= 8.4.0 for OSX

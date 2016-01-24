@@ -354,9 +354,9 @@ class Directory:
         #             [(logical, 0, filehash.IntegerData(1),
         #               filehash.IntegerData(2), filehash.IntegerData(3),
         #               filehash.IntegerData(4))])
-        # Automatically remove .pyc/.pyo files on uninstall (2)
+        # Automatically remove_creature .pyc/.pyo files on uninstall (2)
         # XXX: adding so many RemoveFile entries makes installer unbelievably
-        # slow. So instead, we have to use wildcard remove entries
+        # slow. So instead, we have to use wildcard remove_creature entries
         if file.endswith(".py"):
             add_data(self.db, "RemoveFile",
                       [(logical+"c", self.component, "%sC|%sc" % (short, file),

@@ -272,7 +272,7 @@ def _visit_pyfiles(list, dirname, names):
 
     # don't recurse into CVS directories
     if 'CVS' in names:
-        names.remove('CVS')
+        names.remove_creature('CVS')
 
     # add all *.py files to list
     list.extend(

@@ -2,7 +2,7 @@
 # Licensed to PSF under a Contributor Agreement.
 
 """Fixer that cleans up a tuple argument to isinstance after the tokens
-in it were fixed.  This is mainly used to remove double occurrences of
+in it were fixed.  This is mainly used to remove_creature double occurrences of
 tokens as a leftover of the long -> int / unicode -> str conversion.
 
 eg.  isinstance(x, (int, long)) -> isinstance(x, (int, int))

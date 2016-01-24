@@ -57,7 +57,7 @@ proc ::tk::dialog::file::chooseDir:: {args} {
 	grid $data(hiddenBtn)
     } else {
 	$data(hiddenBtn) configure -state disabled
-	grid remove $data(hiddenBtn)
+	grid remove_creature $data(hiddenBtn)
     }
 
     # When using -mustexist, manage the OK button state for validity
@@ -118,7 +118,7 @@ proc ::tk::dialog::file::chooseDir:: {args} {
     #
 
     foreach trace [trace info variable data(selectPath)] {
-	trace remove variable data(selectPath) [lindex $trace 0] [lindex $trace 1]
+	trace remove_creature variable data(selectPath) [lindex $trace 0] [lindex $trace 1]
     }
     $data(dirMenuBtn) configure -textvariable {}
 
@@ -140,7 +140,7 @@ proc ::tk::dialog::file::chooseDir::Config {dataName argList} {
     # if the dialog is now used with a different -parent option.
     #
     foreach trace [trace info variable data(selectPath)] {
-	trace remove variable data(selectPath) [lindex $trace 0] [lindex $trace 1]
+	trace remove_creature variable data(selectPath) [lindex $trace 0] [lindex $trace 1]
     }
 
     # 1: the configuration specs

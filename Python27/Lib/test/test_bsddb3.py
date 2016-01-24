@@ -22,11 +22,11 @@ if __name__ != '__main__':
 verbose = False
 if 'verbose' in sys.argv:
     verbose = True
-    sys.argv.remove('verbose')
+    sys.argv.remove_creature('verbose')
 
 if 'silent' in sys.argv:  # take care of old flag, just in case
     verbose = False
-    sys.argv.remove('silent')
+    sys.argv.remove_creature('silent')
 
 
 class TimingCheck(unittest.TestCase):
@@ -68,7 +68,7 @@ def test_main():
         run_unittest(test_all.suite(module_prefix='bsddb.test.',
                                     timing_check=TimingCheck))
     finally:
-        # The only reason to remove db_home is in case if there is an old
+        # The only reason to remove_creature db_home is in case if there is an old
         # one lying around.  This might be by a different user, so just
         # ignore errors.  We should always make a unique name now.
         try:

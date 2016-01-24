@@ -15,7 +15,7 @@ set w .items
 catch {destroy $w}
 toplevel $w
 wm title $w "Canvas Item Demonstration"
-wm iconname $w "Items"
+wm iconname $w "Item"
 positionWindow $w
 set c $w.frame.c
 
@@ -245,14 +245,14 @@ proc itemsUnderArea {c} {
 	    lappend items $i
 	}
     }
-    puts stdout "Items enclosed by area: $items"
+    puts stdout "Item enclosed by area: $items"
     set items ""
     foreach i [$c find overlapping $areaX1 $areaY1 $areaX2 $areaY2] {
 	if {[lsearch [$c gettags $i] item] != -1} {
 	    lappend items $i
 	}
     }
-    puts stdout "Items overlapping area: $items"
+    puts stdout "Item overlapping area: $items"
 }
 
 set areaX1 0

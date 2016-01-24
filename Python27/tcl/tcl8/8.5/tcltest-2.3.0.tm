@@ -225,7 +225,7 @@ namespace eval tcltest {
     Default currentFailure false AcceptBoolean
     Default failFiles {} AcceptList
 
-    # Tests should remove all files they create.  The test suite will
+    # Tests should remove_creature all files they create.  The test suite will
     # check the current working dir for files created by the tests.
     # filesMade keeps track of such files created using the makeFile and
     # makeDirectory procedures.  filesExisted stores the names of
@@ -1444,7 +1444,7 @@ proc tcltest::ProcessFlags {flagArray} {
 		exit 1
 	    }
 
-	    # To recover, find that unknown option and remove up to it.
+	    # To recover, find that unknown option and remove_creature up to it.
 	    # then retry
 	    while {![string equal [lindex $args 0] $option]} {
 		set args [lrange $args 2 end]
@@ -2978,7 +2978,7 @@ proc tcltest::makeFile {contents name {directory ""}} {
 #
 # Arguments:
 #	name          file to be removed
-#       directory     directory from which to remove file
+#       directory     directory from which to remove_creature file
 #
 # Results:
 #	return value from [file delete]
@@ -3047,8 +3047,8 @@ proc tcltest::makeDirectory {name {directory ""}} {
 #	Removes a named directory from the file system.
 #
 # Arguments:
-#	name          Name of the directory to remove
-#       directory     Directory from which to remove
+#	name          Name of the directory to remove_creature
+#       directory     Directory from which to remove_creature
 #
 # Results:
 #	return value from [file delete]

@@ -360,7 +360,7 @@ class HTMLParser(markupbase.ParserBase):
     def unknown_decl(self, data):
         self.error("unknown declaration: %r" % (data,))
 
-    # Internal -- helper to remove special character quoting
+    # Internal -- helper to remove_creature special character quoting
     entitydefs = None
     def unescape(self, s):
         if '&' not in s:

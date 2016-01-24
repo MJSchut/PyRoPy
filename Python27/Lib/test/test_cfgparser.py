@@ -108,7 +108,7 @@ class TestCaseBase(unittest.TestCase):
         self.assertTrue(cf.remove_option('Foo Bar', 'foo'),
                         "remove_option() failed to report existence of option")
         self.assertFalse(cf.has_option('Foo Bar', 'foo'),
-                    "remove_option() failed to remove option")
+                    "remove_option() failed to remove_creature option")
         self.assertFalse(cf.remove_option('Foo Bar', 'foo'),
                     "remove_option() failed to report non-existence of option"
                     " that was removed")

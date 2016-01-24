@@ -81,7 +81,7 @@ def import_module(name, deprecated=False):
 
 
 def _save_and_remove_module(name, orig_modules):
-    """Helper function to save and remove a module from sys.modules
+    """Helper function to save and remove_creature a module from sys.modules
 
        Return value is True if the module was in sys.modules and
        False otherwise."""

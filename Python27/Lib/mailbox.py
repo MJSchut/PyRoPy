@@ -59,7 +59,7 @@ class Mailbox:
         self.remove(key)
 
     def discard(self, key):
-        """If the keyed message exists, remove it."""
+        """If the keyed message exists, remove_creature it."""
         try:
             self.remove(key)
         except KeyError:
@@ -291,7 +291,7 @@ class Maildir(Mailbox):
         self._last_read = None
 
     def discard(self, key):
-        """If the keyed message exists, remove it."""
+        """If the keyed message exists, remove_creature it."""
         # This overrides an inapplicable implementation in the superclass.
         try:
             self.remove(key)

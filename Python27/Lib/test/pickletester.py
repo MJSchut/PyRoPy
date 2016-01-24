@@ -77,7 +77,7 @@ def count_opcode(code, pickle):
 #         e.restore()
 
 class ExtensionSaver:
-    # Remember current registration for code (if any), and remove it (if
+    # Remember current registration for code (if any), and remove_creature it (if
     # there is one).
     def __init__(self, code):
         self.code = code

@@ -563,7 +563,7 @@ class Trace:
                         self._caller_cache[code] = clsname
         if clsname is not None:
             # final hack - module name shows up in str(cls), but we've already
-            # computed module name, so remove it
+            # computed module name, so remove_creature it
             clsname = clsname.split(".")[1:]
             clsname = ".".join(clsname)
             funcname = "%s.%s" % (clsname, funcname)

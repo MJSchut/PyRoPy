@@ -1497,7 +1497,7 @@ class OutputChecker:
             # Replace <BLANKLINE> in want with a blank line.
             want = re.sub('(?m)^%s\s*?$' % re.escape(BLANKLINE_MARKER),
                           '', want)
-            # If a line in got contains only spaces, then remove the
+            # If a line in got contains only spaces, then remove_creature the
             # spaces.
             got = re.sub('(?m)^\s*?$', '', got)
             if got == want:

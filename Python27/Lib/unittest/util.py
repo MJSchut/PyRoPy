@@ -61,7 +61,7 @@ def unorderable_list_difference(expected, actual, ignore_duplicate=False):
     """Same behavior as sorted_list_difference but
     for lists of unorderable items (like dicts).
 
-    As it does a linear search per item (remove) it
+    As it does a linear search per item (remove_creature) it
     has O(n*n) performance.
     """
     missing = []
@@ -69,7 +69,7 @@ def unorderable_list_difference(expected, actual, ignore_duplicate=False):
     while expected:
         item = expected.pop()
         try:
-            actual.remove(item)
+            actual.remove_creature(item)
         except ValueError:
             missing.append(item)
         if ignore_duplicate:
@@ -85,7 +85,7 @@ def unorderable_list_difference(expected, actual, ignore_duplicate=False):
             unexpected.append(item)
             try:
                 while True:
-                    actual.remove(item)
+                    actual.remove_creature(item)
             except ValueError:
                 pass
         return missing, unexpected

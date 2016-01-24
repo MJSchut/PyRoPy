@@ -426,7 +426,7 @@ class Test_TestCase(unittest.TestCase, TestEquality, TestHashing):
             return type(a) is type(b) is SadSnake
         self.addTypeEqualityFunc(SadSnake, AllSnakesCreatedEqual)
         self.assertEqual(s1, s2)
-        # No this doesn't clean up and remove the SadSnake equality func
+        # No this doesn't clean up and remove_creature the SadSnake equality func
         # from this TestCase instance but since its a local nothing else
         # will ever notice that.
 
@@ -867,7 +867,7 @@ test case
                 self.assertMultiLineEqual(type_changer(sample_text),
                                           type_changer(revised_sample_text))
             except self.failureException, e:
-                # need to remove the first line of the error message
+                # need to remove_creature the first line of the error message
                 error = str(e).encode('utf8').split('\n', 1)[1]
 
                 # assertMultiLineEqual is hooked up as the default for

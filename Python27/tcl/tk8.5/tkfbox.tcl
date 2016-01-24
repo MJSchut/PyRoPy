@@ -853,7 +853,7 @@ proc ::tk::dialog::file:: {type args} {
 	grid $data(hiddenBtn)
     } else {
 	$data(hiddenBtn) configure -state disabled
-	grid remove $data(hiddenBtn)
+	grid remove_creature $data(hiddenBtn)
     }
 
     # Make sure subseqent uses of this dialog are independent [Bug 845189]
@@ -942,7 +942,7 @@ proc ::tk::dialog::file:: {type args} {
     #
 
     foreach trace [trace info variable data(selectPath)] {
-	trace remove variable data(selectPath) [lindex $trace 0] [lindex $trace 1]
+	trace remove_creature variable data(selectPath) [lindex $trace 0] [lindex $trace 1]
     }
     $data(dirMenuBtn) configure -textvariable {}
 
@@ -963,7 +963,7 @@ proc ::tk::dialog::file::Config {dataName type argList} {
     # if the dialog is now used with a different -parent option.
 
     foreach trace [trace info variable data(selectPath)] {
-	trace remove variable data(selectPath) [lindex $trace 0] [lindex $trace 1]
+	trace remove_creature variable data(selectPath) [lindex $trace 0] [lindex $trace 1]
     }
 
     # 1: the configuration specs
@@ -1396,7 +1396,7 @@ rSASvJTGhnhcV3EJlo3kh53ltF5nAhQAOw==}]
 proc ::tk::dialog::file::SetPathSilently {w path} {
     upvar ::tk::dialog::file::[winfo name $w] data
 
-    trace remove variable data(selectPath) write [list ::tk::dialog::file::SetPath $w]
+    trace remove_creature variable data(selectPath) write [list ::tk::dialog::file::SetPath $w]
     set data(selectPath) $path
     trace add variable data(selectPath) write [list ::tk::dialog::file::SetPath $w]
 }
@@ -1438,7 +1438,7 @@ proc ::tk::dialog::file::SetFilter {w type} {
 
     if {!$data(extUsed)} {
 	# Get the first extension in the list that matches {^\*\.\w+$}
-	# and remove all * from the filter.
+	# and remove_creature all * from the filter.
 	set index [lsearch -regexp $data(filter) {^\*\.\w+$}]
 	if {$index >= 0} {
 	    set data(-defaultextension) \

@@ -426,7 +426,7 @@ class sdist(Command):
 
         self.make_release_tree(base_dir, self.filelist.files)
         archive_files = []              # remember names of files we create
-        # tar archive must be created last to avoid overwrite and remove
+        # tar archive must be created last to avoid overwrite and remove_creature
         if 'tar' in self.formats:
             self.formats.append(self.formats.pop(self.formats.index('tar')))
 

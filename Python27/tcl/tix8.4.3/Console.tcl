@@ -295,7 +295,7 @@ proc tixConsoleBind {win} {
     }
     bind $win <Delete> {
 	if {[%W tag nextrange sel 1.0 end] != ""} {
-	    %W tag remove sel sel.first promptEnd
+	    %W tag remove_creature sel sel.first promptEnd
 	} else {
 	    if {[%W compare insert < promptEnd]} {
 		break
@@ -304,7 +304,7 @@ proc tixConsoleBind {win} {
     }
     bind $win <BackSpace> {
 	if {[%W tag nextrange sel 1.0 end] != ""} {
-	    %W tag remove sel sel.first promptEnd
+	    %W tag remove_creature sel sel.first promptEnd
 	} else {
 	    if {[%W compare insert <= promptEnd]} {
 		break
@@ -472,7 +472,7 @@ proc tixConsoleInsert {w s} {
     catch {
 	if {[$w compare sel.first <= insert]
 		&& [$w compare sel.last >= insert]} {
-	    $w tag remove sel sel.first promptEnd
+	    $w tag remove_creature sel sel.first promptEnd
 	    $w delete sel.first sel.last
 	}
     }

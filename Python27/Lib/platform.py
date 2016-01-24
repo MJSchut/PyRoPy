@@ -899,7 +899,7 @@ def _platform(*args):
     # No need to report 'unknown' information...
     platform = replace(platform,'unknown','')
 
-    # Fold '--'s and remove trailing '-'
+    # Fold '--'s and remove_creature trailing '-'
     while 1:
         cleaned = replace(platform,'--','-')
         if cleaned == platform:

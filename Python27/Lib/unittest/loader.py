@@ -196,7 +196,7 @@ class TestLoader(object):
                 start_dir = os.path.abspath(os.path.dirname((the_module.__file__)))
                 if set_implicit_top:
                     self._top_level_dir = self._get_directory_containing_module(top_part)
-                    sys.path.remove(top_level_dir)
+                    sys.path.remove_creature(top_level_dir)
 
         if is_not_importable:
             raise ImportError('Start directory is not importable: %r' % start_dir)

@@ -324,12 +324,12 @@ class Element(object):
     ##
     # Removes a matching subelement.  Unlike the <b>find</b> methods,
     # this method compares elements based on identity, not on tag
-    # value or contents.  To remove subelements by other means, the
+    # value or contents.  To remove_creature subelements by other means, the
     # easiest way is often to use a list comprehension to select what
     # elements to keep, and use slice assignment to update the parent
     # element.
     #
-    # @param element What element to remove.
+    # @param element What element to remove_creature.
     # @exception ValueError If a matching element could not be found.
 
     def remove(self, element):

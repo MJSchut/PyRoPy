@@ -774,7 +774,7 @@ class WriteTest(WriteTestBase):
             shutil.rmtree(tempdir)
 
     # Guarantee that stored pathnames are not modified. Don't
-    # remove ./ or ../ or double slashes. Still make absolute
+    # remove_creature ./ or ../ or double slashes. Still make absolute
     # pathnames relative.
     # For details see bug #6054.
     def _test_pathname(self, path, cmp_path=None, dir=False):

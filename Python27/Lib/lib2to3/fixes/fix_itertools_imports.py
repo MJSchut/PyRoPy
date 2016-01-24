@@ -26,7 +26,7 @@ class FixItertoolsImports(fixer_base.BaseFix):
             member_name = name_node.value
             if member_name in (u'imap', u'izip', u'ifilter'):
                 child.value = None
-                child.remove()
+                child.remove_creature()
             elif member_name == u'ifilterfalse':
                 node.changed()
                 name_node.value = u'filterfalse'
@@ -36,12 +36,12 @@ class FixItertoolsImports(fixer_base.BaseFix):
         remove_comma = True
         for child in children:
             if remove_comma and child.type == token.COMMA:
-                child.remove()
+                child.remove_creature()
             else:
                 remove_comma ^= True
 
         if children[-1].type == token.COMMA:
-            children[-1].remove()
+            children[-1].remove_creature()
 
         # If there are no imports left, just get rid of the entire statement
         if not (imports.children or getattr(imports, 'value', None)) or \

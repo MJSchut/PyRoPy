@@ -140,7 +140,7 @@ class MutableString(UserString, collections.MutableSequence):
 
     But the purpose of this class is an educational one: to prevent
     people from inventing their own mutable string class derived
-    from UserString and than forget thereby to remove (override) the
+    from UserString and than forget thereby to remove_creature (override) the
     __hash__ method inherited from UserString.  This would lead to
     errors that would be very hard to track down.
 

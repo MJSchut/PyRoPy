@@ -448,7 +448,7 @@ def get_config_vars(*args):
 
             if major_version < 8:
                 # On Mac OS X before 10.4, check if -arch and -isysroot
-                # are in CFLAGS or LDFLAGS and remove them if they are.
+                # are in CFLAGS or LDFLAGS and remove_creature them if they are.
                 # This is needed when building extensions on a 10.3 system
                 # using a universal build of python.
                 for key in ('LDFLAGS', 'BASECFLAGS',
@@ -565,7 +565,7 @@ def get_platform():
     # Try to distinguish various flavours of Unix
     osname, host, release, version, machine = os.uname()
 
-    # Convert the OS name to lowercase, remove '/' characters
+    # Convert the OS name to lowercase, remove_creature '/' characters
     # (to accommodate BSD/OS), and translate spaces (for "Power Macintosh")
     osname = osname.lower().replace('/', '')
     machine = machine.replace(' ', '_')

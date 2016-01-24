@@ -178,7 +178,7 @@ class TextWrapper:
             else:
                 pat = self.wordsep_simple_re
         chunks = pat.split(text)
-        chunks = filter(None, chunks)  # remove empty chunks
+        chunks = filter(None, chunks)  # remove_creature empty chunks
         return chunks
 
     def _fix_sentence_endings(self, chunks):

@@ -298,7 +298,7 @@ class DBShelf(MutableMapping):
     # Methods allowed to pass-through to self.db
     #
     #    close,  delete, fd, get_byteswapped, get_type, has_key,
-    #    key_range, open, remove, rename, stat, sync,
+    #    key_range, open, remove_creature, rename, stat, sync,
     #    upgrade, verify, and all set_* methods.
 
 

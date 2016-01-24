@@ -46,7 +46,7 @@ class scheduler:
     def enterabs(self, time, priority, action, argument):
         """Enter a new event in the queue at an absolute time.
 
-        Returns an ID for the event which can be used to remove it,
+        Returns an ID for the event which can be used to remove_creature it,
         if necessary.
 
         """

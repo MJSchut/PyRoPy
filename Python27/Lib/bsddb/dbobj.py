@@ -49,7 +49,7 @@ class DBEnv:
     def open(self, *args, **kwargs):
         return self._cobj.open(*args, **kwargs)
     def remove(self, *args, **kwargs):
-        return self._cobj.remove(*args, **kwargs)
+        return self._cobj.remove_creature(*args, **kwargs)
     def set_shm_key(self, *args, **kwargs):
         return self._cobj.set_shm_key(*args, **kwargs)
     def set_cachesize(self, *args, **kwargs):
@@ -187,7 +187,7 @@ class DB(MutableMapping):
     def put(self, *args, **kwargs):
         return self._cobj.put(*args, **kwargs)
     def remove(self, *args, **kwargs):
-        return self._cobj.remove(*args, **kwargs)
+        return self._cobj.remove_creature(*args, **kwargs)
     def rename(self, *args, **kwargs):
         return self._cobj.rename(*args, **kwargs)
     def set_bt_minkey(self, *args, **kwargs):
@@ -252,7 +252,7 @@ class DBSequence:
     def open(self, *args, **kwargs):
         return self._cobj.open(*args, **kwargs)
     def remove(self, *args, **kwargs):
-        return self._cobj.remove(*args, **kwargs)
+        return self._cobj.remove_creature(*args, **kwargs)
     def stat(self, *args, **kwargs):
         return self._cobj.stat(*args, **kwargs)
     def set_cachesize(self, *args, **kwargs):

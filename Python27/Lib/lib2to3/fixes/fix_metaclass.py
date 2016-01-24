@@ -63,7 +63,7 @@ def fixup_parse_tree(cls_node):
     while cls_node.children[i+1:]:
         move_node = cls_node.children[i+1]
         suite.append_child(move_node.clone())
-        move_node.remove()
+        move_node.remove_creature()
     cls_node.append_child(suite)
     node = suite
 
@@ -79,13 +79,13 @@ def fixup_simple_stmt(parent, i, stmt_node):
     else:
         return
 
-    node.remove() # kill the semicolon
+    node.remove_creature() # kill the semicolon
     new_expr = Node(syms.expr_stmt, [])
     new_stmt = Node(syms.simple_stmt, [new_expr])
     while stmt_node.children[semi_ind:]:
         move_node = stmt_node.children[semi_ind]
         new_expr.append_child(move_node.clone())
-        move_node.remove()
+        move_node.remove_creature()
     parent.insert_child(i, new_stmt)
     new_leaf1 = new_stmt.children[0].children[0]
     old_leaf1 = stmt_node.children[0].children[0]
@@ -94,7 +94,7 @@ def fixup_simple_stmt(parent, i, stmt_node):
 
 def remove_trailing_newline(node):
     if node.children and node.children[-1].type == token.NEWLINE:
-        node.children[-1].remove()
+        node.children[-1].remove_creature()
 
 
 def find_metas(cls_node):
@@ -158,7 +158,7 @@ class FixMetaclass(fixer_base.BaseFix):
         last_metaclass = None
         for suite, i, stmt in find_metas(node):
             last_metaclass = stmt
-            stmt.remove()
+            stmt.remove_creature()
 
         text_type = node.children[0].type # always Leaf(nnn, 'class')
 
@@ -212,7 +212,7 @@ class FixMetaclass(fixer_base.BaseFix):
         # check for empty suite
         if not suite.children:
             # one-liner that was just __metaclass_
-            suite.remove()
+            suite.remove_creature()
             pass_leaf = Leaf(text_type, u'pass')
             pass_leaf.prefix = orig_meta_prefix
             node.append_child(pass_leaf)

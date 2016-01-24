@@ -176,7 +176,7 @@ class XMLParser:
         self.goahead(1)
         if self.__fixed:
             self.__fixed = 0
-            # remove self.elements so that we don't leak
+            # remove_creature self.elements so that we don't leak
             del self.elements
 
     # Interface -- translate references
@@ -449,9 +449,9 @@ class XMLParser:
             name = name.lower()
         pubid, syslit = res.group('pubid', 'syslit')
         if pubid is not None:
-            pubid = pubid[1:-1]         # remove quotes
+            pubid = pubid[1:-1]         # remove_creature quotes
             pubid = ' '.join(pubid.split()) # normalize
-        if syslit is not None: syslit = syslit[1:-1] # remove quotes
+        if syslit is not None: syslit = syslit[1:-1] # remove_creature quotes
         j = k = res.end(0)
         if k >= n:
             return -1

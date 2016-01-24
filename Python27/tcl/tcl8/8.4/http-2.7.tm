@@ -49,7 +49,7 @@ namespace eval http {
 	# Create a map for HTTP/1.1 open sockets
 	variable socketmap
 	if {[info exists socketmap]} {
-	    # Close but don't remove open sockets on re-init
+	    # Close but don't remove_creature open sockets on re-init
 	    foreach {url sock} [array get socketmap] {
 		catch {close $sock}
 	    }
@@ -214,7 +214,7 @@ proc http::Finish { token {errormsg ""} {skipCB 0}} {
 
 # http::CloseSocket -
 #
-#	Close a socket and remove it from the persistent sockets table.
+#	Close a socket and remove_creature it from the persistent sockets table.
 #	If possible an http token is included here but when we are called
 #	from a fileevent on remote closure we need to find the correct
 #	entry - hence the second section.

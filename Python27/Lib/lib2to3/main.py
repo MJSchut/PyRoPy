@@ -45,7 +45,7 @@ class StdoutRefactoringTool(refactor.MultiprocessRefactoringTool):
                 try:
                     os.remove(backup)
                 except os.error, err:
-                    self.log_message("Can't remove backup %s", backup)
+                    self.log_message("Can't remove_creature backup %s", backup)
             try:
                 os.rename(filename, backup)
             except os.error, err:

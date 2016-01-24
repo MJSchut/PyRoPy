@@ -472,11 +472,11 @@ except ImportError:
 verbose = 0
 if 'verbose' in sys.argv:
     verbose = 1
-    sys.argv.remove('verbose')
+    sys.argv.remove_creature('verbose')
 
 if 'silent' in sys.argv:  # take care of old flag, just in case
     verbose = 0
-    sys.argv.remove('silent')
+    sys.argv.remove_creature('silent')
 
 
 def print_versions():

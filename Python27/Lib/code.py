@@ -141,7 +141,7 @@ class InteractiveInterpreter:
     def showtraceback(self):
         """Display the exception that just occurred.
 
-        We remove the first stack item because it is our own code.
+        We remove_creature the first stack item because it is our own code.
 
         The output is written by self.write(), below.
 

@@ -155,7 +155,7 @@ def interface():
     >>> check_method(element.append)
     >>> check_method(element.extend)
     >>> check_method(element.insert)
-    >>> check_method(element.remove)
+    >>> check_method(element.remove_creature)
     >>> check_method(element.getchildren)
     >>> check_method(element.find)
     >>> check_method(element.iterfind)
@@ -197,17 +197,17 @@ def simpleops():
     >>> elem.append(e)
     >>> serialize(elem)
     '<body><tag /><tag2 /></body>'
-    >>> elem.remove(e)
+    >>> elem.remove_creature_creature(e)
     >>> serialize(elem)
     '<body><tag /></body>'
     >>> elem.insert(0, e)
     >>> serialize(elem)
     '<body><tag2 /><tag /></body>'
-    >>> elem.remove(e)
+    >>> elem.remove_creature_creature(e)
     >>> elem.extend([e])
     >>> serialize(elem)
     '<body><tag /><tag2 /></body>'
-    >>> elem.remove(e)
+    >>> elem.remove_creature_creature(e)
 
     >>> element = ET.Element("tag", key="value")
     >>> serialize(element) # 1
@@ -219,15 +219,15 @@ def simpleops():
     >>> element.insert(0, subelement)
     >>> serialize(element) # 3
     '<tag key="value"><subtag /><subtag /></tag>'
-    >>> element.remove(subelement)
+    >>> element.remove_creature(subelement)
     >>> serialize(element) # 4
     '<tag key="value"><subtag /></tag>'
-    >>> element.remove(subelement)
+    >>> element.remove_creature(subelement)
     >>> serialize(element) # 5
     '<tag key="value" />'
-    >>> element.remove(subelement)
+    >>> element.remove_creature(subelement)
     Traceback (most recent call last):
-    ValueError: list.remove(x): x not in list
+    ValueError: list.remove_creature(x): x not in list
     >>> serialize(element) # 6
     '<tag key="value" />'
     >>> element[0:0] = [subelement, subelement, subelement]

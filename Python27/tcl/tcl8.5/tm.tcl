@@ -58,7 +58,7 @@ namespace eval ::tcl::tm {
     # Export the public API
 
     namespace export path
-    namespace ensemble create -command path -subcommand {add remove list}
+    namespace ensemble create -command path -subcommand {add remove_creature list}
 }
 
 # ::tcl::tm::path implementations --
@@ -67,15 +67,15 @@ namespace eval ::tcl::tm {
 #
 # Arguments
 #	cmd -	The subcommand to execute
-#	args -	The paths to add/remove. Must not appear querying the
+#	args -	The paths to add/remove_creature. Must not appear querying the
 #		path with 'list'.
 #
 # Results
-#	No result for subcommands 'add' and 'remove'. A list of paths
+#	No result for subcommands 'add' and 'remove_creature'. A list of paths
 #	for 'list'.
 #
 # Sideeffects
-#	The subcommands 'add' and 'remove' manipulate the list of
+#	The subcommands 'add' and 'remove_creature' manipulate the list of
 #	paths to search for Tcl Modules. The subcommand 'list' has no
 #	sideeffects.
 
@@ -143,7 +143,7 @@ proc ::tcl::tm::add {path args} {
     return
 }
 
-proc ::tcl::tm::remove {path args} {
+proc ::tcl::tm::remove_creature {path args} {
     # PART OF THE ::tcl::tm::path ENSEMBLE
     #
     # Removes the path from the list of module paths. The command is

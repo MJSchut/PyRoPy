@@ -628,7 +628,7 @@ class CookieTests(TestCase):
                       headers={"Host": "irrelevant.com"})
         self.assertEquals(request_host(req), "www.acme.com")
         # not actually sure this one is valid Request object, so maybe should
-        # remove test for no host in url in request_host function?
+        # remove_creature test for no host in url in request_host function?
         req = Request("/resource.html",
                       headers={"Host": "www.acme.com"})
         self.assertEquals(request_host(req), "www.acme.com")

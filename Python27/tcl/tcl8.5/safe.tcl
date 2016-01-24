@@ -514,7 +514,7 @@ proc ::safe::interpDelete {slave} {
 	if {[Exists $hookname]} {
 	    set hook [Set $hookname]
 	    if {![::tcl::Lempty $hook]} {
-		# remove the hook now, otherwise if the hook
+		# remove_creature the hook now, otherwise if the hook
 		# calls us somehow, we'll loop
 		Unset $hookname
 		if {[catch {{*}$hook $slave} err]} {

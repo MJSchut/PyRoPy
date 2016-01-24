@@ -579,7 +579,7 @@ auto_mkindex_parser::hook {
 # the index.  For example, a script may say "itcl::class ...",
 # or it may import "itcl::*" and then say "class ...".  This
 # procedure does the import operation, but keeps track of imported
-# patterns so we can remove the imports later.
+# patterns so we can remove_creature the imports later.
 
 auto_mkindex_parser::command namespace {op args} {
     switch -- $op {

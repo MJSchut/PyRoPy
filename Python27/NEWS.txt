@@ -25,7 +25,7 @@ Extension Modules
 - Issue #7673: Fix security vulnerability (CVE-2010-2089) in the audioop module,
   ensure that the input string length is a multiple of the frame size.
 
-- Issue #9075: In the ssl module, remove the setting of a ``debug`` flag
+- Issue #9075: In the ssl module, remove_creature the setting of a ``debug`` flag
   on an OpenSSL structure.
 
 
@@ -318,7 +318,7 @@ Library
   exceptions raised by the implicit flush().  Also ensure that calling close()
   several times is supported.  Patch by Pascal Chambon.
 
-- Issue #8576: logging updated to remove usage of find_unused_port().
+- Issue #8576: logging updated to remove_creature usage of find_unused_port().
 
 - Issue #4687: Fix accuracy of garbage collection runtimes displayed with
   gc.DEBUG_STATS.
@@ -1693,7 +1693,7 @@ Core and Builtins
   this code path is really executed because I cannot move to such directory on
   win2k)
 
-- Issue #4069: When ``set.remove(element)`` is used with a set element, the
+- Issue #4069: When ``set.remove_creature(element)`` is used with a set element, the
   element is temporarily replaced with an equivalent frozenset.  But the
   eventual KeyError would always report the empty ``frozenset()`` as the missing
   key.  Now it correctly refers to the initial element.
@@ -2183,7 +2183,7 @@ Library
   at once could hit the recursion limit if the mimetypes database hadn't been
   initialized before.
 
-- Issue #5854: Updated __all__ to include some missing names and remove some
+- Issue #5854: Updated __all__ to include some missing names and remove_creature some
   names which should not be exported.
 
 - Issue #5810: Fixed Distutils test_build_scripts so it uses
@@ -2675,7 +2675,7 @@ Library
   for any header, matching what the documentation has claimed for a while.
 
 - Issue #3774: Fixed an error when create a Tkinter menu item without command
-  and then remove it.
+  and then remove_creature it.
 
 - Fixed a modulefinder crash on certain relative imports.
 
@@ -2783,7 +2783,7 @@ Build
 
 - Issues #4728 and #4060: WORDS_BIGEDIAN is now correct in Universal builds.
 
-- Issue #4389: Add icon to the uninstall entry in "add-and-remove-programs".
+- Issue #4389: Add icon to the uninstall entry in "add-and-remove_creature-programs".
 
 - Issue #4289: Remove Cancel button from AdvancedDlg.
 
@@ -3219,7 +3219,7 @@ Library
 Extension Modules
 -----------------
 
-- Issue #4301: Patch the logging module to add processName support, remove
+- Issue #4301: Patch the logging module to add processName support, remove_creature
   _check_logger_class from multiprocessing.
 
 - Issue #2975: When compiling several extension modules with Visual Studio 2008
@@ -3394,7 +3394,7 @@ Library
 - Issue #2338: Create imp.reload() to help with transitioning to Python 3.0 as
   the reload() built-in has been removed.
 
-- Changed code in the following modules/packages to remove warnings raised
+- Changed code in the following modules/packages to remove_creature warnings raised
   while running under the ``-3`` flag: aifc, asynchat, asyncore, bdb, bsddb,
   ConfigParser, cookielib, csv, difflib, distutils, DocXMLRPCServer, email,
   filecmp, fileinput, inspect, logging, modulefinder, pdb, pickle, profile,
@@ -4346,7 +4346,7 @@ Library
   configure option defaults to "yes".
 
 - Issue #1577: shutil.move() now calls os.rename() if the destination
-  is a directory instead of copying-then-remove-source.
+  is a directory instead of copying-then-remove_creature-source.
 
 Tests
 -----
@@ -4633,7 +4633,7 @@ Core and builtins
 
 - Issue #1733488: Fix compilation of bufferobject.c on AIX.
 
-- Issue #1722485: remove docstrings again when running with -OO.
+- Issue #1722485: remove_creature docstrings again when running with -OO.
 
 - Add new attribute names for function objects.  All the func_* become
   __*__ attributes.  (Some already existed, e.g., __doc__ and
@@ -4660,7 +4660,7 @@ Core and builtins
 - Request #1191699:  Slices can now be pickled.
 
 - Request #1193128:  str.translate() now allows a None argument for
-  translations that only remove characters without re-mapping the
+  translations that only remove_creature characters without re-mapping the
   remaining characters.
 
 - Patch #1682205: a TypeError while unpacking an iterable is no longer
@@ -4709,7 +4709,7 @@ Core and builtins
 - Patch #922167: Python no longer segfaults when faced with infinitely
   self-recursive reload() calls (as reported by bug #742342).
 
-- Patch #1675981: remove unreachable code from ``type.__new__()``
+- Patch #1675981: remove_creature unreachable code from ``type.__new__()``
   method.
 
 - Patch #1491866: change the complex() constructor to allow
@@ -4783,7 +4783,7 @@ Core and builtins
 - Patch #1549049: Support long values in structmember, issue warnings
   if the assigned value for structmember fields gets truncated.
 
-- Update the peephole optimizer to remove more dead code (jumps after
+- Update the peephole optimizer to remove_creature more dead code (jumps after
   returns) and inline unconditional jumps to returns.
 
 - Bug #1545497: when given an explicit base, int() did ignore NULs
@@ -5235,7 +5235,7 @@ Library
 - Bug #1290505: time.strptime's internal cache of locale information
   is now properly recreated when the locale is changed.
 
-- Patch #1685563: remove (don't add) duplicate paths in
+- Patch #1685563: remove_creature (don't add) duplicate paths in
   distutils.MSVCCompiler.
 
 - Added a timeout parameter to the constructor of other protocols
@@ -5987,10 +5987,10 @@ Documentation
 - Bug #1546052: clarify that PyString_FromString(AndSize) copies the
   string pointed to by its parameter.
 
-- Bug #1566663: remove obsolete example from datetime docs.
+- Bug #1566663: remove_creature obsolete example from datetime docs.
 
 - Bug #1541682: Fix example in the "Refcount details" API docs.
-  Additionally, remove a faulty example showing PySequence_SetItem
+  Additionally, remove_creature a faulty example showing PySequence_SetItem
   applied to a newly created list object and add notes that this isn't
   a good idea.
 
@@ -6073,7 +6073,7 @@ Build
 - Bug #1578513: Cross compilation was broken by a change to configure.
   Repair so that it's back to how it was in 2.4.3.
 
-- Patch #1576954: Update VC6 build directory; remove redundant files
+- Patch #1576954: Update VC6 build directory; remove_creature redundant files
   in VC7.
 
 - Bug #1568842: Fix test for uintptr_t.
@@ -6150,7 +6150,7 @@ C API
 - Added case insensitive comparison methods ``PyOS_stricmp(char*,
   char*)`` and ``PyOS_strnicmp(char*, char*, Py_ssize_t)``.
 
-- Bug #1542693: remove semi-colon at end of PyImport_ImportModuleEx
+- Bug #1542693: remove_creature semi-colon at end of PyImport_ImportModuleEx
   macro so it can be used as an expression.
 
 

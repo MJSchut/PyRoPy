@@ -26,7 +26,7 @@ class clean(Command):
         ('bdist-base=', None,
          "temporary directory for built distributions"),
         ('all', 'a',
-         "remove all build output, not just temporary by-products")
+         "remove_creature all build output, not just temporary by-products")
     ]
 
     boolean_options = ['all']
@@ -49,7 +49,7 @@ class clean(Command):
                                    ('bdist_base', 'bdist_base'))
 
     def run(self):
-        # remove the build/temp.<plat> directory (unless it's already
+        # remove_creature the build/temp.<plat> directory (unless it's already
         # gone)
         if os.path.exists(self.build_temp):
             remove_tree(self.build_temp, dry_run=self.dry_run)
@@ -58,7 +58,7 @@ class clean(Command):
                       self.build_temp)
 
         if self.all:
-            # remove build directories
+            # remove_creature build directories
             for directory in (self.build_lib,
                               self.bdist_base,
                               self.build_scripts):
@@ -68,7 +68,7 @@ class clean(Command):
                     log.warn("'%s' does not exist -- can't clean it",
                              directory)
 
-        # just for the heck of it, try to remove the base build directory:
+        # just for the heck of it, try to remove_creature the base build directory:
         # we might have emptied it right now, but if not we don't care
         if not self.dry_run:
             try:

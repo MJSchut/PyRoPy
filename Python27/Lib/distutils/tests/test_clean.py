@@ -15,7 +15,7 @@ class cleanTestCase(support.TempdirManager,
         pkg_dir, dist = self.create_dist()
         cmd = clean(dist)
 
-        # let's add some elements clean should remove
+        # let's add some elements clean should remove_creature
         dirs = [(d, os.path.join(pkg_dir, d))
                 for d in ('build_temp', 'build_lib', 'bdist_base',
                 'build_scripts', 'build_base')]

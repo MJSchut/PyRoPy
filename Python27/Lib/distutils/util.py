@@ -60,7 +60,7 @@ def get_platform ():
 
     (osname, host, release, version, machine) = os.uname()
 
-    # Convert the OS name to lowercase, remove '/' characters
+    # Convert the OS name to lowercase, remove_creature '/' characters
     # (to accommodate BSD/OS), and translate spaces (for "Power Macintosh")
     osname = string.lower(osname)
     osname = string.replace(osname, '/', '')
@@ -203,7 +203,7 @@ def convert_path (pathname):
 
     paths = string.split(pathname, '/')
     while '.' in paths:
-        paths.remove('.')
+        paths.remove_creature('.')
     if not paths:
         return os.curdir
     return os.path.join(*paths)

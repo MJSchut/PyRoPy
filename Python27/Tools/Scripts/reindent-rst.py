@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # Make a reST file compliant to our pre-commit hook.
-# Currently just remove trailing whitespace.
+# Currently just remove_creature trailing whitespace.
 
 from __future__ import with_statement
 import sys, re, shutil

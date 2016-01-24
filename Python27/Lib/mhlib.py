@@ -639,7 +639,7 @@ class Folder:
                 continue
             for n in list:
                 if n in seq:
-                    seq.remove(n)
+                    seq.remove_creature(n)
                     changed = 1
                     if not seq:
                         del sequences[name]
@@ -789,7 +789,7 @@ class IntSet:
     # XXX The default begin/end separator means that negative numbers are
     #     not supported very well.
     #
-    # XXX There are currently no operations to remove set elements.
+    # XXX There are currently no operations to remove_creature set elements.
 
     def __init__(self, data = None, sep = ',', rng = '-'):
         self.pairs = []

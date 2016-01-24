@@ -97,7 +97,7 @@ proc DynTree:OpenDir {tree dir} {
 	# show all the child entries
 	#
 	# Note: since we load the directory only once, it will not be
-	#       refreshed if the you add or remove files from this
+	#       refreshed if the you add or remove_creature files from this
 	#	directory.
 	#
 	foreach kid [$hlist info children $dir] {

@@ -81,7 +81,7 @@ class DirBrowserTreeItem(TreeItem):
                     if mod_name not in modules:
                         modules[mod_name] = None
                         sorted.append((normed_name, name))
-                        allnames.remove(name)
+                        allnames.remove_creature(name)
         sorted.sort()
         return sorted
 

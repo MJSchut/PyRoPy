@@ -605,7 +605,7 @@ class TestCounter(unittest.TestCase):
         self.assertEqual(''.join(sorted(c.elements())), 'aaabbc')
         c['a'] += 1         # increment an existing value
         c['b'] -= 2         # sub existing value to zero
-        del c['c']          # remove an entry
+        del c['c']          # remove_creature an entry
         del c['c']          # make sure that del doesn't raise KeyError
         c['d'] -= 2         # sub from a missing value
         c['e'] = -5         # directly assign a missing value

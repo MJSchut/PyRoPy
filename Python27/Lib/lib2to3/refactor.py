@@ -290,7 +290,7 @@ class RefactoringTool(object):
                         os.path.splitext(name)[1].endswith("py"):
                     fullname = os.path.join(dirpath, name)
                     self.refactor_file(fullname, write, doctests_only)
-            # Modify dirnames in-place to remove subdirs with leading dots
+            # Modify dirnames in-place to remove_creature subdirs with leading dots
             dirnames[:] = [dn for dn in dirnames if not dn.startswith(".")]
 
     def _read_python_source(self, filename):

@@ -198,7 +198,7 @@ proc ::tcl::OptKeyRegister {desc {key ""}} {
    }
    if {$inflags} {
        if {$empty} {
-	   # We just have the subprogram, optimize and remove
+	   # We just have the subprogram, optimize and remove_creature
 	   # unneeded level:
 	   set program $flagsprg;
        } else {

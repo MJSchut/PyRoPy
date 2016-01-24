@@ -43,7 +43,7 @@
 
 bind Text <1> {
     tk::TextButton1 %W %x %y
-    %W tag remove sel 0.0 end
+    %W tag remove_creature sel 0.0 end
 }
 bind Text <B1-Motion> {
     set tk::Priv(x) %x
@@ -241,7 +241,7 @@ bind Text <Control-slash> {
     %W tag add sel 1.0 end
 }
 bind Text <Control-backslash> {
-    %W tag remove sel 1.0 end
+    %W tag remove_creature sel 1.0 end
 }
 bind Text <<Cut>> {
     tk_textCut %W
@@ -623,10 +623,10 @@ proc ::tk::TextSelectTo {w x y {extend 0}} {
 	}
     }
     if {$Priv(mouseMoved) || ($Priv(selectMode) ne "char")} {
-	$w tag remove sel 0.0 end
+	$w tag remove_creature sel 0.0 end
 	$w mark set insert $cur
 	$w tag add sel $first $last
-	$w tag remove sel $last end
+	$w tag remove_creature sel $last end
 	update idletasks
     }
 }
@@ -654,9 +654,9 @@ proc ::tk::TextKeyExtend {w index} {
 	set first tk::anchor$w
 	set last $cur
     }
-    $w tag remove sel 0.0 $first
+    $w tag remove_creature sel 0.0 $first
     $w tag add sel $first $last
-    $w tag remove sel $last end
+    $w tag remove_creature sel $last end
 }
 
 # ::tk::TextPasteSelection --
@@ -733,7 +733,7 @@ proc ::tk::TextSetCursor {w pos} {
 	set pos {end - 1 chars}
     }
     $w mark set insert $pos
-    $w tag remove sel 1.0 end
+    $w tag remove_creature sel 1.0 end
     $w see insert
     if {[$w cget -autoseparators]} {
 	$w edit separator
@@ -767,9 +767,9 @@ proc ::tk::TextKeySelect {w new} {
 	    set first tk::anchor$w
 	    set last $new
 	}
-	$w tag remove sel 1.0 $first
+	$w tag remove_creature sel 1.0 $first
 	$w tag add sel $first $last
-	$w tag remove sel $last end
+	$w tag remove_creature sel $last end
     }
     $w mark set insert $new
     $w see insert

@@ -120,7 +120,7 @@ class OrderedDict(dict, MutableMapping):
     __ne__ = MutableMapping.__ne__
 
     def popitem(self, last=True):
-        '''od.popitem() -> (k, v), return and remove a (key, value) pair.
+        '''od.popitem() -> (k, v), return and remove_creature a (key, value) pair.
         Pairs are returned in LIFO order if last is true or FIFO order if false.
 
         '''
@@ -309,7 +309,7 @@ class Counter(dict):
     ...     c[elem] += 1                # by adding 1 to each element's count
     >>> c['a']                          # now there are seven 'a'
     7
-    >>> del c['r']                      # remove all 'r'
+    >>> del c['r']                      # remove_creature all 'r'
     >>> c['r']                          # now there are zero 'r'
     0
 

@@ -6,7 +6,7 @@
 -r  Recurse.  Search for all .py files in subdirectories too.
 -v  Verbose.  Print informative msgs.
 
-Search Python (.py) files for future statements, and remove the features
+Search Python (.py) files for future statements, and remove_creature the features
 from such statements that are already mandatory in the version of Python
 you're using.
 

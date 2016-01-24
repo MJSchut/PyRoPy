@@ -174,7 +174,7 @@ def _build_cmdtuple(path, cmdtuples):
     cmdtuples.append((os.rmdir, path))
 
 def remove_tree(directory, verbose=1, dry_run=0):
-    """Recursively remove an entire directory tree.
+    """Recursively remove_creature an entire directory tree.
 
     Any errors are ignored (apart from being reported to stdout if 'verbose'
     is true).
@@ -191,7 +191,7 @@ def remove_tree(directory, verbose=1, dry_run=0):
     for cmd in cmdtuples:
         try:
             cmd[0](cmd[1])
-            # remove dir from cache if it's already there
+            # remove_creature dir from cache if it's already there
             abspath = os.path.abspath(cmd[1])
             if abspath in _path_created:
                 del _path_created[abspath]

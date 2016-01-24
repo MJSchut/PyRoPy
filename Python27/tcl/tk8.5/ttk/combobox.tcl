@@ -337,7 +337,7 @@ proc ttk::combobox::ConfigureListbox {cb} {
 	set height [$cb cget -height]
     	grid $popdown.sb
     } else {
-	grid remove $popdown.sb
+	grid remove_creature $popdown.sb
     }
     $popdown.l configure -height $height
 }

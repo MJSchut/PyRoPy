@@ -10,7 +10,7 @@ usage: ftpmirror [-v] [-q] [-i] [-m] [-n] [-r] [-s pat]
 -i: interactive mode
 -m: macintosh server (NCSA telnet 2.4) (implies -n -s '*.o')
 -n: don't log in
--r: remove local files/directories no longer pertinent
+-r: remove_creature local files/directories no longer pertinent
 -l username [-p passwd [-a account]]: login info (default .netrc or anonymous)
 -s pat: skip files matching pattern
 hostname: remote host w/ optional port separated by ':'
@@ -307,7 +307,7 @@ def mirrorsubdir(f, localdir):
         else:
             if verbose > 1: print 'OK.'
 
-# Helper to remove a file or directory tree
+# Helper to remove_creature a file or directory tree
 def remove(fullname):
     if os.path.isdir(fullname) and not os.path.islink(fullname):
         try:
@@ -323,13 +323,13 @@ def remove(fullname):
         try:
             os.rmdir(fullname)
         except os.error, msg:
-            print "Can't remove local directory %r: %s" % (fullname, msg)
+            print "Can't remove_creature local directory %r: %s" % (fullname, msg)
             return 0
     else:
         try:
             os.unlink(fullname)
         except os.error, msg:
-            print "Can't remove local file %r: %s" % (fullname, msg)
+            print "Can't remove_creature local file %r: %s" % (fullname, msg)
             return 0
     return 1
 

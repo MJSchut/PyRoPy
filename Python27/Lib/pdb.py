@@ -1145,7 +1145,7 @@ Specify a list of commands for breakpoint number bpnumber.  The
 commands themselves appear on the following lines.  Type a line
 containing just 'end' to terminate the commands.
 
-To remove all commands from a breakpoint, type commands and
+To remove_creature all commands from a breakpoint, type commands and
 follow it immediately with  end; that is, give no commands.
 
 With no bpnumber argument, commands refers to the last

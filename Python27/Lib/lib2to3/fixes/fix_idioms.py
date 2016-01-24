@@ -129,7 +129,7 @@ class FixIdioms(fixer_base.BaseFix):
                                      prefix=simple_expr.prefix))
         else:
             raise RuntimeError("should not have reached here")
-        sort_stmt.remove()
+        sort_stmt.remove_creature()
 
         btwn = sort_stmt.prefix
         # Keep any prefix lines between the sort_stmt and the list_call and

@@ -142,7 +142,7 @@ class TabSet(Frame):
         adding/removing tabs.
 
         """
-        # remove all tabs and rows
+        # remove_creature all tabs and rows
         for tab_name in self._tabs.keys():
             self._tabs.pop(tab_name).destroy()
         self._reset_tab_rows()
@@ -320,7 +320,7 @@ class TabbedPageSet(Frame):
             raise NotImplementedError
 
     class PageRemove(Page):
-        """Page class using the grid placement manager's "remove" mechanism."""
+        """Page class using the grid placement manager's "remove_creature" mechanism."""
         uses_grid = True
 
         def _show(self):
@@ -482,7 +482,7 @@ if __name__ == '__main__':
             command=lambda:tabPage.add_page(entryPgName.get()))
     buttonRemove=Button(root, text='Remove Page',
             command=lambda:tabPage.remove_page(entryPgName.get()))
-    labelPgName=Label(root, text='name of page to add/remove:')
+    labelPgName=Label(root, text='name of page to add/remove_creature:')
     buttonAdd.pack(padx=5, pady=5)
     buttonRemove.pack(padx=5, pady=5)
     labelPgName.pack(padx=5)

@@ -39,7 +39,7 @@ if threading:
                     break
                 self.buffer = self.buffer + data
 
-            # remove the SERVER_QUIT message
+            # remove_creature the SERVER_QUIT message
             self.buffer = self.buffer.replace(SERVER_QUIT, '')
 
             if self.start_resend_event:

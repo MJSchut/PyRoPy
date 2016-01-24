@@ -161,7 +161,7 @@ class FunctionPropertiesTest(FuncAttrsTest):
             pass
         else:
             self.fail("func_defaults does not update; deleting it does not "
-                      "remove requirement")
+                      "remove_creature requirement")
 
 
 class InstancemethodAttrTest(FuncAttrsTest):

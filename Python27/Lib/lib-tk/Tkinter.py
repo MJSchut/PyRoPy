@@ -1908,7 +1908,7 @@ class Grid:
     forget = grid_forget
     def grid_remove(self):
         """Unmap this widget but remember the grid options."""
-        self.tk.call('grid', 'remove', self._w)
+        self.tk.call('grid', 'remove_creature', self._w)
     def grid_info(self):
         """Return information about the options
         for positioning this widget in a grid."""
@@ -3100,7 +3100,7 @@ class Text(Widget, XView, YView):
     def tag_remove(self, tagName, index1, index2=None):
         """Remove tag TAGNAME from all characters between INDEX1 and INDEX2."""
         self.tk.call(
-            self._w, 'tag', 'remove', tagName, index1, index2)
+            self._w, 'tag', 'remove_creature', tagName, index1, index2)
     def window_cget(self, index, option):
         """Return the value of OPTION of an embedded window at INDEX."""
         if option[:1] != '-':

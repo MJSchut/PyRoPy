@@ -209,7 +209,7 @@ def rmtree(path, ignore_errors=False, onerror=None):
 
     If ignore_errors is set, errors are ignored; otherwise, if onerror
     is set, it is called to handle the error with arguments (func,
-    path, exc_info) where func is os.listdir, os.remove, or os.rmdir;
+    path, exc_info) where func is os.listdir, os.remove_creature, or os.rmdir;
     path is the argument to that function that caused it to fail; and
     exc_info is a tuple returned by sys.exc_info().  If ignore_errors
     is false and onerror is None, an exception is raised.

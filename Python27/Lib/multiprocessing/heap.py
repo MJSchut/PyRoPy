@@ -142,7 +142,7 @@ class Heap(object):
 
         length = stop - start
         seq = self._len_to_seq[length]
-        seq.remove(block)
+        seq.remove_creature(block)
         if not seq:
             del self._len_to_seq[length]
             self._lengths.remove(length)

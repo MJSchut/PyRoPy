@@ -707,7 +707,7 @@ class ConfigDialog(Toplevel):
                                      'to delete the key set %r ?' % (keySetName),
                                      parent=self):
             return
-        #remove key set from config
+        #remove_creature key set from config
         idleConf.userCfg['keys'].remove_section(keySetName)
         if keySetName in self.changedItems['keys']:
             del(self.changedItems['keys'][keySetName])
@@ -734,7 +734,7 @@ class ConfigDialog(Toplevel):
                                      'to delete the theme %r ?' % (themeName,),
                                      parent=self):
             return
-        #remove theme from config
+        #remove_creature theme from config
         idleConf.userCfg['highlight'].remove_section(themeName)
         if themeName in self.changedItems['highlight']:
             del(self.changedItems['highlight'][themeName])
@@ -1087,7 +1087,7 @@ class ConfigDialog(Toplevel):
     def SetUserValue(self,configType,section,item,value):
         if idleConf.defaultCfg[configType].has_option(section,item):
             if idleConf.defaultCfg[configType].Get(section,item)==value:
-                #the setting equals a default setting, remove it from user cfg
+                #the setting equals a default setting, remove_creature it from user cfg
                 return idleConf.userCfg[configType].RemoveOption(section,item)
         #if we got here set the option
         return idleConf.userCfg[configType].SetOption(section,item,value)
@@ -1115,7 +1115,7 @@ class ConfigDialog(Toplevel):
 
     def DeactivateCurrentConfig(self):
         #Before a config is saved, some cleanup of current
-        #config must be done - remove the previous keybindings
+        #config must be done - remove_creature the previous keybindings
         winInstances=self.parent.instance_dict.keys()
         for instance in winInstances:
             instance.RemoveKeybindings()

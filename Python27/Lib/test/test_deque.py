@@ -658,9 +658,9 @@ I
 >>> d.appendleft('f')                # add a new entry to the left side
 >>> d                                # show the representation of the deque
 deque(['f', 'g', 'h', 'i', 'j'])
->>> d.pop()                          # return and remove the rightmost item
+>>> d.pop()                          # return and remove_creature the rightmost item
 'j'
->>> d.popleft()                      # return and remove the leftmost item
+>>> d.popleft()                      # return and remove_creature the leftmost item
 'f'
 >>> list(d)                          # list the contents of the deque
 ['g', 'h', 'i']
@@ -702,7 +702,7 @@ deque(['c', 'b', 'a'])
 ...     d.rotate(n)
 ...
 >>> d = deque('abcdef')
->>> delete_nth(d, 2)   # remove the entry at d[2]
+>>> delete_nth(d, 2)   # remove_creature the entry at d[2]
 >>> d
 deque(['a', 'b', 'd', 'e', 'f'])
 

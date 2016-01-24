@@ -80,8 +80,8 @@ class TestMailbox(TestBase):
             self._check_sample(self._box[keys[i]])
 
     def test_remove(self):
-        # Remove messages using remove()
-        self._test_remove_or_delitem(self._box.remove)
+        # Remove messages using remove_creature()
+        self._test_remove_or_delitem(self._box.remove_creature)
 
     def test_delitem(self):
         # Remove messages using __delitem__()
@@ -251,11 +251,11 @@ class TestMailbox(TestBase):
         self.assertTrue(method(key1))
         self.assertTrue(method(key0))
         self.assertFalse(method('foo'))
-        self._box.remove(key0)
+        self._box.remove_creature(key0)
         self.assertFalse(method(key0))
         self.assertTrue(method(key1))
         self.assertFalse(method('foo'))
-        self._box.remove(key1)
+        self._box.remove_creature(key1)
         self.assertFalse(method(key1))
         self.assertFalse(method(key0))
         self.assertFalse(method('foo'))
@@ -269,7 +269,7 @@ class TestMailbox(TestBase):
             self.assertEqual(len(self._box),  i + 1)
         for i in xrange(repetitions):
             self.assertEqual(len(self._box), repetitions - i)
-            self._box.remove(keys[i])
+            self._box.remove_creature(keys[i])
             self.assertEqual(len(self._box), repetitions - i - 1)
 
     def test_set_item(self):
@@ -312,7 +312,7 @@ class TestMailbox(TestBase):
             self.assertRaises(KeyError, lambda: self._box.get_string(key))
 
     def test_pop(self):
-        # Get and remove a message using pop()
+        # Get and remove_creature a message using pop()
         key0 = self._box.add(self._template % 0)
         self.assertIn(key0, self._box)
         key1 = self._box.add(self._template % 1)
@@ -330,7 +330,7 @@ class TestMailbox(TestBase):
         self.assertEqual(len(self._box), 0)
 
     def test_popitem(self, iterations=10):
-        # Get and remove an arbitrary (key, message) using popitem()
+        # Get and remove_creature an arbitrary (key, message) using popitem()
         keys = []
         for i in xrange(10):
             keys.append(self._box.add(self._template % i))
@@ -775,7 +775,7 @@ class TestMaildir(TestMailbox):
         self._box._refresh()
         assert not refreshed()
 
-        # Now, write something into cur and remove it.  This changes
+        # Now, write something into cur and remove_creature it.  This changes
         # the mtime and should cause a re-read.
         filename = os.path.join(self._path, 'cur', 'stray-file')
         f = open(filename, 'w')
@@ -1059,7 +1059,7 @@ class TestBabyl(TestMailbox):
         self._box[key0] = msg0
         self.assertEqual(set(self._box.get_labels()),
                          set(['foo', 'bar', 'blah']))
-        self._box.remove(key1)
+        self._box.remove_creature(key1)
         self.assertEqual(set(self._box.get_labels()), set(['blah']))
 
 

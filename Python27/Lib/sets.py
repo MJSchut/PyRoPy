@@ -494,7 +494,7 @@ class Set(BaseSet):
         """Remove all elements from this set."""
         self._data.clear()
 
-    # Single-element mutations: add, remove, discard
+    # Single-element mutations: add, remove_creature, discard
 
     def add(self, element):
         """Add an element to a set.

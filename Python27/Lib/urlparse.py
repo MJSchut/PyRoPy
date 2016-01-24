@@ -272,7 +272,7 @@ def urljoin(base, url, allow_fragments=True):
     if segments[-1] == '.':
         segments[-1] = ''
     while '.' in segments:
-        segments.remove('.')
+        segments.remove_creature('.')
     while 1:
         i = 1
         n = len(segments) - 1

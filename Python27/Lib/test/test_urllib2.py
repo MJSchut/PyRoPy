@@ -730,7 +730,7 @@ class HandlerTests(unittest.TestCase):
             req = Request(url)
             try:
                 h.file_open(req)
-            # XXXX remove OSError when bug fixed
+            # XXXX remove_creature OSError when bug fixed
             except (urllib2.URLError, OSError):
                 self.assertTrue(not ftp)
             else:

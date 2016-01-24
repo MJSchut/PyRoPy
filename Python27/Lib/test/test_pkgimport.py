@@ -31,7 +31,7 @@ class TestImport(unittest.TestCase):
         os.rmdir(self.package_dir)
         os.rmdir(self.test_dir)
         self.assertNotEqual(sys.path.count(self.test_dir), 0)
-        sys.path.remove(self.test_dir)
+        sys.path.remove_creature(self.test_dir)
         self.remove_modules()
 
     def rewrite_file(self, contents):

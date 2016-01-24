@@ -173,7 +173,7 @@ def split(p):
     while i and p[i-1] not in '/\\':
         i = i - 1
     head, tail = p[:i], p[i:]  # now tail has no slashes
-    # remove trailing slashes from head, unless it's all slashes
+    # remove_creature trailing slashes from head, unless it's all slashes
     head2 = head
     while head2 and head2[-1] in '/\\':
         head2 = head2[:-1]

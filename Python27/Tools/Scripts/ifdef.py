@@ -14,7 +14,7 @@
 
 # Features: Arbitrary nesting of recognized and unrecognized
 # preprocesor statements works correctly.  Unrecognized #if* commands
-# are left in place, so it will never remove too much, only too
+# are left in place, so it will never remove_creature too much, only too
 # little.  It does accept whitespace around the '#' character.
 
 # Restrictions: There should be no comments or other symbols on the

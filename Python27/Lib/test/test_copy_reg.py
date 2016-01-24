@@ -72,7 +72,7 @@ class CopyRegTestCase(unittest.TestCase):
                               mod, func[1:], code)
             self.assertRaises(ValueError, copy_reg.remove_extension,
                               mod, func[1:], code)
-            # Can't remove one that isn't registered at all.
+            # Can't remove_creature one that isn't registered at all.
             if code + 1 not in copy_reg._inverted_registry:
                 self.assertRaises(ValueError, copy_reg.remove_extension,
                                   mod[1:], func[1:], code + 1)

@@ -1020,7 +1020,7 @@ class ListTest(unittest.TestCase):
         size -= 1
         self.assertEquals(len(l), size)
 
-        # Because of the earlier l.remove(), this append doesn't trigger
+        # Because of the earlier l.remove_creature(), this append doesn't trigger
         # a resize.
         l.append(5)
         size += 1

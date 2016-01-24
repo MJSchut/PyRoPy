@@ -11,7 +11,7 @@
 -h (--help)     Help.      Print this usage information and exit.
 
 Change Python (.py) files to use 4-space indents and no hard tab characters.
-Also trim excess spaces and tabs from ends of lines, and remove empty lines
+Also trim excess spaces and tabs from ends of lines, and remove_creature empty lines
 at the end of files.  Also ensure the last line ends with a newline.
 
 If no paths are given on the command line, reindent operates as a filter,

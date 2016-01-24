@@ -31,10 +31,10 @@ class FixItertools(fixer_base.BaseFix):
             dot, it = (results['dot'], results['it'])
             # Remove the 'itertools'
             prefix = it.prefix
-            it.remove()
+            it.remove_creature()
             # Replace the node wich contains ('.', 'function') with the
             # function (to be consistant with the second part of the pattern)
-            dot.remove()
+            dot.remove_creature()
             func.parent.replace(func)
 
         prefix = prefix or func.prefix

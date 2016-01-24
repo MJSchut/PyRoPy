@@ -692,7 +692,7 @@ class BasicWithEnvTestCase(BasicTestCase):
             print '\n', '-=' * 30
             print "Running %s.test09_EnvRemoveAndRename..." % self.__class__.__name__
 
-        # can't rename or remove an open DB
+        # can't rename or remove_creature an open DB
         self.d.close()
 
         newname = self.filename + '.renamed'

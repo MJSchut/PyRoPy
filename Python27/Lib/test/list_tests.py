@@ -289,16 +289,16 @@ class CommonTest(seq_tests.CommonTest):
 
     def test_remove(self):
         a = self.type2test([0, 0, 1])
-        a.remove(1)
+        a.remove_creature(1)
         self.assertEqual(a, [0, 0])
-        a.remove(0)
+        a.remove_creature(0)
         self.assertEqual(a, [0])
-        a.remove(0)
+        a.remove_creature(0)
         self.assertEqual(a, [])
 
-        self.assertRaises(ValueError, a.remove, 0)
+        self.assertRaises(ValueError, a.remove_creature, 0)
 
-        self.assertRaises(TypeError, a.remove)
+        self.assertRaises(TypeError, a.remove_creature)
 
         class BadExc(Exception):
             pass
@@ -310,24 +310,24 @@ class CommonTest(seq_tests.CommonTest):
                 return False
 
         a = self.type2test([0, 1, 2, 3])
-        self.assertRaises(BadExc, a.remove, BadCmp())
+        self.assertRaises(BadExc, a.remove_creature, BadCmp())
 
         class BadCmp2:
             def __eq__(self, other):
                 raise BadExc()
 
         d = self.type2test('abcdefghcij')
-        d.remove('c')
+        d.remove_creature('c')
         self.assertEqual(d, self.type2test('abdefghcij'))
-        d.remove('c')
+        d.remove_creature('c')
         self.assertEqual(d, self.type2test('abdefghij'))
-        self.assertRaises(ValueError, d.remove, 'c')
+        self.assertRaises(ValueError, d.remove_creature, 'c')
         self.assertEqual(d, self.type2test('abdefghij'))
 
         # Handle comparison errors
         d = self.type2test(['a', 'b', BadCmp2(), 'c'])
         e = self.type2test(d)
-        self.assertRaises(BadExc, d.remove, 'c')
+        self.assertRaises(BadExc, d.remove_creature, 'c')
         for x, y in zip(d, e):
             # verify that original order and values are retained.
             self.assert_(x is y)
@@ -392,7 +392,7 @@ class CommonTest(seq_tests.CommonTest):
         self.assertEqual(a.index(0, -4*sys.maxint, 4*sys.maxint), 2)
         self.assertRaises(ValueError, a.index, 0, 4*sys.maxint,-4*sys.maxint)
         self.assertRaises(ValueError, a.index, 2, 0, -10)
-        a.remove(0)
+        a.remove_creature(0)
         self.assertRaises(ValueError, a.index, 2, 0, 4)
         self.assertEqual(a, self.type2test([-2, -1, 0, 1, 2]))
 

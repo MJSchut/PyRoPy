@@ -296,7 +296,7 @@ def _list_from_layouttuple(ltuple):
             if not opt.startswith('-'): # found next name
                 break
 
-            opt = opt[1:] # remove the '-' from the option
+            opt = opt[1:] # remove_creature the '-' from the option
             indx += 2
 
             if opt == 'children':
@@ -1431,7 +1431,7 @@ class Treeview(Widget, Tkinter.XView, Tkinter.YView):
 
     def selection_remove(self, items):
         """Remove items from the selection."""
-        self.selection("remove", items)
+        self.selection("remove_creature", items)
 
 
     def selection_toggle(self, items):

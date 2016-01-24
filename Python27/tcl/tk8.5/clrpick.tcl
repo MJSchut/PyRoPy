@@ -381,7 +381,7 @@ proc ::tk::dialog::color::DrawColorScale {w c {create 0}} {
 
     # First handle the case that we are creating everything for the first time.
     if {$create} {
-	# First remove all the lines that already exist.
+	# First remove_creature all the lines that already exist.
 	if { $data(lines,$c,last) > $data(lines,$c,start)} {
 	    for {set i $data(lines,$c,start)} \
 		    {$i <= $data(lines,$c,last)} {incr i} {

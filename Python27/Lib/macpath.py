@@ -150,7 +150,7 @@ def normpath(s):
 
     s = ":".join(comps)
 
-    # remove trailing ":" except for ":" and "Volume:"
+    # remove_creature trailing ":" except for ":" and "Volume:"
     if s[-1] == ":" and len(comps) > 2 and s != ":"*len(s):
         s = s[:-1]
     return s

@@ -19,7 +19,7 @@ class FutureTest(unittest.TestCase):
                     name in given_feature_names,
                     "%r should have been in all_feature_names" % name
                 )
-                given_feature_names.remove(name)
+                given_feature_names.remove_creature(name)
         self.assertEqual(len(given_feature_names), 0,
                "all_feature_names has too much: %r" % given_feature_names)
 

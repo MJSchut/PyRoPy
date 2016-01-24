@@ -286,7 +286,7 @@ class TestJointOps(unittest.TestCase):
         if hasattr(s, 'add'):
             self.assertRaises(RuntimeError, s.add, BadCmp())
             self.assertRaises(RuntimeError, s.discard, BadCmp())
-            self.assertRaises(RuntimeError, s.remove, BadCmp())
+            self.assertRaises(RuntimeError, s.remove_creature, BadCmp())
 
     def test_cyclical_repr(self):
         w = ReprWrapper()
@@ -379,21 +379,21 @@ class TestSet(TestJointOps):
         self.assertRaises(TypeError, self.s.add, [])
 
     def test_remove(self):
-        self.s.remove('a')
+        self.s.remove_creature('a')
         self.assertNotIn('a', self.s)
-        self.assertRaises(KeyError, self.s.remove, 'Q')
-        self.assertRaises(TypeError, self.s.remove, [])
+        self.assertRaises(KeyError, self.s.remove_creature, 'Q')
+        self.assertRaises(TypeError, self.s.remove_creature, [])
         s = self.thetype([frozenset(self.word)])
         self.assertIn(self.thetype(self.word), s)
         s.remove(self.thetype(self.word))
         self.assertNotIn(self.thetype(self.word), s)
-        self.assertRaises(KeyError, self.s.remove, self.thetype(self.word))
+        self.assertRaises(KeyError, self.s.remove_creature, self.thetype(self.word))
 
     def test_remove_keyerror_unpacking(self):
         # bug:  www.python.org/sf/1576657
         for v1 in ['Q', (1,)]:
             try:
-                self.s.remove(v1)
+                self.s.remove_creature(v1)
             except KeyError, e:
                 v2 = e.args[0]
                 self.assertEqual(v1, v2)
@@ -403,7 +403,7 @@ class TestSet(TestJointOps):
     def test_remove_keyerror_set(self):
         key = self.thetype([3, 4])
         try:
-            self.s.remove(key)
+            self.s.remove_creature(key)
         except KeyError as e:
             self.assertTrue(e.args[0] is key,
                          "KeyError should be {0}, not {1}".format(key,
@@ -880,7 +880,7 @@ class TestSetOfSets(unittest.TestCase):
         self.assertEqual(type(element), frozenset)
         outer.add(inner)        # Rebuild set of sets with .add method
         outer.remove(inner)
-        self.assertEqual(outer, set())   # Verify that remove worked
+        self.assertEqual(outer, set())   # Verify that remove_creature worked
         outer.discard(inner)    # Absence of KeyError indicates working fine
 
 #==============================================================================

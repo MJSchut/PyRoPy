@@ -35,7 +35,7 @@ def install():
         #monitor center
         #monitorCenterLink= "c://python24//python.exe" + os.path.join(psychopyShortcuts, "MonitorCenter.lnk")
         #if os.path.isfile(monitorCenterLink):    
-            #os.remove(monitorCenterLink)#we want to make a new one
+            #os.remove_creature(monitorCenterLink)#we want to make a new one
         #create_shortcut(os.path.join(sitePackages,'monitors', "MonitorCenter.py"),
                         #'PsychoPy Monitor Center', monitorCenterLink,
                         #'',#args
@@ -53,7 +53,7 @@ def install():
         
         print "All done. Enjoy!"
         
-        #remove outdated demo files
+        #remove_creature outdated demo files
         oldDemos = glob.glob(demosFolder+"//demo_*")
         for file in oldDemos:
             os.remove(file)

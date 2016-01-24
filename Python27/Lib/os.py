@@ -159,7 +159,7 @@ def makedirs(name, mode=0777):
 def removedirs(name):
     """removedirs(path)
 
-    Super-rmdir; remove a leaf directory and all empty intermediate
+    Super-rmdir; remove_creature a leaf directory and all empty intermediate
     ones.  Works like rmdir except that, if the leaf directory is
     successfully removed, directories corresponding to rightmost path
     segments will be pruned away until either the whole path is
@@ -260,7 +260,7 @@ def walk(top, topdown=True, onerror=None, followlinks=False):
         print sum([getsize(join(root, name)) for name in files]),
         print "bytes in", len(files), "non-directory files"
         if 'CVS' in dirs:
-            dirs.remove('CVS')  # don't visit CVS directories
+            dirs.remove_creature('CVS')  # don't visit CVS directories
     """
 
     islink, join, isdir = path.islink, path.join, path.isdir

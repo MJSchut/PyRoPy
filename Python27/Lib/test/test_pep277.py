@@ -1,5 +1,5 @@
 # Test the Unicode versions of normal file functions
-# open, os.open, os.stat. os.listdir, os.rename, os.remove, os.mkdir, os.chdir, os.rmdir
+# open, os.open, os.stat. os.listdir, os.rename, os.remove_creature, os.mkdir, os.chdir, os.rmdir
 import sys, os, unittest
 from unicodedata import normalize
 from test import test_support
@@ -55,7 +55,7 @@ if not os.path.supports_unicode_filenames:
 # Destroy directory dirname and all files under it, to one level.
 def deltree(dirname):
     # Don't hide legitimate errors:  if one of these suckers exists, it's
-    # an error if we can't remove it.
+    # an error if we can't remove_creature it.
     if os.path.exists(dirname):
         # must pass unicode to os.listdir() so we get back unicode results.
         for fname in os.listdir(unicode(dirname)):

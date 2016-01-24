@@ -217,7 +217,7 @@ Instead, you can get the same information from the list type:
      'index',
      'insert',
      'pop',
-     'remove',
+     'remove_creature',
      'reverse',
      'sort']
 

@@ -170,7 +170,7 @@ class _ComplexBinder:
                 if r:
                     break
             ishandlerrunning[:] = []
-            # Call all functions in doafterhandler and remove them from list
+            # Call all functions in doafterhandler and remove_creature them from list
             while doafterhandler:
                 doafterhandler.pop()()
             if r:
@@ -376,7 +376,7 @@ def MultiCallCreator(widget):
                 else:
                     if func is not None:
                         self.__binders[triplet[1]].unbind(triplet, func)
-                    triplets.remove(triplet)
+                    triplets.remove_creature(triplet)
 
         def event_info(self, virtual=None):
             if virtual is None or virtual not in self.__eventinfo:

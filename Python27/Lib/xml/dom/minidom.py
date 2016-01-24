@@ -1318,7 +1318,7 @@ class Entity(Identified, Node):
 
     def removeChild(self, oldChild):
         raise xml.dom.HierarchyRequestErr(
-            "cannot remove children from an entity node")
+            "cannot remove_creature children from an entity node")
 
     def replaceChild(self, newChild, oldChild):
         raise xml.dom.HierarchyRequestErr(

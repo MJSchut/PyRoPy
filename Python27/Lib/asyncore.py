@@ -248,7 +248,7 @@ class dispatcher:
                     self.connected = False
                 else:
                     # The socket is broken in some unknown way, alert
-                    # the user and remove it from the map (to prevent
+                    # the user and remove_creature it from the map (to prevent
                     # polling of broken sockets).
                     self.del_channel(map)
                     raise

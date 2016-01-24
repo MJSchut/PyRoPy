@@ -146,7 +146,7 @@ class ImportTests(unittest.TestCase):
                 f.write('"",\n')
             f.write(']')
 
-        # Compile & remove .py file, we only need .pyc (or .pyo).
+        # Compile & remove_creature .py file, we only need .pyc (or .pyo).
         with open(filename, 'r') as f:
             py_compile.compile(filename)
         unlink(filename)

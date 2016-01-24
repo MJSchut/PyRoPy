@@ -27,7 +27,7 @@ class _IterationGuard(object):
         w = self.weakcontainer()
         if w is not None:
             s = w._iterating
-            s.remove(self)
+            s.remove_creature(self)
             if not s:
                 w._commit_removals()
 

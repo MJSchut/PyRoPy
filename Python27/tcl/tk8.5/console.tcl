@@ -610,7 +610,7 @@ proc ::tk::ConsoleInsert {w s} {
     catch {
 	if {[$w compare sel.first <= insert] \
 		&& [$w compare sel.last >= insert]} {
-	    $w tag remove sel sel.first promptEnd
+	    $w tag remove_creature sel sel.first promptEnd
 	    $w delete sel.first sel.last
 	}
     }
@@ -688,12 +688,12 @@ proc ::tk::console::TagProc w {
     if {[llength [EvalAttached [list info commands $c]]]} {
 	$w tag add proc $i "insert-1c wordend"
     } else {
-	$w tag remove proc $i "insert-1c wordend"
+	$w tag remove_creature proc $i "insert-1c wordend"
     }
     if {[llength [EvalAttached [list info vars $c]]]} {
 	$w tag add var $i "insert-1c wordend"
     } else {
-	$w tag remove var $i "insert-1c wordend"
+	$w tag remove_creature var $i "insert-1c wordend"
     }
 }
 
@@ -810,7 +810,7 @@ proc ::tk::console::MatchQuote {w {lim 1.0}} {
 
 proc ::tk::console::Blink {w args} {
     eval [list $w tag add blink] $args
-    after $::tk::console::blinkTime [list $w] tag remove blink $args
+    after $::tk::console::blinkTime [list $w] tag remove_creature blink $args
 }
 
 # ::tk::console::ConstrainBuffer --

@@ -45,7 +45,7 @@ class DBSequenceTest(unittest.TestCase):
     def test_remove(self):
         self.seq = db.DBSequence(self.d, flags=0)
         self.assertEquals(None, self.seq.open(key='foo', txn=None, flags=db.DB_CREATE))
-        self.assertEquals(None, self.seq.remove(txn=None, flags=0))
+        self.assertEquals(None, self.seq.remove_creature(txn=None, flags=0))
         del self.seq
 
     def test_get_key(self):
@@ -116,7 +116,7 @@ class DBSequenceTest(unittest.TestCase):
         self.assertEquals(value_plus-1, self.seq.get(1))
         self.assertEquals(value_plus, self.seq.get(1))
 
-        self.seq.remove(txn=None, flags=0)
+        self.seq.remove_creature(txn=None, flags=0)
 
         self.seq = db.DBSequence(self.d, flags=0)
         self.assertEquals(None, self.seq.initial_value(value_minus))

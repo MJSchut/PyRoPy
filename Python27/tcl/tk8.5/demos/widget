@@ -203,14 +203,14 @@ set lastLine ""
     showStatus [.t index {@%x,%y}]
 }
 .t tag bind demo <Leave> {
-    .t tag remove hot 1.0 end
+    .t tag remove_creature hot 1.0 end
     .t config -cursor xterm
     .statusBar.lab config -text ""
 }
 .t tag bind demo <Motion> {
     set newLine [.t index {@%x,%y linestart}]
     if {$newLine ne $lastLine} {
-	.t tag remove hot 1.0 end
+	.t tag remove_creature hot 1.0 end
 	set lastLine $newLine
 
 	set tags [.t tag names {@%x,%y}]

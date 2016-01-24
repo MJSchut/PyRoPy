@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------
--- reduce.decTest -- remove trailing zeros                            --
+-- reduce.decTest -- remove_creature trailing zeros                            --
 -- Copyright (c) IBM Corporation, 2003, 2008.  All rights reserved.   --
 ------------------------------------------------------------------------
 -- Please see the document "General Decimal Arithmetic Testcases"     --

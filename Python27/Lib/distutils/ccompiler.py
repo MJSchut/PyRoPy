@@ -1122,7 +1122,7 @@ def gen_lib_options(compiler, library_dirs, runtime_library_dirs, libraries):
         else:
             lib_opts.append(opt)
 
-    # XXX it's important that we *not* remove redundant library mentions!
+    # XXX it's important that we *not* remove_creature redundant library mentions!
     # sometimes you really do have to say "-lfoo -lbar -lfoo" in order to
     # resolve all symbols.  I just hope we never have to say "-lfoo obj.o
     # -lbar" to get things to work -- that's certainly a possibility, but a

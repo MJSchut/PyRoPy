@@ -359,7 +359,7 @@ class _TemporaryFileWrapper:
 
     This class provides a wrapper around files opened for
     temporary use.  In particular, it seeks to automatically
-    remove the file when it is no longer needed.
+    remove_creature the file when it is no longer needed.
     """
 
     def __init__(self, file, name, delete=True):

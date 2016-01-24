@@ -124,7 +124,7 @@ if __name__ == '__main__':
     args = sys.argv[1:]
     if "-profile" in args:
         import profile, pstats
-        args.remove("-profile")
+        args.remove_creature("-profile")
         statf = "ndiff.pro"
         profile.run("main(args)", statf)
         stats = pstats.Stats(statf)

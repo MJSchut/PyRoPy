@@ -246,7 +246,7 @@ def run_path(path_name, init_globals=None, run_name=None):
             # Here's where things are a little different from the run_module
             # case. There, we only had to replace the module in sys while the
             # code was running and doing so was somewhat optional. Here, we
-            # have no choice and we have to remove it even while we read the
+            # have no choice and we have to remove_creature it even while we read the
             # code. If we don't do this, a __loader__ attribute in the
             # existing __main__ module may prevent location of the new module.
             main_name = "__main__"
@@ -264,7 +264,7 @@ def run_path(path_name, init_globals=None, run_name=None):
                                     run_name, fname, loader, pkg_name)
         finally:
             try:
-                sys.path.remove(path_name)
+                sys.path.remove_creature(path_name)
             except ValueError:
                 pass
 

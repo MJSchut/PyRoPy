@@ -406,7 +406,7 @@ class SMTP:
             #    support using the old style.
             auth_match = OLDSTYLE_AUTH.match(each)
             if auth_match:
-                # This doesn't remove duplicates, but that's no problem
+                # This doesn't remove_creature duplicates, but that's no problem
                 self.esmtp_features["auth"] = self.esmtp_features.get("auth", "") \
                         + " " + auth_match.groups(0)[0]
                 continue

@@ -822,7 +822,7 @@ class bsdTableDB :
                 getattr(self.db, "get_bytes", self.db.get)(_table_names_key,
                     txn=txn, flags=db.DB_RMW))
             try:
-                tablelist.remove(table)
+                tablelist.remove_creature(table)
             except ValueError:
                 # hmm, it wasn't there, oh well, that's what we want.
                 pass

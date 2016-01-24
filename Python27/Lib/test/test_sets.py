@@ -172,7 +172,7 @@ class TestSetOfSets(unittest.TestCase):
         self.assertEqual(type(element), ImmutableSet)
         outer.add(inner)        # Rebuild set of sets with .add method
         outer.remove(inner)
-        self.assertEqual(outer, Set())   # Verify that remove worked
+        self.assertEqual(outer, Set())   # Verify that remove_creature worked
         outer.discard(inner)    # Absence of KeyError indicates working fine
 
 #==============================================================================
@@ -811,7 +811,7 @@ False
 >>> employees.issuperset(engineers)
 True
 >>> for group in [engineers, programmers, managers, employees]:
-...     group.discard('Susan')                # unconditionally remove element
+...     group.discard('Susan')                # unconditionally remove_creature element
 ...     print group
 ...
 Set(['Jack', 'Jane', 'Janice', 'John', 'Marvin'])

@@ -12,12 +12,6 @@ class Entity(object):
         self.name = 'No-name Simon'
         self.type = 'No-type Timmy'
 
-    def set_name(self, name):
-        self.name = name
-
-    def set_type(self, ntype):
-        self.type = ntype
-
     def set_postion(self, new_x, new_y):
         self.x = new_x
         self.y = new_y
@@ -26,6 +20,11 @@ class Entity(object):
         self.x += dx
         self.y += dy
 
+    def set_name(self, name):
+        self.name = name
+
+    def set_type(self, ntype):
+        self.type = ntype
 
     def draw(self, wx, wy):
         self.lbt.console_set_default_foreground(self.con, self.color)

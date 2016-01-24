@@ -17,7 +17,7 @@ class NisTests(unittest.TestCase):
         try:
             # On some systems, this map is only accessible to the
             # super user
-            maps.remove("passwd.adjunct.byname")
+            maps.remove_creature("passwd.adjunct.byname")
         except ValueError:
             pass
 

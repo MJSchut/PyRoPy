@@ -325,7 +325,7 @@ class Sniffer:
                                          items)
                     # adjust the mode - subtract the sum of all
                     # other frequencies
-                    items.remove(modes[char])
+                    items.remove_creature(modes[char])
                     modes[char] = (modes[char][0], modes[char][1]
                                    - reduce(lambda a, b: (0, a[1] + b[1]),
                                             items)[1])
@@ -427,7 +427,7 @@ class Sniffer:
                     if columnTypes[col] is None: # add new column type
                         columnTypes[col] = thisType
                     else:
-                        # type is inconsistent, remove column from
+                        # type is inconsistent, remove_creature column from
                         # consideration
                         del columnTypes[col]
 

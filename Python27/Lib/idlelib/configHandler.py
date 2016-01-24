@@ -82,7 +82,7 @@ class IdleUserConfParser(IdleConfParser):
 
     def RemoveEmptySections(self):
         """
-        remove any sections that have no options
+        remove_creature any sections that have no options
         """
         for section in self.sections():
             if not self.GetOptionList(section):
@@ -101,7 +101,7 @@ class IdleUserConfParser(IdleConfParser):
 
     def RemoveOption(self,section,option):
         """
-        If section/option exists, remove it.
+        If section/option exists, remove_creature it.
         Returns 1 if option was removed, 0 otherwise.
         """
         if self.has_section(section):
@@ -135,7 +135,7 @@ class IdleUserConfParser(IdleConfParser):
         """Update user configuration file.
 
         Remove empty sections. If resulting config isn't empty, write the file
-        to disk. If config is empty, remove the file from disk if it exists.
+        to disk. If config is empty, remove_creature the file from disk if it exists.
 
         """
         if not self.IsEmpty():
@@ -581,7 +581,7 @@ class IdleConf:
             '<<plain-newline-and-indent>>': ['<Control-j>'],
             '<<print-window>>': ['<Control-p>'],
             '<<redo>>': ['<Control-y>'],
-            '<<remove-selection>>': ['<Escape>'],
+            '<<remove_creature-selection>>': ['<Escape>'],
             '<<save-copy-of-window-as-file>>': ['<Alt-Shift-S>'],
             '<<save-window-as-file>>': ['<Alt-s>'],
             '<<save-window>>': ['<Control-s>'],

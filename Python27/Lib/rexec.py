@@ -125,7 +125,7 @@ class RExec(ihooks._Verbose):
 
     Code executed in this restricted environment will only have access to
     modules and functions that are deemed safe; you can subclass RExec to
-    add or remove capabilities as desired.
+    add or remove_creature capabilities as desired.
 
     The RExec class can prevent code from performing unsafe operations like
     reading or writing disk files, or using TCP/IP sockets.  However, it does

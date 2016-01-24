@@ -269,7 +269,7 @@ class TestBSDDB(unittest.TestCase):
         k, v = i.next()
         nc3 = len(self.f._cursor_refs)
         # destroy the iterator; this should cause the weakref callback
-        # to remove the cursor object from self.f._cursor_refs
+        # to remove_creature the cursor object from self.f._cursor_refs
         del i
         nc4 = len(self.f._cursor_refs)
 

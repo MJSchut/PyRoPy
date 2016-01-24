@@ -451,7 +451,7 @@ Subject: Re: PEP 255: Simple Generators
 ...     print
 ...     if len(roots) > 1:
 ...         s1 = gen.choice(roots)
-...         roots.remove(s1)
+...         roots.remove_creature(s1)
 ...         s2 = gen.choice(roots)
 ...         s1.union(s2)
 ...         print "merged", s1, "into", s2
@@ -1146,7 +1146,7 @@ class Knights:
         # detect this makes a solution impossible, else return 1.
 
         def remove_from_successors(i0, len=len):
-            # If we remove all exits from a free square, we're dead:
+            # If we remove_creature all exits from a free square, we're dead:
             # even if we move to it next, we can't leave it again.
             # If we create a square with one exit, we must visit it next;
             # else somebody else will have to visit it, and since there's
@@ -1157,7 +1157,7 @@ class Knights:
             ne0 = ne1 = 0
             for i in succs[i0]:
                 s = succs[i]
-                s.remove(i0)
+                s.remove_creature(i0)
                 e = len(s)
                 if e == 0:
                     ne0 += 1
@@ -1206,7 +1206,7 @@ class Knights:
                 succs[final].append(corner)
                 self.lastij = this
                 yield this
-                succs[final].remove(corner)
+                succs[final].remove_creature(corner)
                 add_to_successors(this)
 
         # Generate moves 3 thru m*n-1.

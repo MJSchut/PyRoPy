@@ -436,7 +436,7 @@ class _TestQueue(BaseTestCase):
         time.sleep(DELTA)
         self.assertEqual(queue_empty(queue), False)
 
-        # Hangs unexpectedly, remove for now
+        # Hangs unexpectedly, remove_creature for now
         #self.assertEqual(queue.get(), 1)
         self.assertEqual(queue.get(True, None), 2)
         self.assertEqual(queue.get(True), 3)

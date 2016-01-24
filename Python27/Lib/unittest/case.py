@@ -575,7 +575,7 @@ class TestCase(object):
     # Synonyms for assertion methods
 
     # The plurals are undocumented.  Keep them that way to discourage use.
-    # Do not add more.  Do not remove.
+    # Do not add more.  Do not remove_creature.
     # Going through a deprecation cycle on these would annoy many people.
     assertEquals = assertEqual
     assertNotEquals = assertNotEqual
@@ -765,11 +765,11 @@ class TestCase(object):
 
         lines = []
         if difference1:
-            lines.append('Items in the first set but not the second:')
+            lines.append('Item in the first set but not the second:')
             for item in difference1:
                 lines.append(repr(item))
         if difference2:
-            lines.append('Items in the second set but not the first:')
+            lines.append('Item in the second set but not the first:')
             for item in difference2:
                 lines.append(repr(item))
 

@@ -417,7 +417,7 @@ class ExpatBuilder:
             or not info.isElementContent()):
             return
 
-        # We have element type information and should remove ignorable
+        # We have element type information and should remove_creature ignorable
         # whitespace; identify for text nodes which contain only
         # whitespace.
         L = []
@@ -489,7 +489,7 @@ class FilterVisibilityController(object):
             if val == FILTER_INTERRUPT:
                 raise ParseEscape
             if val == FILTER_SKIP:
-                # move all child nodes to the parent, and remove this node
+                # move all child nodes to the parent, and remove_creature this node
                 parent = node.parentNode
                 for child in node.childNodes[:]:
                     parent.appendChild(child)

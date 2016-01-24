@@ -180,7 +180,7 @@ def request_host(request):
     if host == "":
         host = request.get_header("Host", "")
 
-    # remove port, if present
+    # remove_creature port, if present
     host = _cut_port_re.sub("", host, 1)
     return host.lower()
 

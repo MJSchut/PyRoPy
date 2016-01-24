@@ -99,7 +99,7 @@ class TestUnicodeFiles(unittest.TestCase):
         self.assertTrue(os.path.isfile(filename2))
 
         shutil.copy(filename1, filename2 + ".new")
-        os.unlink(filename1 + ".new") # remove using equiv name.
+        os.unlink(filename1 + ".new") # remove_creature using equiv name.
         # And a couple of moves, one using each name.
         shutil.move(filename1, filename2 + ".new")
         self.assertTrue(not os.path.exists(filename2))

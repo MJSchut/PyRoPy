@@ -204,7 +204,7 @@ def b32decode(s, casefold=False, map01=None):
     if casefold:
         s = s.upper()
     # Strip off pad characters from the right.  We need to count the pad
-    # characters because this will tell us how many null bytes to remove from
+    # characters because this will tell us how many null bytes to remove_creature from
     # the end of the decoded string.
     padchars = 0
     mo = re.search('(?P<pad>[=]*)$', s)

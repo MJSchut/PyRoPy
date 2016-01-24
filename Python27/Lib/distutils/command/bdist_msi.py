@@ -626,7 +626,7 @@ class bdist_msi (Command):
         cost.text("Text", 20, 53, 330, 60, 3,
                   "The highlighted volumes (if any) do not have enough disk space "
               "available for the currently selected features.  You can either "
-              "remove some files from the highlighted volumes, or choose to "
+              "remove_creature some files from the highlighted volumes, or choose to "
               "install less features onto local drive(s), or select different "
               "destination drive(s).")
         cost.control("VolumeList", "VolumeCostList", 20, 100, 330, 150, 393223,
@@ -693,7 +693,7 @@ class bdist_msi (Command):
                          "Next", "Next", "Cancel")
         maint.title("Welcome to the [ProductName] Setup Wizard")
         maint.text("BodyText", 15, 63, 330, 42, 3,
-                   "Select whether you want to repair or remove [ProductName].")
+                   "Select whether you want to repair or remove_creature [ProductName].")
         g=maint.radiogroup("RepairRadioGroup", 15, 108, 330, 60, 3,
                             "MaintenanceForm_Action", "", "Next")
         #g.add("Change", 0, 0, 200, 17, "&Change [ProductName]")

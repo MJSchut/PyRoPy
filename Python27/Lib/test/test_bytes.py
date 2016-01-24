@@ -673,7 +673,7 @@ class ByteArrayTest(BaseBytesTest):
         self.assertRaises(ValueError, lambda: b.remove(ord('l')))
         self.assertRaises(ValueError, lambda: b.remove(400))
         self.assertRaises(TypeError, lambda: b.remove(u'e'))
-        # remove first and last
+        # remove_creature first and last
         b.remove(ord('o'))
         b.remove(ord('h'))
         self.assertEqual(b, b'e')

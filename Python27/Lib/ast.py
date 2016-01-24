@@ -259,7 +259,7 @@ class NodeTransformer(NodeVisitor):
     allows modification of nodes.
 
     The `NodeTransformer` will walk the AST and use the return value of the
-    visitor methods to replace or remove the old node.  If the return value of
+    visitor methods to replace or remove_creature the old node.  If the return value of
     the visitor method is ``None``, the node will be removed from its location,
     otherwise it is replaced with the return value.  The return value may be the
     original node in which case no replacement takes place.

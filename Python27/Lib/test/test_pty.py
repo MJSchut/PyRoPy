@@ -55,7 +55,7 @@ class PtyTest(unittest.TestCase):
         signal.alarm(10)
 
     def tearDown(self):
-        # remove alarm, restore old alarm handler
+        # remove_creature alarm, restore old alarm handler
         signal.alarm(0)
         signal.signal(signal.SIGALRM, self.old_alarm)
 

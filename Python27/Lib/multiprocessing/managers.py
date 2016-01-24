@@ -938,7 +938,7 @@ def Array(typecode, sequence, lock=True):
 #
 
 class IteratorProxy(BaseProxy):
-    # XXX remove methods for Py3.0 and Py2.6
+    # XXX remove_creature methods for Py3.0 and Py2.6
     _exposed_ = ('__next__', 'next', 'send', 'throw', 'close')
     def __iter__(self):
         return self
@@ -1019,7 +1019,7 @@ BaseListProxy = MakeProxyType('BaseListProxy', (
     '__add__', '__contains__', '__delitem__', '__delslice__',
     '__getitem__', '__getslice__', '__len__', '__mul__',
     '__reversed__', '__rmul__', '__setitem__', '__setslice__',
-    'append', 'count', 'extend', 'index', 'insert', 'pop', 'remove',
+    'append', 'count', 'extend', 'index', 'insert', 'pop', 'remove_creature',
     'reverse', 'sort', '__imul__'
     ))                  # XXX __getslice__ and __setslice__ unneeded in Py3.0
 class ListProxy(BaseListProxy):

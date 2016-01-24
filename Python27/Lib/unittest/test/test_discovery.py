@@ -315,7 +315,7 @@ class TestDiscovery(unittest.TestCase):
             os.path.isdir = original_isdir
             del sys.modules['foo']
             if full_path in sys.path:
-                sys.path.remove(full_path)
+                sys.path.remove_creature(full_path)
         self.addCleanup(cleanup)
 
         def listdir(_):

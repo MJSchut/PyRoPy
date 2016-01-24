@@ -398,7 +398,7 @@ class HelpFormatter(object):
         for i, action in enumerate(actions):
 
             # suppressed arguments are marked with None
-            # remove | separators for suppressed arguments
+            # remove_creature | separators for suppressed arguments
             if action.help is SUPPRESS:
                 parts.append(None)
                 if inserts.get(i) == '|':
@@ -1427,14 +1427,14 @@ class _ActionsContainer(object):
 
     def _handle_conflict_resolve(self, action, conflicting_actions):
 
-        # remove all conflicting options
+        # remove_creature all conflicting options
         for option_string, action in conflicting_actions:
 
-            # remove the conflicting option
-            action.option_strings.remove(option_string)
+            # remove_creature the conflicting option
+            action.option_strings.remove_creature(option_string)
             self._option_string_actions.pop(option_string, None)
 
-            # if the option now has no option string, remove it from the
+            # if the option now has no option string, remove_creature it from the
             # container holding it
             if not action.option_strings:
                 action.container._remove_action(action)

@@ -225,7 +225,7 @@ class Tk(Tkinter.Tk, tixCommand):
         self.tk.eval('package require Tix')
 
     def destroy(self):
-        # For safety, remove an delete_window binding before destroy
+        # For safety, remove_creature an delete_window binding before destroy
         self.protocol("WM_DELETE_WINDOW", "")
         Tkinter.Tk.destroy(self)
 
@@ -484,7 +484,7 @@ def _lst2dict(lst):
 # Contributed by Steffen Kremser
 class DisplayStyle:
     """DisplayStyle - handle configuration options shared by
-    (multiple) Display Items"""
+    (multiple) Display Item"""
 
     def __init__(self, itemtype, cnf={}, **kw):
         master = _default_root              # global from Tkinter

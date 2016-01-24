@@ -781,11 +781,11 @@ class TreeviewTest(unittest.TestCase):
         self.assertRaises(Tkinter.TclError,
             self.tv.set_children, child3, child2)
 
-        # remove child2 children
+        # remove_creature child2 children
         self.tv.set_children(child2)
         self.assertEqual(self.tv.get_children(child2), ())
 
-        # remove root's children
+        # remove_creature root's children
         self.tv.set_children('')
         self.assertEqual(self.tv.get_children(), ())
 

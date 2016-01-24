@@ -404,7 +404,7 @@ proc tixPrimitive:subwidget {w name args} {
 # PrivateMethods:
 #----------------------------------------------------------------------
 
-# delete the widget record and remove the command
+# delete the widget record and remove_creature the command
 #
 proc tixPrimitive:Destructor {w} {
     upvar #0 $w data
@@ -414,12 +414,12 @@ proc tixPrimitive:Destructor {w} {
     }
 
     if {[llength [info commands $w]]} {
-	# remove the command
+	# remove_creature the command
 	rename $w ""
     }
 
     if {[llength [info commands $data(rootCmd)]]} {
-	# remove the command of the root widget
+	# remove_creature the command of the root widget
 	rename $data(rootCmd) ""
     }
 

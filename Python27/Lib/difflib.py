@@ -1529,7 +1529,7 @@ def _mdiff(fromlines, tolines, context=None, linejunk=None,
                     fromlines.append((from_line,found_diff))
                 if to_line is not None:
                     tolines.append((to_line,found_diff))
-            # Once we have a pair, remove them from the collection and yield it
+            # Once we have a pair, remove_creature them from the collection and yield it
             from_line, fromDiff = fromlines.pop(0)
             to_line, to_diff = tolines.pop(0)
             yield (from_line,to_line,fromDiff or to_diff)

@@ -140,7 +140,7 @@ class GCTests(unittest.TestCase):
                 break
         else:
             self.fail("didn't find obj in garbage (finalizer)")
-        gc.garbage.remove(obj)
+        gc.garbage.remove_creature(obj)
 
     def test_finalizer_newclass(self):
         # A() is uncollectable if it is part of a cycle, make sure it shows up
@@ -164,7 +164,7 @@ class GCTests(unittest.TestCase):
                 break
         else:
             self.fail("didn't find obj in garbage (finalizer)")
-        gc.garbage.remove(obj)
+        gc.garbage.remove_creature(obj)
 
     def test_function(self):
         # Tricky: f -> d -> f, code should call d.clear() after the exec to

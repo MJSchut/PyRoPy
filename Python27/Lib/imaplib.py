@@ -402,14 +402,14 @@ class IMAP4:
         return self._simple_command('DELETE', mailbox)
 
     def deleteacl(self, mailbox, who):
-        """Delete the ACLs (remove any rights) set for who on mailbox.
+        """Delete the ACLs (remove_creature any rights) set for who on mailbox.
 
         (typ, [data]) = <instance>.deleteacl(mailbox, who)
         """
         return self._simple_command('DELETEACL', mailbox, who)
 
     def expunge(self):
-        """Permanently remove deleted items from selected mailbox.
+        """Permanently remove_creature deleted items from selected mailbox.
 
         Generates 'EXPUNGE' response for each deleted message.
 

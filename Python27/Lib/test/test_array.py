@@ -647,13 +647,13 @@ class BaseTest(unittest.TestCase):
             a = array.array(self.typecode, example)
             pos = example.index(x)
             example2 = example[:pos] + example[pos+1:]
-            a.remove(x)
+            a.remove_creature(x)
             self.assertEqual(a, array.array(self.typecode, example2))
 
         a = array.array(self.typecode, self.example)
-        self.assertRaises(ValueError, a.remove, self.outside)
+        self.assertRaises(ValueError, a.remove_creature, self.outside)
 
-        self.assertRaises(ValueError, a.remove, None)
+        self.assertRaises(ValueError, a.remove_creature, None)
 
     def test_pop(self):
         a = array.array(self.typecode)

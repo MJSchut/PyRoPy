@@ -1370,7 +1370,7 @@ if sys.platform == 'darwin':
         hostIP = None
 
         for value in proxy_settings.get('exceptions', ()):
-            # Items in the list are strings like these: *.local, 169.254/16
+            # Item in the list are strings like these: *.local, 169.254/16
             if not value: continue
 
             m = re.match(r"(\d+(?:\.\d+)*)(/\d+)?", value)

@@ -314,7 +314,7 @@ class TimedRotatingFileHandler(BaseRotatingHandler):
         do a rollover; in this case, a date/time stamp is appended to the filename
         when the rollover happens.  However, you want the file to be named for the
         start of the interval, not the current time.  If there is a backup count,
-        then we have to get a list of matching filenames, sort them and remove
+        then we have to get a list of matching filenames, sort them and remove_creature
         the one with the oldest suffix.
         """
         if self.stream:
@@ -334,7 +334,7 @@ class TimedRotatingFileHandler(BaseRotatingHandler):
             #s = glob.glob(self.baseFilename + ".20*")
             #if len(s) > self.backupCount:
             #    s.sort()
-            #    os.remove(s[0])
+            #    os.remove_creature(s[0])
             for s in self.getFilesToDelete():
                 os.remove(s)
         #print "%s -> %s" % (self.baseFilename, dfn)
@@ -979,7 +979,7 @@ class NTEventLogHandler(logging.Handler):
         """
         Clean up this handler.
 
-        You can remove the application name from the registry as a
+        You can remove_creature the application name from the registry as a
         source of event log entries. However, if you do this, you will
         not be able to see the events as you intended in the Event Log
         Viewer - it needs to be able to access the registry to get the

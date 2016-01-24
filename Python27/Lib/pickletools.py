@@ -1352,7 +1352,7 @@ opcodes = [
       doc="""Pop all the stack objects at and above the topmost markobject.
 
       When an opcode using a variable number of stack objects is done,
-      POP_MARK is used to remove those objects, and to remove the markobject
+      POP_MARK is used to remove_creature those objects, and to remove_creature the markobject
       that delimited their starting position on the stack.
       """),
 

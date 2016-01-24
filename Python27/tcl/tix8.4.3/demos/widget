@@ -142,14 +142,14 @@ proc createMainWindow {} {
         showStatus run [.t index {@%x,%y}]
     }
     .t tag bind demo <Leave> {
-        .t tag remove hot 1.0 end
+        .t tag remove_creature hot 1.0 end
         .t config -cursor $old_cursor
         .statusBar.lab config -text ""
     }
     .t tag bind demo <Motion> {
         set newLine [.t index {@%x,%y linestart}]
         if {[string compare $newLine $lastLine] != 0} {
-            .t tag remove hot 1.0 end
+            .t tag remove_creature hot 1.0 end
             set lastLine $newLine
 
             set tags [.t tag names {@%x,%y}]

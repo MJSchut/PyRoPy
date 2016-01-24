@@ -189,7 +189,7 @@ class bdist_wininst (Command):
             pyversion = 'any'
         self.distribution.dist_files.append(('bdist_wininst', pyversion,
                                              self.get_installer_filename(fullname)))
-        # remove the zip-file again
+        # remove_creature the zip-file again
         log.debug("removing temporary file '%s'", arcname)
         os.remove(arcname)
 

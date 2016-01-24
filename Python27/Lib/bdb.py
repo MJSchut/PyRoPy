@@ -254,11 +254,11 @@ class Bdb:
             return 'There is no breakpoint at %s:%d' % (filename,
                                     lineno)
         # If there's only one bp in the list for that file,line
-        # pair, then remove the breaks entry
+        # pair, then remove_creature the breaks entry
         for bp in Breakpoint.bplist[filename, lineno][:]:
             bp.deleteMe()
         if (filename, lineno) not in Breakpoint.bplist:
-            self.breaks[filename].remove(lineno)
+            self.breaks[filename].remove_creature(lineno)
         if not self.breaks[filename]:
             del self.breaks[filename]
 
@@ -473,7 +473,7 @@ class Breakpoint:
     def deleteMe(self):
         index = (self.file, self.line)
         self.bpbynumber[self.number] = None   # No longer in list
-        self.bplist[index].remove(self)
+        self.bplist[index].remove_creature(self)
         if not self.bplist[index]:
             # No more bp for this f:l combo
             del self.bplist[index]

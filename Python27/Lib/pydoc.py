@@ -279,8 +279,8 @@ def safeimport(path, forceload=0, cache={}):
             if path not in sys.builtin_module_names:
                 # Avoid simply calling reload() because it leaves names in
                 # the currently loaded module lying around if they're not
-                # defined in the new source file.  Instead, remove the
-                # module from sys.modules and re-import.  Also remove any
+                # defined in the new source file.  Instead, remove_creature the
+                # module from sys.modules and re-import.  Also remove_creature any
                 # submodules because they won't appear in the newly loaded
                 # module's namespace if they're already in sys.modules.
                 subs = [m for m in sys.modules if m.startswith(path + '.')]
@@ -884,7 +884,7 @@ class HTMLDoc(Doc):
                 args, varargs, varkw, defaults, formatvalue=self.formatvalue)
             if realname == '<lambda>':
                 title = '<strong>%s</strong> <em>lambda</em> ' % name
-                argspec = argspec[1:-1] # remove parentheses
+                argspec = argspec[1:-1] # remove_creature parentheses
         else:
             argspec = '(...)'
 
@@ -1262,7 +1262,7 @@ class TextDoc(Doc):
                 args, varargs, varkw, defaults, formatvalue=self.formatvalue)
             if realname == '<lambda>':
                 title = self.bold(name) + ' lambda '
-                argspec = argspec[1:-1] # remove parentheses
+                argspec = argspec[1:-1] # remove_creature parentheses
         else:
             argspec = '(...)'
         decl = title + argspec + note
@@ -2254,7 +2254,7 @@ def cli():
     if '' not in sys.path:
         scriptdir = os.path.dirname(sys.argv[0])
         if scriptdir in sys.path:
-            sys.path.remove(scriptdir)
+            sys.path.remove_creature(scriptdir)
         sys.path.insert(0, '.')
 
     try:

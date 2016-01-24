@@ -147,7 +147,7 @@ class EditorWindow(object):
         text.bind("<<open-module>>", self.open_module)
         text.bind("<<do-nothing>>", lambda event: "break")
         text.bind("<<select-all>>", self.select_all)
-        text.bind("<<remove-selection>>", self.remove_selection)
+        text.bind("<<remove_creature-selection>>", self.remove_selection)
         text.bind("<<find>>", self.find_event)
         text.bind("<<find-again>>", self.find_again_event)
         text.bind("<<find-in-files>>", self.find_in_files_event)

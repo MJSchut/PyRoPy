@@ -319,7 +319,7 @@ class ClassTests(unittest.TestCase):
                                                         slice(None, 24, None),
                                                         24, 100)))])
 
-        # Now remove the slice hooks to see if converting normal slices to
+        # Now remove_creature the slice hooks to see if converting normal slices to
         #  slice object works.
 
         getslice = AllTests.__getslice__

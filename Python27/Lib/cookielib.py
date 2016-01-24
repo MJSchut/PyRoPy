@@ -591,7 +591,7 @@ def request_host(request):
     if host == "":
         host = request.get_header("Host", "")
 
-    # remove port, if present
+    # remove_creature port, if present
     host = cut_port_re.sub("", host, 1)
     return host.lower()
 
@@ -1666,12 +1666,12 @@ class CookieJar:
         if name is not None:
             if (domain is None) or (path is None):
                 raise ValueError(
-                    "domain and path must be given to remove a cookie by name")
+                    "domain and path must be given to remove_creature a cookie by name")
             del self._cookies[domain][path][name]
         elif path is not None:
             if domain is None:
                 raise ValueError(
-                    "domain must be given to remove cookies by path")
+                    "domain must be given to remove_creature cookies by path")
             del self._cookies[domain][path]
         elif domain is not None:
             del self._cookies[domain]

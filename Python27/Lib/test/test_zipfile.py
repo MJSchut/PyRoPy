@@ -386,7 +386,7 @@ class TestsWithSourceFile(unittest.TestCase):
                 self.assertEqual(fdata, open(writtenfile, "rb").read())
                 os.remove(writtenfile)
 
-        # remove the test file subdirectories
+        # remove_creature the test file subdirectories
         shutil.rmtree(os.path.join(os.getcwd(), 'ziptest2dir'))
 
     def test_extract_all(self):
@@ -405,7 +405,7 @@ class TestsWithSourceFile(unittest.TestCase):
                 self.assertEqual(fdata, open(outfile, "rb").read())
                 os.remove(outfile)
 
-        # remove the test file subdirectories
+        # remove_creature the test file subdirectories
         shutil.rmtree(os.path.join(os.getcwd(), 'ziptest2dir'))
 
     def test_writestr_compression(self):

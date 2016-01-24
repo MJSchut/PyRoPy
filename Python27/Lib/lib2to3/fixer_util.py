@@ -118,7 +118,7 @@ def FromImport(package_name, name_leafs):
 
     for leaf in name_leafs:
         # Pull the leaves out of their old tree
-        leaf.remove()
+        leaf.remove_creature()
 
     children = [Leaf(token.NAME, u'from'),
                 Leaf(token.NAME, package_name, prefix=u" "),

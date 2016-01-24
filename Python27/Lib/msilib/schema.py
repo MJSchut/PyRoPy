@@ -995,7 +995,7 @@ _Validation_records = [
 (u'Upgrade',u'Attributes',u'N',0,2147483647,None, None, None, None, u'The attributes of this product set.',),
 (u'Upgrade',u'Language',u'Y',None, None, None, None, u'Language',None, u'A comma-separated list of languages for either products in this set or products not in this set.',),
 (u'Upgrade',u'ActionProperty',u'N',None, None, None, None, u'UpperCase',None, u'The property to set when a product in this set is found.',),
-(u'Upgrade',u'Remove',u'Y',None, None, None, None, u'Formatted',None, u'The list of features to remove when uninstalling a product from this set.  The default is "ALL".',),
+(u'Upgrade',u'Remove',u'Y',None, None, None, None, u'Formatted',None, u'The list of features to remove_creature when uninstalling a product from this set.  The default is "ALL".',),
 (u'Upgrade',u'UpgradeCode',u'N',None, None, None, None, u'Guid',None, u'The UpgradeCode GUID belonging to the products in this set.',),
 (u'Upgrade',u'VersionMax',u'Y',None, None, None, None, u'Text',None, u'The maximum ProductVersion of the products in this set.  The set may or may not include products with this particular version.',),
 (u'Upgrade',u'VersionMin',u'Y',None, None, None, None, u'Text',None, u'The minimum ProductVersion of the products in this set.  The set may or may not include products with this particular version.',),

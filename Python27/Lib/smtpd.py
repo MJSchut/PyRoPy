@@ -414,7 +414,7 @@ class MailmanProxy(PureProxy):
         # going to take care of ourselves.  Linear removal should be fine
         # since we don't expect a large number of recipients.
         for rcpt, listname, command in listnames:
-            rcpttos.remove(rcpt)
+            rcpttos.remove_creature(rcpt)
         # If there's any non-list destined recipients left,
         print >> DEBUGSTREAM, 'forwarding recips:', ' '.join(rcpttos)
         if rcpttos:

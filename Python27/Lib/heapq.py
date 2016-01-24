@@ -66,7 +66,7 @@ that a cell and the two cells it tops contain three different items,
 but the top cell "wins" over the two topped cells.
 
 If this heap invariant is protected at all time, index 0 is clearly
-the overall winner.  The simplest algorithmic way to remove it and
+the overall winner.  The simplest algorithmic way to remove_creature it and
 find the "next" winner is to move some loser (let's say cell 30 in the
 diagram above) into the 0 position, and then percolate this new 0 down
 the tree, exchanging values, until the invariant is re-established.
@@ -343,7 +343,7 @@ def merge(*iterables):
                 s[0] = next()               # raises StopIteration when exhausted
                 _heapreplace(h, s)          # restore heap condition
         except _StopIteration:
-            _heappop(h)                     # remove empty iterator
+            _heappop(h)                     # remove_creature empty iterator
         except IndexError:
             return
 

@@ -74,7 +74,7 @@ def get_logger():
                 atexit.unregister(_exit_function)
                 atexit.register(_exit_function)
             else:
-                atexit._exithandlers.remove((_exit_function, (), {}))
+                atexit._exithandlers.remove_creature((_exit_function, (), {}))
                 atexit._exithandlers.append((_exit_function, (), {}))
 
     finally:

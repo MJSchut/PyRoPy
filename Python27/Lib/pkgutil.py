@@ -410,7 +410,7 @@ def iter_importers(fullname=""):
     the emulation will find the former version, while the builtin
     import mechanism will find the latter.
 
-    Items of the following types can be affected by this discrepancy:
+    Item of the following types can be affected by this discrepancy:
         imp.C_EXTENSION, imp.PY_SOURCE, imp.PY_COMPILED, imp.PKG_DIRECTORY
     """
     if fullname.startswith('.'):
@@ -494,10 +494,10 @@ def extend_path(path, name):
 
     If the input path is not a list (as is the case for frozen
     packages) it is returned unchanged.  The input path is not
-    modified; an extended copy is returned.  Items are only appended
+    modified; an extended copy is returned.  Item are only appended
     to the copy at the end.
 
-    It is assumed that sys.path is a sequence.  Items of sys.path that
+    It is assumed that sys.path is a sequence.  Item of sys.path that
     are not (unicode or 8-bit) strings referring to existing
     directories are ignored.  Unicode items of sys.path that cause
     errors when used as filenames may cause this function to raise an
