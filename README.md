@@ -30,7 +30,6 @@ Field of view has been implemented, level generation has been expanded upon. Cur
 I'm using a miner cave generation algorithm. Pretty cool! Next up: adding more levels to
 our cave, making combat more involved than rubbing your face against creatures.
 
----
 
 - 0.01e: Combat has been expanded, message system is more coherent. Level generation
 is quite basic, but functioning. One more version and then we push to 0.02.
@@ -42,6 +41,8 @@ is still a bit lacking. I'll work on it once we get some semblance of a
 game going.
 - 0.01a: Bare bones, an @ moves around the screen. Nothing much to see
 yet.
+
+---
 
 DISCLAIMER:
 This program is free software: you can redistribute it and/or modify it
