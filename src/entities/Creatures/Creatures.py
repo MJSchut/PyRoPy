@@ -6,6 +6,8 @@ from src.entities.Entity import Entity
 from src.gui.GUI import InventoryMenu
 from src.gui.GUI import DropMenu
 from src.gui.GUI import EatMenu
+from src.gui.GUI import EquipMenu
+from src.gui.GUI import WearMenu
 from src.entities.items.Items import Item
 from src.ai.CreatureAi import CreatureAi
 from src.entities.items.Inventory import Inventory
@@ -29,23 +31,30 @@ class Creature(Entity):
         super(Creature, self).__init__(lbt, con, level, char, color)
         self.maxhp = 3
         self.hp = self.maxhp
+        self.cause_of_death = 'Plain old bad luck'
+        self.alive = True
+
         self.maxhunger = -1
         self.hunger = -1
+        self.hunger_value = ' '
+        self.corpse_nutrition = 0
+        self.taste = 'bland'
+
         self.attack = 0
         self.attack_effect = None
         self.attack_effectduration = 3
         self.crit_chance = 0.01
+
         self.defence = 0
+
         self.ai = CreatureAi(self)
-        self.vision_radius = 7
+        self.vision_radius = 11
+
         self.effect_list = []
-        self.hunger_value = ' '
-        self.cause_of_death = 'Plain old bad luck'
-        self.corpse_nutrition = 0
-        self.taste = 'bland'
-        self.alive = True
+
         self.inventory = None
-        self.inv_size = 10
+        self.inv_size = 15
+        self.limbs = []
 
     def set_maxhp(self, hp):
         self.maxhp = hp
@@ -90,8 +99,14 @@ class Creature(Entity):
 
     def attack_creature(self, creature):
         creature.ai.on_attacked(self)
-
-        amnt = max(0, self.attack - creature.defence)
+        item = None
+        items = []
+        amnt = max(0, self.attack - creature.get_defence())
+        for limb in self.limbs:
+            item = limb.holding
+            if item is not None:
+                amnt += (item.attack_val - creature.get_defence())
+                items.append(item)
         r = random.random()
 
         if self.attack_effect is not None:
@@ -103,13 +118,27 @@ class Creature(Entity):
             self.notify('You violently attack the %s for %d damage!' %(creature.type, amnt))
             creature.notify('The %s attacks you with great force for %d damage!!' %(self.type, amnt))
         else:
-            self.notify("You attack the %s for %d damage." %(creature.type, amnt))
-            creature.notify("The %s attacks you for %d damage." %(self.type, amnt))
+            itemamnt = len(items)
+            if itemamnt > 0:
+                for item in items:
+                    self.notify("You attack the %s with your %s for %d damage" %(creature.type, item.name, amnt/itemamnt))
+                    creature.notify("The %s attacks you for %d damage" %(self.type,amnt))
+            else:
+                self.notify("You attack the %s for %d damage." %(creature.type, amnt))
+                creature.notify("The %s attacks you for %d damage." %(self.type, amnt))
 
         creature.hurt(amnt)
 
     def set_defence(self, defence):
         self.defence = defence
+
+    def get_defence(self):
+        idefence = 0
+        for limb in self.limbs:
+            if limb.wearing is not None:
+                item = limb.wearing
+                idefence += item.defence_val
+        return self.defence + idefence
 
     def set_Ai(self, ai):
         self.ai = ai
@@ -118,7 +147,7 @@ class Creature(Entity):
         self.vision_radius = radius
 
     def can_see(self, x, y):
-        self.ai.can_see(x, y)
+        return self.ai.can_see(x, y)
 
     def add_effect(self, effect):
         self.effect_list.append(effect)
@@ -192,12 +221,79 @@ class Creature(Entity):
     def set_corpse_nutrition(self, value):
         self.corpse_nutrition = value
 
+    def add_limb(self, limb):
+        self.limbs.append(limb)
+
+    def check_for_limb(self, limbtype):
+        for limb in self.limbs:
+            if type(limb) == limbtype:
+                return True
+        return False
+
+    def wear(self, item):
+        limbtowear = None
+        for limb in self.limbs:
+            if type(limb) == item.wearon:
+                limbtowear = limb
+                break
+
+        if limbtowear is not None:
+            self.wear_on_limbtype(item, type(limbtowear))
+            self.inventory.sort()
+
+    def wear_on_limbtype(self, item, limbtype):
+        if not item.wearable:
+            self.doAction('cannot wear a %s' %item.name)
+            return
+
+        if item.worn:
+            self.take_off_item(item)
+            return
+
+        for limb in self.limbs:
+            if type(limb) == limbtype and limb.wearing is None:
+                limb.wearing = item
+                self.doAction('put the %s on your %s' %(item.name, limb.name))
+                item.worn = True
+                return
+
+    def equip_to_limbtype(self, item, limbtype):
+        if not item.holdable:
+            self.doAction('cannot equip a %s' %item.name)
+            return
+
+        if item.equipped:
+            self.unequip_item(item)
+            return
+
+        for limb in self.limbs:
+            if type(limb) == limbtype and limb.holding is None:
+                limb.holding = item
+                self.doAction('equip the %s to %s' %(item.name, limb.name))
+                item.equipped = True
+                return
+
+    def unequip_item(self, item):
+        for limb in self.limbs:
+            if limb.holding is item:
+                self.doAction('unequip the %s' %item.name)
+                limb.holding = None
+                item.equipped = False
+
+    def take_off_item(self, item):
+        for limb in self.limbs:
+            if limb.wearing is item:
+                self.doAction('take off the %s' %item.name)
+                limb.wearing = None
+                item.worn = False
+
     def notify(self, message):
         if self.ai is not None:
             self.ai.on_notify(str(message))
         else:
             self = None
 
+    # TODO: a to an
     def doAction(self, message):
         r = 9
         for ox in range(-r, r+1):
@@ -225,6 +321,8 @@ class Player(Creature):
         self.inventorymenu = InventoryMenu(lbt, con, 'Inventory', self)
         self.dropmenu = DropMenu(lbt, con, 'Drop items', self)
         self.eatmenu = EatMenu(lbt, con, 'Eat stuff', self)
+        self.equipmenu = EquipMenu(lbt, con, 'Equip stuff', self)
+        self.wearmenu = WearMenu(lbt, con, 'Wear stuff', self)
 
     def show_inventory(self):
         self.inventorymenu.update(options=self.inventory, header = 'Inventory: %s/%s' %(self.inventory.get_fill(), self.inv_size))
@@ -246,3 +344,19 @@ class Player(Creature):
             self.eatmenu.update(options = self.inventory.get_edible_items(), header = 'Eat stuff')
 
         self.eatmenu.draw()
+
+    def show_equip_menu(self):
+        if self.inventory.get_equipable_items() == [None] * len(self.inventory.get_equipable_items()):
+            self.equipmenu.update(options = [None for i in range(10)], header = 'Nothing to equip')
+        else:
+            self.equipmenu.update(options = self.inventory.get_equipable_items(), header = 'Equip stuff')
+
+        self.equipmenu.draw()
+
+    def show_wear_menu(self):
+        if self.inventory.get_wearable_items() == [None] * len(self.inventory.get_wearable_items()):
+            self.wearmenu.update(options = [None for i in range(10)], header = 'Nothing to wear')
+        else:
+            self.wearmenu.update(options = self.inventory.get_wearable_items(), header = 'Wear stuff')
+
+        self.wearmenu.draw()

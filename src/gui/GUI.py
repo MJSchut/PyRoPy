@@ -56,6 +56,10 @@ class Menu(object):
                     letter_index += 1
                     continue
                 option_text = option_item.get_name()
+                if option_item.equipped:
+                    option_text += '    [E]'
+                if option_item.worn:
+                    option_text += '    [W]'
                 text = '(' + chr(letter_index) + ') ' + option_text
                 self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_NONE,
                                           self.lbt.LEFT, text)
@@ -69,7 +73,12 @@ class Menu(object):
                     y += 1
                     letter_index += 1
                     continue
+
                 option_text = option_item.get_name()
+                if option_item.equipped:
+                    option_text += '    [E]'
+                if option_item.worn:
+                    option_text += '    [W]'
                 text = '(' + chr(letter_index) + ') ' + option_text
                 self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_NONE,
                                           self.lbt.LEFT, text)
@@ -134,6 +143,10 @@ class InventoryMenu(Menu):
             options2.append('drop')
             if item.nutrition != 0:
                 options2.append('eat')
+
+            if item.equipment:
+                options2.append('wear')
+            options2.append('brandish')
             popup = Menu(self.lbt, self.con, 'Do what with %s?' %item.name, options2, constants.INVENTORY_WIDTH - 3)
             popup.update()
             popup.draw_submenu()
@@ -145,6 +158,8 @@ class InventoryMenu(Menu):
                 self.player.drop(item)
             elif popup.key.c - ord('e') == 0:
                 self.player.eat(item)
+            elif popup.key.c - ord('w') == 0:
+                self.player.wear(item)
 
 class DropMenu(Menu):
     def __init__(self, lbt, con, header, player):
@@ -155,10 +170,17 @@ class DropMenu(Menu):
         super(DropMenu, self).draw()
 
         index = self.key.c - ord('a')
-        if index < 0 or index > len(self.options):
+        if type(self.options) == Inventory:
+            if index < 0 or index > self.options.get_len():
+                return
+        elif index < 0 or index > len(self.options):
             return
 
-        item = self.options[index]
+        if type(self.options) == Inventory:
+            items = self.options.get_items()
+            item = items[index]
+        else:
+            item = self.options[index]
         if item is not None:
             self.player.drop(item)
             self.player.inventory.sort()
@@ -181,4 +203,47 @@ class EatMenu(Menu):
         if item is not None:
             self.player.eat(item)
             self.player.inventory.sort()
+
+class EquipMenu(Menu):
+    def __init__(self, lbt, con, header, player):
+         self.player = player
+         super(EquipMenu, self).__init__(lbt, con, header,
+         self.player.inventory, constants.INVENTORY_WIDTH)
+
+    def draw(self):
+        super(EquipMenu, self).draw()
+
+        index = self.key.c - ord('a')
+        if index < 0 or index > len(self.options):
+            return
+
+        itemlist = self.player.inventory.get_equipable_items()
+        item = itemlist[index]
+        if item is not None:
+            limbtoequip = None
+            for limb in self.player.limbs:
+                if type(limb) == item.equipto:
+                    limbtoequip = limb
+                    break
+
+            if limbtoequip is not None:
+                self.player.equip_to_limbtype(item, type(limbtoequip))
+                self.player.inventory.sort()
+
+class WearMenu(Menu):
+    def __init__(self, lbt, con, header, player):
+         self.player = player
+         super(WearMenu, self).__init__(lbt, con, header,
+         self.player.inventory, constants.INVENTORY_WIDTH)
+
+    def draw(self):
+        super(WearMenu, self).draw()
+
+        index = self.key.c - ord('a')
+        if index < 0 or index > len(self.options):
+            return
+
+        itemlist = self.player.inventory.get_wearable_items()
+        item = itemlist[index]
+        self.player.wear(item)
 

@@ -57,3 +57,27 @@ class Inventory(object):
             e_items.append(None)
 
         return e_items
+
+    def get_wearable_items(self):
+        w_items = []
+        for x, item in enumerate(self.items):
+            if item is not None:
+                if item.wearable:
+                    w_items.append(item)
+
+        while len(w_items) < self.inv_size:
+            w_items.append(None)
+
+        return w_items
+
+    def get_equipable_items(self):
+        q_items = []
+        for x, item in enumerate(self.items):
+            if item is not None:
+                if item.holdable:
+                    q_items.append(item)
+
+        while len(q_items) < self.inv_size:
+            q_items.append(None)
+
+        return q_items

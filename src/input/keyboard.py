@@ -30,6 +30,10 @@ def handle_keys(lbt, key):
         keylist.append('dropmenu')
     if key_char == 'e':
         keylist.append('eatmenu')
+    if key_char == 'w':
+        keylist.append('wearmenu')
+    if key_char == 'q':
+        keylist.append('equipmenu')
 
     return keylist
 
@@ -44,6 +48,12 @@ def process_keylist(lbt, keylist, player):
         return
     if keylist[0] == 'dropmenu':
         player.show_drop_menu()
+        return
+    if keylist[0] == 'equipmenu':
+        player.show_equip_menu()
+        return
+    if keylist[0] == 'wearmenu':
+        player.show_wear_menu()
         return
     if keylist[0] == 'eatmenu':
         player.show_eat_menu()

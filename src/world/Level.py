@@ -24,7 +24,7 @@ class Level(object):
         self.level_height = level_height
 
         self.builder = LevelBuilder(self.level_width, self.level_height)
-        self.map = self.builder.make_dungeon()
+        self.map = self.builder.dig_cave()
 
     def check_for_creatures(self, x, y):
         for creature in self.creatures:
@@ -95,7 +95,6 @@ class Level(object):
         if x < 0 or y < 0 or x >= self.level_width or y >= self.level_height:
             return False
 
-        print self.map[x][y].blocked
         if self.map[x][y].blocked or self.check_for_creatures(x,y) is not None:
             return False
         else:

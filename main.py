@@ -98,6 +98,14 @@ rockcount = 25
 for rocki in range(0, rockcount):
     rock = iFactory.make_rock()
 
+swordcount = 10
+for swordi in range(0, swordcount):
+    sword = iFactory.make_sword()
+
+glovecount = 30
+for glovei in range(0, glovecount):
+    glove = iFactory.make_gauntlet()
+
 while not lbt.console_is_window_closed():
     # show stuff
     sx = getScrollX()
@@ -107,30 +115,35 @@ while not lbt.console_is_window_closed():
         for x in range(level.level_width):
             wx = x - sx
             wy = y - sy
-
             if 0 <= wx <= constants.SCREEN_WIDTH and 0 <= wy <= constants.SCREEN_HEIGHT:
 
                 lbt.console_set_char_background(con, wx, wy, level.map[x][y].color, lbt.BKGND_SET )
 
                 if level.map[x][y].char is not None:
-                    if level.map[x][y].front_color is not None:
+                    if level.map[x][y].front_color is not None and player.can_see(x, y):
                         lbt.console_set_default_foreground(con, level.map[x][y].front_color)
-                    else:
+                        lbt.console_put_char(con, wx, wy, level.map[x][y].char, lbt.BKGND_NONE)
+                    elif player.can_see(x, y):
                         lbt.console_set_default_foreground(con, lbt.white)
-
-                    lbt.console_put_char(con, wx, wy, level.map[x][y].char, lbt.BKGND_NONE)
+                        lbt.console_put_char(con, wx, wy, level.map[x][y].char, lbt.BKGND_NONE)
+                    else:
+                        lbt.console_set_default_foreground(con, constants.colors['darkness_color'])
+                        lbt.console_set_char_background(con, wx, wy, constants.colors['darkness_color'], lbt.BKGND_SET )
+                        lbt.console_put_char(con, wx, wy, constants.chars['darkness_char'], lbt.BKGND_NONE)
 
     for item in level.items:
-        wx = item.x - sx
-        wy = item.y - sy
-        item.draw(wx, wy)
+        if player.can_see(item.x, item.y):
+            wx = item.x - sx
+            wy = item.y - sy
+            item.draw(wx, wy)
 
     # player gets added to list first, but should be drawn last (over top of everything)
     # creatures get drawn over top of items
     for creature in reversed(level.creatures):
-        wx = creature.x - sx
-        wy = creature.y - sy
-        creature.draw(wx, wy)
+        if player.can_see(creature.x, creature.y):
+            wx = creature.x - sx
+            wy = creature.y - sy
+            creature.draw(wx, wy)
 
     lbt.console_blit(con, 0, 0, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 0, 0, 0)
 
@@ -155,7 +168,6 @@ while not lbt.console_is_window_closed():
     y = 1
     for i, line in enumerate(messages[0]):
         if len(messages[0]) >= constants.MSG_HEIGHT:
-            print 'delete item'
             del messages[0][0]
             del messages[1][0]
         lbt.console_set_default_foreground(constants.panel, linecolors[messages[1][i]])

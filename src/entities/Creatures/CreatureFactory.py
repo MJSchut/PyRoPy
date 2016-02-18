@@ -2,6 +2,7 @@ __author__ = 'Martijn Schut'
 
 from Creatures import Creature
 from Creatures import Player
+from src.entities.creatures.Limb import *
 
 from src import constants
 from src.ai.CreatureAi import PlayerAi
@@ -32,7 +33,12 @@ class CreatureFactory(object):
         player.set_defence(0)
         player.set_corpse_nutrition(100)
         player.set_taste('like chicken')
+        player.set_vision_radius(11)
         player.set_name(constants.player_name)
+
+        player.add_limb(Hand(player, None, 'right hand'))
+        player.add_limb(Hand(player, None, 'left hand'))
+
         self.level.add_at_empty_location(player)
 
         return player

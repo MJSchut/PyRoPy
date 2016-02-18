@@ -6,8 +6,8 @@ import random
 
 SCREEN_WIDTH = 64
 SCREEN_HEIGHT = 45
-MAP_WIDTH = 80
-MAP_HEIGHT = 60
+MAP_WIDTH = 180
+MAP_HEIGHT = 150
 LIMIT_FPS = 30
 DEBUG = 1
 
@@ -29,7 +29,7 @@ colors = {
     "floor_color_front" : lbt.Color(40, 40, 40),
     "wall_color" : lbt.Color(50, 50, 50),
     "wall_color_front" : lbt.Color(150, 110, 110),
-    "darkness_color" : lbt.Color(0, 0, 0),
+    "darkness_color" : lbt.Color(10, 10, 10),
 }
 
 chars = {
