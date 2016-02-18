@@ -3,12 +3,23 @@ Parts of this will follow the libtcod tutorial.
 
 Short instructions.
 Arrow keys to move
-g: pick up items
-i: bring up inventory
-q: equip items
-w: wear items
-d: drop items
-e: eat items
+- g: pick up items
+- i: bring up inventory
+- q: equip items
+- w: wear items
+- d: drop items
+- e: eat items
+
+---
+
+Features:
+Randomly generated cave system to explore!
+
+(Work in progress) Involved creature system. Creatures consist of limbs, ai, can equip items and much more.
+
+Effects system, items or creatures can poison other creatures.
+
+---
 
 UPDATE log
 - 0.02: The big one! Limb update, right now your character is just a set of hands though.
