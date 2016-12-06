@@ -26,8 +26,6 @@ class Menu(object):
                 self.length = self.options.get_len()
             else:
                 self.length = len(self.options)
-            if self.length > 26:
-                raise ValueError('Cannot have a menu with more than 26 options.')
 
             self.header_height = self.lbt.console_get_height_rect(self.con, 0, 0,
                                                                   self.width, constants.SCREEN_HEIGHT,
@@ -40,8 +38,9 @@ class Menu(object):
 
         #print the header, with auto-wrap
         self.lbt.console_set_default_foreground(self.window, self.lbt.white)
+        self.lbt.console_set_default_background(self.window, self.lbt.black)
         self.lbt.console_print_rect_ex(self.window, 0, 0, self.width, self.height,
-                                       self.lbt.BKGND_NONE, self.lbt.LEFT, self.header)
+                                       self.lbt.black, self.lbt.LEFT, self.header)
 
         #print all the options
         y = self.header_height
@@ -50,7 +49,7 @@ class Menu(object):
         if type(self.options) is not list:
             for option_item in self.options.get_items():
                 if option_item is None:
-                    self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_NONE,
+                    self.lbt.console_print_ex(self.window, 0, y, self.lbt.black,
                                           self.lbt.LEFT, ' ')
                     y += 1
                     letter_index += 1
@@ -61,14 +60,14 @@ class Menu(object):
                 if option_item.worn:
                     option_text += '    [W]'
                 text = '(' + chr(letter_index) + ') ' + option_text
-                self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_NONE,
+                self.lbt.console_print_ex(self.window, 0, y, self.lbt.black,
                                           self.lbt.LEFT, text)
                 y += 1
                 letter_index += 1
         else:
             for option_item in self.options:
                 if option_item is None:
-                    self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_NONE,
+                    self.lbt.console_print_ex(self.window, 0, y, self.lbt.black,
                                           self.lbt.LEFT, ' ')
                     y += 1
                     letter_index += 1
@@ -80,7 +79,7 @@ class Menu(object):
                 if option_item.worn:
                     option_text += '    [W]'
                 text = '(' + chr(letter_index) + ') ' + option_text
-                self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_NONE,
+                self.lbt.console_print_ex(self.window, 0, y, self.lbt.black,
                                           self.lbt.LEFT, text)
                 y += 1
                 letter_index += 1
@@ -96,9 +95,10 @@ class Menu(object):
         self.window = self.lbt.console_new(self.width, self.height)
 
         #print the header, with auto-wrap
+        self.lbt.console_set_default_background(self.window, self.lbt.black)
         self.lbt.console_set_default_foreground(self.window, self.lbt.white)
         self.lbt.console_print_rect_ex(self.window, 0, 0, self.width, self.height,
-                                       self.lbt.BKGND_NONE, self.lbt.LEFT, self.header)
+                                       self.lbt.BKGND_ADD, self.lbt.LEFT, self.header)
 
         #print all the options
         y = self.header_height
@@ -106,14 +106,14 @@ class Menu(object):
         for option_item in self.options:
             letter_index = ord(option_item[0])
             if option_item is None:
-                self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_NONE,
+                self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_ADD,
                                       self.lbt.LEFT, ' ')
                 y += 1
                 letter_index += 1
                 continue
             option_text = option_item
             text = '(' + chr(letter_index) + ') ' + option_text
-            self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_NONE,
+            self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_ADD,
                                       self.lbt.LEFT, text)
             y += 1
             letter_index += 1
@@ -144,9 +144,6 @@ class InventoryMenu(Menu):
             if item.nutrition != 0:
                 options2.append('eat')
 
-            if item.equipment:
-                options2.append('wear')
-            options2.append('brandish')
             popup = Menu(self.lbt, self.con, 'Do what with %s?' %item.name, options2, constants.INVENTORY_WIDTH - 3)
             popup.update()
             popup.draw_submenu()
@@ -158,8 +155,6 @@ class InventoryMenu(Menu):
                 self.player.drop(item)
             elif popup.key.c - ord('e') == 0:
                 self.player.eat(item)
-            elif popup.key.c - ord('w') == 0:
-                self.player.wear(item)
 
 class DropMenu(Menu):
     def __init__(self, lbt, con, header, player):
@@ -202,6 +197,25 @@ class EatMenu(Menu):
         item = itemlist[index]
         if item is not None:
             self.player.eat(item)
+            self.player.inventory.sort()
+
+class DrinkMenu(Menu):
+    def __init__(self, lbt, con, header, player):
+         self.player = player
+         super(DrinkMenu, self).__init__(lbt, con, header,
+         self.player.inventory, constants.INVENTORY_WIDTH)
+
+    def draw(self):
+        super(DrinkMenu, self).draw()
+
+        index = self.key.c - ord('a')
+        if index < 0 or index > len(self.options):
+            return
+
+        itemlist = self.player.inventory.get_drinkable_items()
+        item = itemlist[index]
+        if item is not None:
+            self.player.drink(item)
             self.player.inventory.sort()
 
 class EquipMenu(Menu):

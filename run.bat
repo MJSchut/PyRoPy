@@ -1,1 +1,1 @@
-"\Python27\python.exe" "main.py"
+"%~dp0\Python27\python.exe" "main.py"

@@ -45,6 +45,13 @@ class CreatureAi(object):
         for effect in self.creature.effect_list:
             effect.on_update()
 
+
+        if self.creature.inventory is not None:
+            for item in self.creature.inventory.get_items():
+                if item is None:
+                    continue
+                item.on_update()
+
     def on_attacked(self, attacker):
         pass
 
@@ -95,22 +102,18 @@ class PlayerAi(CreatureAi):
         item = self.level.check_for_items(x, y)
 
         if item is not None:
-            self.creature.doAction('see a %s lying here' %item.name)
+            self.creature.doAction('see a %s lying here' %item.get_name())
 
     def on_notify(self, message):
-        print self.messages
-        message_lines = textwrap.wrap(message, constants.MSG_WIDTH)
-        for x, line in enumerate(message_lines):
-            self.messages[0].append(line)
+        #print self.messages
+        #message_lines = textwrap.wrap(message, constants.MSG_WIDTH)
+        #for x, line in enumerate(message_lines):
+            self.messages[0].append(message)
             self.messages[1].append(0)
 
-            if len(self.messages) == constants.MSG_HEIGHT:
-                del self.messages[0]
 
 class FungusAi(CreatureAi):
     # A stationary creature that occasionally spawns new copies of itself
-
-    # TODO: spawn mutant versions of self that are more aggressive
 
     def __init__(self,creature, factory):
         super(FungusAi, self).__init__(creature)

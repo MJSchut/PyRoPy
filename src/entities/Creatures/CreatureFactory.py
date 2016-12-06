@@ -26,7 +26,7 @@ class CreatureFactory(object):
     def make_player(self, messages):
         player = Player(self.lbt, self.con, self.level)
         player.set_Ai(PlayerAi(player, messages, self.level))
-        player.activate_inventory()
+        player.set_inventory_size(26)
         player.set_maxhp(90 + random.randint(0,20))
         player.set_attack(3 + random.randint(0,1))
         player.set_maxhunger(1500)
@@ -34,14 +34,40 @@ class CreatureFactory(object):
         player.set_corpse_nutrition(100)
         player.set_taste('like chicken')
         player.set_vision_radius(11)
+
         player.set_name(constants.player_name)
 
-        player.add_limb(Hand(player, None, 'right hand'))
-        player.add_limb(Hand(player, None, 'left hand'))
+        self._add_human_limbs(player)
 
         self.level.add_at_empty_location(player)
 
         return player
+
+    def _add_human_limbs(self, creature):
+        # Add Torso
+        torso = creature.add_limb(Torso(creature, None))
+        # Upper Arms, Lower Arms, Hands
+        print torso
+        ruarm = creature.add_limb(UpperArm(creature, torso, 'right upper arm'))
+        rlarm = creature.add_limb(LowerArm(creature, ruarm, 'right lower arm'))
+        creature.add_limb(Hand(creature, rlarm, 'right hand'))
+
+        luarm = creature.add_limb(UpperArm(creature, torso, 'left upper arm'))
+        llarm = creature.add_limb(LowerArm(creature, luarm, 'left lower arm'))
+        creature.add_limb(Hand(creature, llarm, 'left hand'))
+
+        # Neck, Head
+        neck = creature.add_limb(Neck(creature, torso))
+        creature.add_limb(Head(creature, neck))
+
+        # Upper legs, Lower legs, Feet
+        ruleg = creature.add_limb(UpperLeg(creature, torso, 'right upper leg'))
+        rlleg = creature.add_limb(LowerLeg(creature, ruleg, 'right lower leg'))
+        creature.add_limb(Foot(creature, rlleg, 'right foot'))
+
+        luleg = creature.add_limb(UpperLeg(creature, torso, 'left upper leg'))
+        llleg = creature.add_limb(LowerLeg(creature, luleg, 'left lower leg'))
+        creature.add_limb(Foot(creature, llleg, 'left foot'))
 
     def make_fungus(self):
         fungus = Creature(self.lbt, self.con, self.level, 'f', self.lbt.green)
@@ -52,6 +78,7 @@ class CreatureFactory(object):
         fungus.set_type('fungus')
         fungus.set_corpse_nutrition(1)
         fungus.set_taste('grassy')
+        fungus.blood_color = self.lbt.dark_green
         self.level.add_at_empty_location(fungus)
 
         return fungus
@@ -124,5 +151,6 @@ class CreatureFactory(object):
             gargoyle.set_name('Statuesque %s' %constants.random_name())
         gargoyle.set_type('gargoyle')
         self.level.add_at_empty_location(gargoyle)
+        gargoyle.blood_color = self.lbt.dark_grey
 
         return gargoyle

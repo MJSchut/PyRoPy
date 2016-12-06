@@ -69,6 +69,12 @@ class Level(object):
     def get_tile(self, x, y):
         return self.map[x][y]
 
+    def get_random_surrounding_tile(self, x, y):
+        nx = random.choice([-1, 0, 1]) + x
+        ny = random.choice([-1, 0, 1]) + y
+
+        return self.map[nx][ny]
+
     def remove_creature(self, creature):
         if creature is not None:
             try:

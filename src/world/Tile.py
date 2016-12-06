@@ -8,6 +8,7 @@ class Tile(Entity):
         self.blocked = blocked
         self.char = None
         self.front_color = None
+        self.identified = 0
         if self.blocked:
             self.color = constants.colors['wall_color']
         else:

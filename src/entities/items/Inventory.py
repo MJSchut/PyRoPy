@@ -4,7 +4,7 @@ class Inventory(object):
     def __init__(self, inv_size, creature):
         self.creature = creature
         self.inv_size = inv_size
-        self.items = [None for i in range(10)]
+        self.items = [None for i in range(inv_size)]
 
     def sort(self):
         self.items = sorted(self.items, key=lambda x: (x is None, x))
@@ -57,6 +57,18 @@ class Inventory(object):
             e_items.append(None)
 
         return e_items
+
+    def get_drinkable_items(self):
+        d_items = []
+        for x, item in enumerate(self.items):
+            if item is not None:
+                if item.drinkable:
+                    d_items.append(item)
+
+        while len(d_items) < self.inv_size:
+            d_items.append(None)
+
+        return d_items
 
     def get_wearable_items(self):
         w_items = []

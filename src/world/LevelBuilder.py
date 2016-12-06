@@ -84,7 +84,5 @@ class LevelBuilder(object):
                                 digger_count += 1
             steps += 1
 
-            print steps, digger_count
-
         return self.map
 

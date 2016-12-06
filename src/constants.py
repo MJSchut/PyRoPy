@@ -1,10 +1,11 @@
 __author__ = 'Martijn Schut'
 
 import libtcodpy as lbt
+from src.effects.Effects import *
 
 import random
 
-SCREEN_WIDTH = 64
+SCREEN_WIDTH = 102
 SCREEN_HEIGHT = 45
 MAP_WIDTH = 180
 MAP_HEIGHT = 150
@@ -12,16 +13,18 @@ LIMIT_FPS = 30
 DEBUG = 1
 
 BAR_WIDTH = 20
-PANEL_HEIGHT = 12
+PANEL_WIDTH = 36
+PANEL_HEIGHT = SCREEN_HEIGHT
 PANEL_Y = SCREEN_HEIGHT - PANEL_HEIGHT
-panel = lbt.console_new(SCREEN_WIDTH, PANEL_HEIGHT)
+panel = lbt.console_new(PANEL_WIDTH, SCREEN_HEIGHT)
 
-MSG_X = BAR_WIDTH + 3
-MSG_WIDTH = SCREEN_WIDTH - BAR_WIDTH - 2
-MSG_HEIGHT = PANEL_HEIGHT - 1
+MSG_Y = BAR_WIDTH + 3
+MSG_WIDTH = PANEL_WIDTH - 1
+MSG_HEIGHT = 20
 
 INVENTORY_WIDTH = MSG_WIDTH
 
+appearance_potion_dictionary = {}
 player_name = 'Steve'
 
 colors = {
@@ -36,6 +39,50 @@ chars = {
     "floor_char" : '.',
     "wall_char" : lbt.CHAR_BLOCK1,
     "darkness_char" : lbt.CHAR_BLOCK2
+}
+
+item_color_pointers = {
+    'red' : lbt.red,
+    'purple' : lbt.purple,
+    'cyan' : lbt.dark_cyan,
+    'blue' : lbt.dark_azure,
+    'turqoise' : lbt.turquoise,
+    'green' : lbt.green,
+    'yellow' : lbt.dark_yellow,
+    'amber' : lbt.amber,
+    'orange' : lbt.orange,
+    'pink' : lbt.dark_pink
+}
+
+item_colors = [
+    'red',
+    'purple',
+    'cyan',
+    'blue',
+    'turqoise',
+    'green',
+    'yellow',
+    'amber',
+    'orange',
+    'pink'
+]
+item_adjective = [
+    'swirling',
+    'bubbling',
+    'clear',
+    'muddy',
+    'murky',
+    'watery',
+    'slimy',
+    'foul-smelling',
+    'rancid',
+    'radiant',
+    'fizzy'
+]
+
+effect_noun = {
+    PoisonEffect : "poison",
+    MinorHealEffect : "minor healing"
 }
 
 def random_name():

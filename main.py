@@ -11,17 +11,18 @@ from src.input import keyboard as kb
 from src import constants
 
 import random
+import textwrap
 
 
 def getScrollX():
-    return max(0, min(player.x - constants.SCREEN_WIDTH / 2, level.level_width - constants.SCREEN_WIDTH))
+    return max(0, min(player.x - constants.SCREEN_WIDTH / 2 - constants.PANEL_WIDTH/2, level.level_width - constants.SCREEN_WIDTH - constants.PANEL_WIDTH))
 
 def getScrollY():
     # adjust for size of the panel
-    return max(0, min(player.y - constants.SCREEN_HEIGHT / 2, level.level_height - constants.SCREEN_HEIGHT + constants.PANEL_HEIGHT))
+    return max(0, min(player.y - constants.SCREEN_HEIGHT / 2, level.level_height - constants.SCREEN_HEIGHT))
 
 def render_bar(x, y, total_width, value, maximum, name, bar_color, back_color, text_color = lbt.white, show_exact = False ):
-    # M: I really liked this code, so I kept pretty much the it the way it is.
+    # M: I really liked this code, so I kept it pretty much the way it is.
 
     #now render the bar on top
     if show_exact:
@@ -56,7 +57,7 @@ def render_status(x, y, name, value, text_color = lbt.grey):
             '%s: %s' %(name, value))
 
 # basic libtcod initialization
-lbt.console_set_custom_font('assets/terminal12x12_gs_ro.png', lbt.FONT_TYPE_GREYSCALE | lbt.FONT_LAYOUT_ASCII_INROW)
+lbt.console_set_custom_font('assets/terminal8x12_gs_ro.png', lbt.FONT_TYPE_GREYSCALE | lbt.FONT_LAYOUT_ASCII_INROW)
 lbt.console_init_root(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 'PyRoPy', False)
 lbt.sys_set_fps(constants.LIMIT_FPS)
 con = lbt.console_new(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
@@ -77,7 +78,7 @@ for i in range(255, 15, -8):
 all_messages = []
 player = cFactory.make_player(messages)
 
-# add some non-hostile creatures
+# add some hostile and less hostile creatures & items
 funguscount = 10
 for funi in range(0, funguscount):
     fungus = cFactory.make_fungus()
@@ -98,13 +99,25 @@ rockcount = 25
 for rocki in range(0, rockcount):
     rock = iFactory.make_rock()
 
-swordcount = 10
+swordcount = 3
 for swordi in range(0, swordcount):
     sword = iFactory.make_sword()
 
-glovecount = 30
+glovecount = 2
 for glovei in range(0, glovecount):
     glove = iFactory.make_gauntlet()
+
+potions = 15
+for potioni in range(0, potions):
+    potion = iFactory.make_random_potion()
+
+necklacecount = 2
+for necklacei in range(0, necklacecount):
+    necklace = iFactory.make_amulet()
+
+fedoracount = 2
+for i in range(0, fedoracount):
+    fedora = iFactory.make_fedora()
 
 while not lbt.console_is_window_closed():
     # show stuff
@@ -121,10 +134,15 @@ while not lbt.console_is_window_closed():
 
                 if level.map[x][y].char is not None:
                     if level.map[x][y].front_color is not None and player.can_see(x, y):
+                        level.map[x][y].identified = 1
                         lbt.console_set_default_foreground(con, level.map[x][y].front_color)
                         lbt.console_put_char(con, wx, wy, level.map[x][y].char, lbt.BKGND_NONE)
                     elif player.can_see(x, y):
+                        level.map[x][y].identified = 1
                         lbt.console_set_default_foreground(con, lbt.white)
+                        lbt.console_put_char(con, wx, wy, level.map[x][y].char, lbt.BKGND_NONE)
+                    elif level.map[x][y].identified == 1:
+                        lbt.console_set_default_foreground(con, constants.colors['darkness_color'])
                         lbt.console_put_char(con, wx, wy, level.map[x][y].char, lbt.BKGND_NONE)
                     else:
                         lbt.console_set_default_foreground(con, constants.colors['darkness_color'])
@@ -147,7 +165,7 @@ while not lbt.console_is_window_closed():
 
     lbt.console_blit(con, 0, 0, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 0, 0, 0)
 
-    #prepare to render the GUI panel
+    #prepare to render the bottom panel
     lbt.console_set_default_background(constants.panel, lbt.black)
     lbt.console_clear(constants.panel)
 
@@ -164,19 +182,26 @@ while not lbt.console_is_window_closed():
 
     render_status(1, 3, 'Hunger', player.hunger_value, text_color=hutext_color)
 
-    # show message log; TODO flip the message log, doesn't make sense that new messages are at the botom
-    y = 1
-    for i, line in enumerate(messages[0]):
-        if len(messages[0]) >= constants.MSG_HEIGHT:
-            del messages[0][0]
-            del messages[1][0]
+    # show message log
+    y = constants.MSG_Y
+    for i, line in enumerate(reversed(messages[0])):
         lbt.console_set_default_foreground(constants.panel, linecolors[messages[1][i]])
-        lbt.console_print_ex(constants.panel, constants.MSG_X, y, lbt.BKGND_NONE, lbt.LEFT, line)
-        y += 1
+        message = textwrap.wrap(line, width = constants.MSG_WIDTH)
+        for lines in message:
+            lbt.console_print_ex(constants.panel, 1, y, lbt.BKGND_NONE, lbt.LEFT, lines)
+            y += 1
         all_messages.append(line)
 
-        if messages[1][i] < len(linecolors) - 1:
-            messages[1][i] += 1
+    if len(messages[0]) >= constants.MSG_HEIGHT:
+        del messages[0][0]
+        del messages[1][0]
+
+        #if messages[1][i] < len(linecolors) - 1:
+        #    messages[1][i] += 1
+
+        #if messages[1][i] >= len(linecolors) - 1:
+        #    del messages[0][0]
+        #    del messages[1][0]
 
     #blit the contents of "panel" to the root console
     lbt.console_blit(constants.panel, 0, 0, constants.SCREEN_WIDTH, constants.PANEL_HEIGHT, 0, 0, constants.PANEL_Y)
@@ -197,6 +222,7 @@ while not lbt.console_is_window_closed():
     constants.debug_msg('Pressed key %s' %keylist[0])
 
     # respond to input
+    lbt.console_set_default_background(con, lbt.black)
     kb.process_keylist(lbt, keylist, player)
     if keylist[0] == 'exit':
         break
