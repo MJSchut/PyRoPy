@@ -22,7 +22,7 @@ class CreatureAi(object):
             rat = (float(self.creature.hunger)/ float(self.creature.maxhunger))
 
             if rat < 0.05:
-                self.creature.hunger_value = 'Starving!!!'
+                self.creature.hunger_value = 'Starving!!'
             elif rat < 0.15:
                 self.creature.hunger_value = 'Starving!'
             elif rat < 0.3:
@@ -32,7 +32,7 @@ class CreatureAi(object):
             elif rat < 1:
                 self.creature.hunger_value = ' '
 
-            if rat < 0.15 and random.random() < 0.1:
+            if 0.05 > rat < 0.15 and random.random() < 0.01:
                 self.creature.doAction('feel hungry')
 
             if rat < 0.05 and random.random() < 0.1:

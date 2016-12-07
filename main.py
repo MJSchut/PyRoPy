@@ -13,9 +13,8 @@ from src import constants
 import random
 import textwrap
 
-
 def getScrollX():
-    return max(0, min(player.x - constants.SCREEN_WIDTH / 2 - constants.PANEL_WIDTH/2, level.level_width - constants.SCREEN_WIDTH - constants.PANEL_WIDTH))
+    return max(0, min(player.x - constants.SCREEN_WIDTH / 2 - constants.PANEL_WIDTH/2, level.level_width - constants.SCREEN_WIDTH - constants.PANEL_WIDTH/2.5))
 
 def getScrollY():
     # adjust for size of the panel
@@ -57,7 +56,7 @@ def render_status(x, y, name, value, text_color = lbt.grey):
             '%s: %s' %(name, value))
 
 # basic libtcod initialization
-lbt.console_set_custom_font('assets/terminal8x12_gs_ro.png', lbt.FONT_TYPE_GREYSCALE | lbt.FONT_LAYOUT_ASCII_INROW)
+lbt.console_set_custom_font('assets/terminal12x12_gs_ro.png', lbt.FONT_TYPE_GREYSCALE | lbt.FONT_LAYOUT_ASCII_INROW)
 lbt.console_init_root(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 'PyRoPy', False)
 lbt.sys_set_fps(constants.LIMIT_FPS)
 con = lbt.console_new(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
@@ -119,6 +118,8 @@ fedoracount = 2
 for i in range(0, fedoracount):
     fedora = iFactory.make_fedora()
 
+# main loop
+# the draw loop is a bit insane right now, gonna fix that
 while not lbt.console_is_window_closed():
     # show stuff
     sx = getScrollX()
@@ -176,28 +177,44 @@ while not lbt.console_is_window_closed():
     render_bar(1, 1, constants.BAR_WIDTH, player.hp, player.maxhp, 'Health',
                lbt.light_red, lbt.darker_red, text_color=htext_color)
 
+    # show hunger
     hutext_color = lbt.grey
-    if (float(player.hunger) / player.maxhunger) < 0.3:
+    if (float(player.hunger) / player.maxhunger) < 0.1:
+        hutext_color = lbt.red
+    elif (float(player.hunger) / player.maxhunger) < 0.3:
         hutext_color = lbt.white
 
     render_status(1, 3, 'Hunger', player.hunger_value, text_color=hutext_color)
 
+    # show thirst (unimplemented)
+    hutext_color = lbt.grey
+    render_status(1, 5, 'Thirst', " ", text_color=hutext_color)
+
     # show message log
-    y = constants.MSG_Y
-    for i, line in enumerate(reversed(messages[0])):
-        lbt.console_set_default_foreground(constants.panel, linecolors[messages[1][i]])
+
+    y = constants.MSG_Y - 1
+    for x in range(0, constants.MSG_WIDTH + 1):
+        lbt.console_put_char(constants.panel, x, y, constants.chars['window_char'])
+    lbt.console_rect(constants.panel, 1, y, 10, 10, False)
+
+    y += 1
+    for i in range(len(messages[0]) -1, 0, -1):
+        line = messages[0][i]
+        colorindex = messages[1][i]
+        lbt.console_set_default_foreground(constants.panel, linecolors[colorindex])
         message = textwrap.wrap(line, width = constants.MSG_WIDTH)
         for lines in message:
             lbt.console_print_ex(constants.panel, 1, y, lbt.BKGND_NONE, lbt.LEFT, lines)
             y += 1
-        all_messages.append(line)
+
+        if colorindex < len(linecolors) - 1:
+            colorindex += 1
+
+        messages[1][i] = colorindex
 
     if len(messages[0]) >= constants.MSG_HEIGHT:
         del messages[0][0]
         del messages[1][0]
-
-        #if messages[1][i] < len(linecolors) - 1:
-        #    messages[1][i] += 1
 
         #if messages[1][i] >= len(linecolors) - 1:
         #    del messages[0][0]

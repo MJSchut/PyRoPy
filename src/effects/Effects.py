@@ -43,17 +43,17 @@ class AsphyxiationEffect(Effect):
         super(AsphyxiationEffect, self).on_update()
         self.creature.hurt(self.val)
 
-        if random.random() < 0.02 * self.val + 1:
+        if random.random() < (0.02 * self.val):
             self.val += 1
 
         if 0 < self.val <= 3 and random.random() < 0.5:
-            self.creature.doAction('feel short of breath')
-        if 3 < self.val <= 10 and random.random() < 0.5:
+            self.creature.doAction('feel short on breath')
+        elif 3 < self.val <= 10 and random.random() < 0.5:
             self.creature.doAction('cannot breathe')
-        if 10 < self.val and random.random() < 0.1:
+        elif 10 < self.val and random.random() < 0.1:
             #TODO: add panic effect
             self.creature.doAction('panic')
-        if 10 < self.val:
-            random.choice(self.creature.doAction('gasp for air'),
+        elif 10 < self.val:
+            random.choice([self.creature.doAction('gasp for air'),
                           self.creature.doAction('try in vain to breathe'),
-                          self.creature.doAction('feel everything go black'))
+                          self.creature.doAction('feel everything go black')])

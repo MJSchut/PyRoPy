@@ -5,15 +5,15 @@ from src.effects.Effects import *
 
 import random
 
-SCREEN_WIDTH = 102
-SCREEN_HEIGHT = 45
+SCREEN_WIDTH = 88
+SCREEN_HEIGHT = 50
 MAP_WIDTH = 180
 MAP_HEIGHT = 150
 LIMIT_FPS = 30
 DEBUG = 1
 
 BAR_WIDTH = 20
-PANEL_WIDTH = 36
+PANEL_WIDTH = 30
 PANEL_HEIGHT = SCREEN_HEIGHT
 PANEL_Y = SCREEN_HEIGHT - PANEL_HEIGHT
 panel = lbt.console_new(PANEL_WIDTH, SCREEN_HEIGHT)
@@ -38,7 +38,8 @@ colors = {
 chars = {
     "floor_char" : '.',
     "wall_char" : lbt.CHAR_BLOCK1,
-    "darkness_char" : lbt.CHAR_BLOCK2
+    "darkness_char" : lbt.CHAR_BLOCK2,
+    "window_char" : lbt.CHAR_HLINE
 }
 
 item_color_pointers = {

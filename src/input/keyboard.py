@@ -5,8 +5,6 @@ def handle_keys(lbt, key):
 
     key_char = chr(key.c)
 
-    print type(key_char)
-
     if lbt.console_is_key_pressed(lbt.KEY_ESCAPE):
         keylist.append('exit')
 

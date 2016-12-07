@@ -5,7 +5,13 @@ Planned Features
 ## - Greyed out areas that have been explored previously;
 
 ## - Put GUI on side rather than down.
-    # - Fix message log
+    ## - Fix message log
+
+- Help menu
+
+- Main menu
+
+- Look command
 
 - Inventory management; don't use slots
     - Use a volume/weight approach
@@ -27,8 +33,8 @@ Planned Features
     - Magma throwing, fuck yes.
 
 - Replace HP system with blood system
-    - Bleeding if you are wounded
-    - Leave blood on tiles
+    - Bleeding if you are wounded; can be internal
+    - Leave blood on tiles; if external wound
     - Bleeding reduces over time (Log/exp/1/(exp(-x))?)
     - Fire cauterizes wounds, the higher the damage, the less the DoT
 
@@ -47,11 +53,12 @@ Planned Features
                 - Reduces defence by 20%, but allows you to wear it again.
         - However, you can wield extra items if you grow extra arms (i.e., more attacks)
 
-## - Add decal;
+# - Add decal;
     ## - Each creature either has blood
         ## - Blood color is set to red by default, can change
         ## - On hit, color creature tile in blood color
         ## - On hit, color random tile around the creature in blood color
+        - Dissociate between internal wounds (no blood) and external wounds
 
 - Add thirst system;
     - Find water, store water, all that good fun.
