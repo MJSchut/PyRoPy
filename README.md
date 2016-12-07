@@ -22,6 +22,11 @@ Effects system, items or creatures can poison other creatures.
 ---
 
 UPDATE log
+- 0.02a/b: Adding onto the Limb system. There's a preset structure for humanoid creatures now
+Some ideas are thrown into the todo file. Don't pay too much mind to it. Relocated the 
+message log. Potion colors are picked at the start of level generation are remain constant per
+effect. Creatures bleed when hit. Started working on a thirst system.
+Next up: adding 't'hrow command :)
 - 0.02: The big one! Limb update, right now your character is just a set of hands though.
 Ideally all creatures will have x amount of limbs with certain properties; they'll be able to
 fall off, be chopped off, rot off or some other nasty stuff. S'gonna be fun.
