@@ -112,12 +112,26 @@ class PlayerAi(CreatureAi):
             self.messages[1].append(0)
 
 
+class EOozeAi(CreatureAi):
+    def __init__(self, creature, factory):
+        super(EOozeAi, self).__init__(creature)
+        self.factory = factory
+
+    def on_update(self):
+        if random.random() < 0.4:
+            newx = self.creature.x + random.randint(-1, 1)
+            newy = self.creature.y + random.randint(-1, 1)
+
+            if self.factory.level.space_for_creature(newx, newy):
+                self.factory.make_eooze()
+
 class FungusAi(CreatureAi):
     # A stationary creature that occasionally spawns new copies of itself
 
     def __init__(self,creature, factory):
         super(FungusAi, self).__init__(creature)
         self.spreaded = random.randint(0,3)
+
         self.factory = factory
 
     def on_update(self):

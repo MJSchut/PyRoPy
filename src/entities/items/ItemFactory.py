@@ -59,6 +59,9 @@ class ItemFactory(object):
         potion.set_appearance('%s potion' % appearance)
         potion.set_name('potion of %s' %effect_noun[effect])
         potion.identified = False
+        potion.set_equip_to(Hand)
+        potion.item_factory = self
+        potion.swings_to_break = 1
 
         self.level.add_at_empty_location(potion)
 
@@ -82,7 +85,7 @@ class ItemFactory(object):
 
     def make_fedora(self):
         fedora = Item(self.lbt, self.con, self.level, '_', self.lbt.cyan)
-        fedora.set_equip_to(Head, wearable=True)
+        fedora.set_wear_to(Head)
         fedora.set_appearance('fedora')
         fedora.set_name('fedora')
         fedora.set_defence_value(1)
@@ -95,4 +98,20 @@ class ItemFactory(object):
         necklace.set_name('dangerous necklace')
         necklace.set_defence_value(10)
         necklace.set_wear_effect(AsphyxiationEffect)
+        necklace.item_factory = self
+        necklace.swings_to_break = 1
         self.level.add_at_empty_location(necklace)
+
+    def make_shard(self, location = None, color = None):
+        if color is None:
+            color = self.lbt.cyan
+        shard = Item(self.lbt, self.con, self.level, ',', color)
+        shard.set_equip_to(Hand)
+        shard.set_appearance('a shard')
+        shard.set_name('a shard')
+        shard.set_attack_value(2)
+
+        if location is None:
+            self.level.add_at_empty_location(shard)
+        else:
+            self.level.add_item(shard, location[0], location[1])

@@ -12,6 +12,7 @@ from src.ai.CreatureAi import HuskFungusAi
 from src.ai.CreatureAi import BatAi
 from src.ai.CreatureAi import SnakeAi
 from src.ai.CreatureAi import GargoyleAi
+from src.ai.CreatureAi import EOozeAi
 
 from src.effects.Effects import PoisonEffect
 
@@ -154,3 +155,16 @@ class CreatureFactory(object):
         gargoyle.blood_color = self.lbt.dark_grey
 
         return gargoyle
+
+    def make_eooze(self):
+        ooze = Creature(self.lbt, self.con, self.level, 'O', self.lbt.dark_cyan)
+        ooze.set_Ai(EOozeAi(ooze, self))
+        ooze.set_maxhp(1)
+        ooze.set_attack(3)
+        ooze.set_vision_radius(1)
+        ooze.set_name('Endless Ooze')
+        ooze.set_type('eldritch')
+        self.level.add_at_empty_location(ooze)
+        ooze.blood_color = self.lbt.white
+
+        return ooze

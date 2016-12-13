@@ -7,6 +7,9 @@ Planned Features
 ## - Put GUI on side rather than down.
     ## - Fix message log
 
+- 'A'pply
+    - Useful to apply a potion effect to a weapon
+
 - Help menu
 
 - Main menu
@@ -18,34 +21,33 @@ Planned Features
     - Stack items that you have multiples of
         - The stack is only in the menu
 
-- Tiles unidentify themselves slowly over time (represents some memory restrictions)
-    - Not quite sure about this one... could be very unfun.
-
 - Identification system
     - Only see item appearance at first
     - Potions can be identified by drinking
-    - Equipment by equiping
+    - Equipment by equipping
     ## - Potion effects are picked from a pre-set color
 
 - Projectile system
     - Throwing
+        - Throw potions at creatures to identify the potion's effects.
     - Flame throwing
-    - Magma throwing, fuck yes.
+    - Magma throwing, f**k yes.
 
 - Replace HP system with blood system
+    - Stops instant death.
     - Bleeding if you are wounded; can be internal
     - Leave blood on tiles; if external wound
-    - Bleeding reduces over time (Log/exp/1/(exp(-x))?)
+    - Bleeding reduces over time (Think of a nice log function for this... Probably y ~ log(x) would do)
     - Fire cauterizes wounds, the higher the damage, the less the DoT
 
 - Add limb removal;
-    - Check if limb is vital; if so; die
+    - Check if limb is vital; if so; die (only happens in extreme cases, no 1HKOs in this game)
     - Check if limb had other limbs attached to it; if so; remove them too
     - Drop limb on floor
         - Possible source of food
         - Change name of the corpse dropped (desecrated)
 
-- Add limb grow (through magical means);
+- Add limb growth (through magical means);
     - Add functions to add extra limbs
     - Add mutation potions that provide extra arms
         - If you grow extra arms, can't wear metal torso armor any longer

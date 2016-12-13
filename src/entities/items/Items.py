@@ -28,6 +28,8 @@ class Item(Entity):
         self.equipped = False
         self.worn = False
         self.identified = True
+        self.item_factory = None
+        self.swings_to_break = 0
 
     def get_name(self):
         if self.identified:
@@ -70,6 +72,7 @@ class Item(Entity):
         self.wearon = wearon
         self.wearable = True
         self.holdable = True
+        self.equipto = Hand
 
     def set_wear_effect(self, effect, duration = -1):
         self.wear_effect = effect

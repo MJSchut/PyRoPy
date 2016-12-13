@@ -12,7 +12,6 @@ class LevelDigger(object):
         self.x = x
         self.y = y
 
-
     def check_for_walls(self):
         if type(self.map[self.x][self.y] == WallTile):
             return [self.x, self.y]
@@ -39,8 +38,10 @@ class LevelDigger(object):
             self.map[coords[0]][coords[1]] = FloorTile()
 
     def move(self):
-        dx = random.choice([-1,0,1])
-        dy = random.choice([-1,0,1])
+        coords = [[0,1], [1,0], [-1, 0], [0, -1]]
+        ccoords = random.choice(coords)
+        dx = ccoords[0]
+        dy = ccoords[1]
 
         if 1 < self.x < len(self.map) - 2 and 1 < self.y < len(self.map[0]) - 2:
             self.x += dx

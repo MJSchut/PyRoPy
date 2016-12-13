@@ -31,8 +31,10 @@ class Inventory(object):
     def remove(self, item):
         for i in range (0, len(self.items)):
             if self.items[i] == item:
+                self.creature.take_off_item(self.items[i])
+                self.creature.unequip_item(self.items[i])
                 self.items[i] = None
-                print self.items
+
                 break
 
     def get_item_at_index(self, index):

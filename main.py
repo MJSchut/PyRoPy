@@ -72,7 +72,9 @@ iFactory = ItemFactory(lbt, con, level)
 # add the player
 messages = [[], []]
 linecolors = []
+linecolors.append(lbt.Color(255, 160, 160))
 for i in range(255, 15, -8):
+
     linecolors.append(lbt.Color(i,i,i))
 all_messages = []
 player = cFactory.make_player(messages)
@@ -118,6 +120,10 @@ fedoracount = 2
 for i in range(0, fedoracount):
     fedora = iFactory.make_fedora()
 
+#endless_oozecount = 1
+#for i in range(0, endless_oozecount):
+#    ooze = cFactory.make_eooze()
+
 # main loop
 # the draw loop is a bit insane right now, gonna fix that
 while not lbt.console_is_window_closed():
@@ -129,7 +135,7 @@ while not lbt.console_is_window_closed():
         for x in range(level.level_width):
             wx = x - sx
             wy = y - sy
-            if 0 <= wx <= constants.SCREEN_WIDTH and 0 <= wy <= constants.SCREEN_HEIGHT:
+            if constants.PANEL_WIDTH <= wx <= constants.SCREEN_WIDTH and 0 <= wy <= constants.SCREEN_HEIGHT:
 
                 lbt.console_set_char_background(con, wx, wy, level.map[x][y].color, lbt.BKGND_SET )
 
@@ -191,7 +197,6 @@ while not lbt.console_is_window_closed():
     render_status(1, 5, 'Thirst', " ", text_color=hutext_color)
 
     # show message log
-
     y = constants.MSG_Y - 1
     for x in range(0, constants.MSG_WIDTH + 1):
         lbt.console_put_char(constants.panel, x, y, constants.chars['window_char'])

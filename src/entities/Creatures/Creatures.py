@@ -130,14 +130,17 @@ class Creature(Entity):
             self.notify('You violently attack the %s for %d damage!' %(creature.type, amnt))
             creature.notify('The %s attacks you with great force for %d damage!!' %(self.type, amnt))
         else:
-            itemamnt = len(items)
-            if itemamnt > 0:
-                for item in items:
-                    self.notify("You attack the %s with your %s for %d damage" %(creature.type, item.get_name(), amnt/itemamnt))
-                    creature.notify("The %s attacks you for %d damage" %(self.type,amnt))
-            else:
-                self.notify("You attack the %s for %d damage." %(creature.type, amnt))
-                creature.notify("The %s attacks you for %d damage." %(self.type, amnt))
+            self.notify("You attack the %s for %d damage." %(creature.type, amnt))
+            creature.notify("The %s attacks you for %d damage." %(self.type, amnt))
+
+            for ii in range(0, len(items)):
+                if items[ii].swings_to_break >= 1:
+                    items[ii].swings_to_break -= 1
+                    if items[ii].swings_to_break <= 0:
+                        self.notify("The %s breaks into pieces!" %(items[ii].get_name()))
+                        if items[ii].item_factory is not None:
+                            items[ii].item_factory.make_shard(location=[self.x,self.y])
+                        self.inventory.remove(items[ii])
 
         creature.hurt(amnt)
 

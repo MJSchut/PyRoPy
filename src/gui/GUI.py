@@ -1,7 +1,37 @@
 __author__ = 'Martijn Schut'
 
 from src import constants
+from src.util.Line import Line
+from src.util.Point import Point
 from src.entities.items.Inventory import Inventory
+
+
+class TargetMenu(object):
+    def __init__(self, lbt, con, player, caption, orix, oriy):
+        self.lbt = lbt
+        self.con = con
+        self.player = player
+        self.caption = caption
+        self.orix = orix
+        self.oriy = oriy
+        self.curx = 0
+        self.cury = 0
+
+    def draw(self):
+        line = Line(self.orix, self.oriy, self.curx, self.cury)
+
+        for point in line.get_points():
+            self.lbt.console_set_default_foreground(self.con, self.lbt.magenta)
+            self.lbt.console_put_char(self.con, point.x, point.y, '*', self.lbt.BKGND_NONE)
+
+    def update(self, ax, ay):
+        self.curx += ax
+        self.cury += ay
+
+class LookMenu(TargetMenu):
+    def __init__(self, lbt, con, player, caption, orix, oriy):
+        super(TargetMenu, self).__init__(lbt, con, player, caption, orix, oriy)
+
 
 class Menu(object):
     def __init__(self, lbt, con, header, options, width):
@@ -33,16 +63,16 @@ class Menu(object):
             self.height = self.length + self.header_height
 
     def draw(self):
-        #create an off-screen console that represents the menu's window
+        # create an off-screen console that represents the menu's window
         self.window = self.lbt.console_new(self.width, self.height)
 
-        #print the header, with auto-wrap
+        # print the header, with auto-wrap
         self.lbt.console_set_default_foreground(self.window, self.lbt.white)
         self.lbt.console_set_default_background(self.window, self.lbt.black)
         self.lbt.console_print_rect_ex(self.window, 0, 0, self.width, self.height,
                                        self.lbt.black, self.lbt.LEFT, self.header)
 
-        #print all the options
+        # print all the options
         y = self.header_height
         letter_index = ord('a')
 
@@ -91,20 +121,22 @@ class Menu(object):
         self.key = self.lbt.console_wait_for_keypress(True)
 
     def draw_submenu(self):
-        #create an off-screen console that represents the menu's window
+        # create an off-screen console that represents the menu's window
         self.window = self.lbt.console_new(self.width, self.height)
 
-        #print the header, with auto-wrap
+        # print the header, with auto-wrap
         self.lbt.console_set_default_background(self.window, self.lbt.black)
         self.lbt.console_set_default_foreground(self.window, self.lbt.white)
         self.lbt.console_print_rect_ex(self.window, 0, 0, self.width, self.height,
                                        self.lbt.BKGND_ADD, self.lbt.LEFT, self.header)
 
-        #print all the options
+        # print all the options
         y = self.header_height
 
         for option_item in self.options:
             letter_index = ord(option_item[0])
+            if option_item == 'drink' or 'equip':
+                letter_index = ord(option_item[1])
             if option_item is None:
                 self.lbt.console_print_ex(self.window, 0, y, self.lbt.BKGND_ADD,
                                       self.lbt.LEFT, ' ')
@@ -138,11 +170,16 @@ class InventoryMenu(Menu):
 
         item = self.player.inventory.get_item_at_index(index)
         if item is not None:
-            # TODO get item options based on item stats
             options2 = []
             options2.append('drop')
             if item.nutrition != 0:
                 options2.append('eat')
+            if item.drinkable:
+                options2.append('drink')
+            if item.holdable:
+                options2.append('equip')
+            if item.wearable:
+                options2.append('wear')
 
             popup = Menu(self.lbt, self.con, 'Do what with %s?' %item.name, options2, constants.INVENTORY_WIDTH - 3)
             popup.update()
@@ -155,6 +192,12 @@ class InventoryMenu(Menu):
                 self.player.drop(item)
             elif popup.key.c - ord('e') == 0:
                 self.player.eat(item)
+            elif popup.key.c - ord('r') == 0:
+                self.player.drink(item)
+            elif popup.key.c - ord('q') == 0:
+                self.player.equip_to_limbtype(item, item.equipto)
+            elif popup.key.c - ord('w') == 0:
+                self.player.wear_on_limbtype(item, item.wearon)
 
 class DropMenu(Menu):
     def __init__(self, lbt, con, header, player):
