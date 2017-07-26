@@ -46,6 +46,8 @@ def handle_keys(lbt, key):
         keylist.append('equipmenu')
     if key_char == 'r':
         keylist.append('drinkmenu')
+    if key_char == ';':
+        keylist.append('examine')
 
     return keylist
 
@@ -72,6 +74,9 @@ def process_keylist(lbt, keylist, player):
         return
     if keylist[0] == 'eatmenu':
         player.show_eat_menu()
+        return
+    if keylist[0] == 'examine':
+        player.show_examine_menu()
         return
     if keylist[0] == 'left':
         player.move(-1, 0)

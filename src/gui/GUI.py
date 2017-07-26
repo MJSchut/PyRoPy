@@ -14,23 +14,41 @@ class TargetMenu(object):
         self.caption = caption
         self.orix = orix
         self.oriy = oriy
-        self.curx = 0
-        self.cury = 0
+        self.curx = orix
+        self.cury = oriy
+        self.window = self.lbt.console_new(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
 
     def draw(self):
         line = Line(self.orix, self.oriy, self.curx, self.cury)
+        print self.orix, self.oriy, self.curx, self.cury
 
         for point in line.get_points():
-            self.lbt.console_set_default_foreground(self.con, self.lbt.magenta)
-            self.lbt.console_put_char(self.con, point.x, point.y, '*', self.lbt.BKGND_NONE)
+            self.lbt.console_set_default_foreground(self.window, self.lbt.magenta)
+            self.lbt.console_put_char(self.window, point.x, point.y, '*', self.lbt.BKGND_NONE)
+        #self.lbt.console_flush()
+        self.lbt.console_blit(self.window, 0, 0, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 0, 0, 0)
 
-    def update(self, ax, ay):
+    def update(self):
+        ax = 0
+        ay = 0
+        self.key = self.lbt.console_wait_for_keypress(True)
+        if self.lbt.console_is_key_pressed(self.lbt.KEY_DOWN):
+            ay = 1
+        elif self.lbt.console_is_key_pressed(self.lbt.KEY_UP):
+            ay = -1
+        elif self.lbt.console_is_key_pressed(self.lbt.KEY_RIGHT):
+            ax = 1
+        elif self.lbt.console_is_key_pressed(self.lbt.KEY_LEFT):
+            ax = -1
+
+
         self.curx += ax
         self.cury += ay
 
-class LookMenu(TargetMenu):
+
+class ExamineMenu(TargetMenu):
     def __init__(self, lbt, con, player, caption, orix, oriy):
-        super(TargetMenu, self).__init__(lbt, con, player, caption, orix, oriy)
+        super(ExamineMenu, self).__init__(lbt, con, player, caption, orix, oriy)
 
 
 class Menu(object):

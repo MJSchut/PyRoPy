@@ -9,6 +9,7 @@ from src.gui.GUI import EatMenu
 from src.gui.GUI import EquipMenu
 from src.gui.GUI import WearMenu
 from src.gui.GUI import DrinkMenu
+from src.gui.GUI import ExamineMenu
 from src.entities.items.Items import Item
 from src.ai.CreatureAi import CreatureAi
 from src.entities.items.Inventory import Inventory
@@ -387,6 +388,15 @@ class Player(Creature):
         self.drinkmenu = DrinkMenu(lbt, con, 'Drink stuff', self)
         self.equipmenu = EquipMenu(lbt, con, 'Equip stuff', self)
         self.wearmenu = WearMenu(lbt, con, 'Wear stuff', self)
+        self.examinemenu = ExamineMenu(lbt, con, self, 'examine', self.x, self.y)
+
+    def show_examine_menu(self):
+        self.examinemenu.orix = self.examinemenu.curx = self.x
+        self.examinemenu.oriy = self.examinemenu.cury = self.y
+
+        while True:
+            self.examinemenu.draw()
+            self.examinemenu.update()
 
     def show_inventory(self):
         self.inventorymenu.update(options=self.inventory, header = 'Inventory: %s/%s' %(self.inventory.get_fill(), self.inv_size))
