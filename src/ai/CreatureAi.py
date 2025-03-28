@@ -77,7 +77,7 @@ class CreatureAi(object):
         dy = self.player.y - self.creature.y
         distance = math.sqrt(dx ** 2 + dy ** 2)
 
-        if distance is not 0:
+        if distance != 0:
             dx = int(round(dx / distance))
             dy = int(round(dy / distance))
             self.creature.move(dx, dy)

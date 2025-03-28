@@ -1,3 +1,64 @@
+# PyRoPy
+
+A roguelike game written in Python using the tcod library.
+
+## Requirements
+
+- Python 3.12 or higher
+- tcod library
+- numpy
+
+## Installation
+
+1. Create a virtual environment (recommended):
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
+```
+
+2. Install the required packages:
+```bash
+pip install -r requirements.txt
+```
+
+## Running the Game
+
+1. Make sure your virtual environment is activated
+2. Run the game:
+```bash
+python main.py
+```
+
+## Controls
+
+- Arrow keys or numpad: Move
+- g: Pick up items
+- i: Open inventory
+- d: Drop items
+- e: Eat items
+- w: Wear items
+- q: Equip items
+- r: Drink items
+- ;: Examine items
+- ESC: Exit game
+
+## Game Features
+
+- Roguelike dungeon exploration
+- Item management (pickup, drop, use)
+- Combat system
+- Status effects
+- Hunger and thirst mechanics
+- Various creatures and items to discover
+
+## Development
+
+This game was originally written in Python 2.7 using libtcodpy. It has been modernized to work with Python 3.12 using the tcod library.
+
+## License
+
+[Add your license information here]
+
 This is a python roguelike that I'll be maintaining as a hobby project.
 Parts of this will follow the libtcod tutorial.
 

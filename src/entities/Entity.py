@@ -27,8 +27,7 @@ class Entity(object):
         self.type = ntype
 
     def draw(self, wx, wy):
-        self.lbt.console_set_default_foreground(self.con, self.color)
-        self.lbt.console_put_char(self.con, wx, wy, self.char, self.lbt.BKGND_NONE)
+        self.con.print(wx, wy, self.char, self.color)
 
     def clear(self):
-        self.lbt.console_put_char(self.con, self.x, self.y, ' ', self.lbt.BKGND_NONE)
+        self.con.print(self.x, self.y, ' ', (0, 0, 0))

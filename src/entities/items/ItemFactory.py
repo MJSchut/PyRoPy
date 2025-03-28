@@ -1,6 +1,6 @@
 __author__ = 'Martijn Schut'
 
-from Items import Item
+from .Items import Item
 from src.effects.Effects import PoisonEffect
 from src.effects.Effects import MinorHealEffect
 from src.effects.Effects import AsphyxiationEffect
@@ -23,7 +23,7 @@ class ItemFactory(object):
         self.level = level
 
     def make_rock(self):
-        rock = Item(self.lbt, self.con, self.level, ',', self.lbt.yellow)
+        rock = Item(self.lbt, self.con, self.level, ',', (255, 255, 0))
         rock.set_equip_to(Hand)
         rock.set_attack_value(1)
         if random.random() < 0.5:
@@ -68,7 +68,7 @@ class ItemFactory(object):
         return potion
 
     def make_sword(self):
-        sword = Item(self.lbt, self.con, self.level, '/', self.lbt.white)
+        sword = Item(self.lbt, self.con, self.level, '/', (255, 255, 255))
         sword.set_equip_to(Hand)
         sword.set_appearance('iron sword')
         sword.set_name('unremarkable iron sword')
@@ -76,7 +76,7 @@ class ItemFactory(object):
         self.level.add_at_empty_location(sword)
 
     def make_gauntlet(self):
-        glove = Item(self.lbt, self.con, self.level, ']', self.lbt.white)
+        glove = Item(self.lbt, self.con, self.level, ']', (255, 255, 255))
         glove.set_equip_to(Hand, wearable=True)
         glove.set_appearance('iron gauntlet')
         glove.set_name('unremarkable iron gauntlet')
@@ -84,7 +84,7 @@ class ItemFactory(object):
         self.level.add_at_empty_location(glove)
 
     def make_fedora(self):
-        fedora = Item(self.lbt, self.con, self.level, '_', self.lbt.cyan)
+        fedora = Item(self.lbt, self.con, self.level, '_', (0, 255, 255))
         fedora.set_wear_to(Head)
         fedora.set_appearance('fedora')
         fedora.set_name('fedora')
@@ -92,7 +92,7 @@ class ItemFactory(object):
         self.level.add_at_empty_location(fedora)
 
     def make_amulet(self):
-        necklace = Item(self.lbt, self.con, self.level, ';', self.lbt.cyan)
+        necklace = Item(self.lbt, self.con, self.level, ';', (0, 255, 255))
         necklace.set_wear_to(Neck)
         necklace.set_appearance('sparkling necklace')
         necklace.set_name('dangerous necklace')

@@ -1,58 +1,60 @@
 __author__ = 'Martijn Schut'
 
-def handle_keys(lbt, key):
+import tcod
+
+def handle_keys(event):
     keylist = []
 
-    key_char = chr(key.c)
-
-    if lbt.console_is_key_pressed(lbt.KEY_ESCAPE):
+    if event.sym == tcod.event.KeySym.ESCAPE:
         keylist.append('exit')
-
-    if lbt.console_is_key_pressed(lbt.KEY_UP) or key_char == '8':
+    elif event.sym == tcod.event.KeySym.UP:
         keylist.append('up')
-
-    elif lbt.console_is_key_pressed(lbt.KEY_DOWN) or key_char == '2':
+    elif event.sym == tcod.event.KeySym.DOWN:
         keylist.append('down')
-
-    elif lbt.console_is_key_pressed(lbt.KEY_LEFT) or key_char == '4':
+    elif event.sym == tcod.event.KeySym.LEFT:
         keylist.append('left')
-
-    elif lbt.console_is_key_pressed(lbt.KEY_RIGHT) or key_char == '6':
+    elif event.sym == tcod.event.KeySym.RIGHT:
         keylist.append('right')
-
-    elif key_char == '7':
-        keylist.append('leftup')
-    elif key_char == '9':
-        keylist.append('rightup')
-    elif key_char == '1':
-        keylist.append('leftdown')
-    elif key_char == '3':
-        keylist.append('rightdown')
-
-    if lbt.console_is_key_pressed(lbt.KEY_ENTER):
+    elif event.sym == tcod.event.KeySym.RETURN:
         keylist.append('enter')
-
-    if key_char == 'g':
-        keylist.append('pickup')
-    if key_char == 'i':
-        keylist.append('inventory')
-    if key_char == 'd':
-        keylist.append('dropmenu')
-    if key_char == 'e':
-        keylist.append('eatmenu')
-    if key_char == 'w':
-        keylist.append('wearmenu')
-    if key_char == 'q':
-        keylist.append('equipmenu')
-    if key_char == 'r':
-        keylist.append('drinkmenu')
-    if key_char == ';':
-        keylist.append('examine')
+    elif isinstance(event, tcod.event.TextInput):
+        if event.text == '8':
+            keylist.append('up')
+        elif event.text == '2':
+            keylist.append('down')
+        elif event.text == '4':
+            keylist.append('left')
+        elif event.text == '6':
+            keylist.append('right')
+        elif event.text == '7':
+            keylist.append('leftup')
+        elif event.text == '9':
+            keylist.append('rightup')
+        elif event.text == '1':
+            keylist.append('leftdown')
+        elif event.text == '3':
+            keylist.append('rightdown')
+        elif event.text == 'g':
+            keylist.append('pickup')
+        elif event.text == 'i':
+            keylist.append('inventory')
+        elif event.text == 'd':
+            keylist.append('dropmenu')
+        elif event.text == 'e':
+            keylist.append('eatmenu')
+        elif event.text == 'w':
+            keylist.append('wearmenu')
+        elif event.text == 'q':
+            keylist.append('equipmenu')
+        elif event.text == 'r':
+            keylist.append('drinkmenu')
+        elif event.text == ';':
+            keylist.append('examine')
 
     return keylist
 
-def process_keylist(lbt, keylist, player):
-    if keylist[0] is None:
+def process_keylist(tcod, keylist, player):
+    if not keylist or keylist[0] is None:
         return
     if keylist[0] == 'pickup':
         player.pickup()

@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: PyRoPy
+Version: 0.1.0
+Summary: A roguelike game written in Python using the tcod library
+Author: Martijn Schut
+Keywords: roguelike,game,tcod
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.12
+Requires-Dist: tcod>=15.0.0
+Requires-Dist: numpy>=1.24.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: keywords
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary

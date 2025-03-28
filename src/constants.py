@@ -1,6 +1,7 @@
 __author__ = 'Martijn Schut'
 
-import libtcodpy as lbt
+import tcod
+from tcod import libtcodpy
 from src.effects.Effects import *
 
 import random
@@ -16,7 +17,7 @@ BAR_WIDTH = 20
 PANEL_WIDTH = 30
 PANEL_HEIGHT = SCREEN_HEIGHT
 PANEL_Y = SCREEN_HEIGHT - PANEL_HEIGHT
-panel = lbt.console_new(PANEL_WIDTH, SCREEN_HEIGHT)
+panel = tcod.console.Console(PANEL_WIDTH, SCREEN_HEIGHT, order="F")
 
 MSG_Y = BAR_WIDTH + 3
 MSG_WIDTH = PANEL_WIDTH - 1
@@ -28,31 +29,31 @@ appearance_potion_dictionary = {}
 player_name = 'Steve'
 
 colors = {
-    "floor_color" : lbt.Color(30, 30, 30),
-    "floor_color_front" : lbt.Color(40, 40, 40),
-    "wall_color" : lbt.Color(50, 50, 50),
-    "wall_color_front" : lbt.Color(150, 110, 110),
-    "darkness_color" : lbt.Color(10, 10, 10),
+    "floor_color": (30, 30, 30),
+    "floor_color_front": (40, 40, 40),
+    "wall_color": (50, 50, 50),
+    "wall_color_front": (150, 110, 110),
+    "darkness_color": (10, 10, 10),
 }
 
 chars = {
-    "floor_char" : '.',
-    "wall_char" : lbt.CHAR_BLOCK1,
-    "darkness_char" : lbt.CHAR_BLOCK2,
-    "window_char" : lbt.CHAR_HLINE
+    "floor_char": '.',
+    "wall_char": '█',  # Unicode block character
+    "darkness_char": '░',  # Unicode light shade character
+    "window_char": '─'  # Unicode horizontal line
 }
 
 item_color_pointers = {
-    'red' : lbt.red,
-    'purple' : lbt.purple,
-    'cyan' : lbt.dark_cyan,
-    'blue' : lbt.dark_azure,
-    'turqoise' : lbt.turquoise,
-    'green' : lbt.green,
-    'yellow' : lbt.dark_yellow,
-    'amber' : lbt.amber,
-    'orange' : lbt.orange,
-    'pink' : lbt.dark_pink
+    'red': (255, 0, 0),
+    'purple': (191, 0, 255),
+    'cyan': (0, 191, 191),
+    'blue': (0, 95, 191),
+    'turqoise': (0, 255, 191),
+    'green': (0, 255, 0),
+    'yellow': (191, 191, 0),
+    'amber': (255, 191, 0),
+    'orange': (255, 127, 0),
+    'pink': (191, 0, 95)
 }
 
 item_colors = [
@@ -67,6 +68,7 @@ item_colors = [
     'orange',
     'pink'
 ]
+
 item_adjective = [
     'swirling',
     'bubbling',
@@ -82,8 +84,8 @@ item_adjective = [
 ]
 
 effect_noun = {
-    PoisonEffect : "poison",
-    MinorHealEffect : "minor healing"
+    PoisonEffect: "poison",
+    MinorHealEffect: "minor healing"
 }
 
 def random_name():
@@ -99,12 +101,12 @@ def random_name():
         'Milfred',
         'Sally',
         'Steve'
-        ]
+    ]
 
     return random.choice(name_list)
 
 def debug_msg(message):
     if DEBUG == 1:
-        print message
+        print(message)
 
 
