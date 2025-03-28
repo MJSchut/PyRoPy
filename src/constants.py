@@ -38,9 +38,9 @@ colors = {
 
 chars = {
     "floor_char": '.',
-    "wall_char": '█',  # Unicode block character
-    "darkness_char": '░',  # Unicode light shade character
-    "window_char": '─'  # Unicode horizontal line
+    "wall_char": '#',  # Wall character
+    "darkness_char": ' ',  # Empty space for darkness
+    "window_char": '-'  # Horizontal line
 }
 
 item_color_pointers = {

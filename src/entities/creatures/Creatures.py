@@ -379,7 +379,7 @@ class Creature(Entity):
 
 class Player(Creature):
     def __init__(self, lbt, con, level):
-        char = '☺'  # Unicode smiley face
+        char = '@'  # Player character
         color = (255, 255, 255)  # White
 
         super(Player, self).__init__(lbt, con, level, char, color)

@@ -52,7 +52,7 @@ def render_status(x, y, name, value, text_color = (127, 127, 127)):
 
 # basic tcod initialization
 tileset = tcod.tileset.load_tilesheet(
-    "assets/terminal12x12_gs_ro.png", 32, 8, tcod.tileset.CHARMAP_TCOD
+    "assets/terminal12x12_gs_ro.png", 16, 16, tcod.tileset.CHARMAP_CP437
 )
 
 console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
@@ -72,9 +72,9 @@ with tcod.context.new(
     # add the player
     messages = [[], []]
     linecolors = []
-    linecolors.append(libtcodpy.Color(255, 160, 160))
+    linecolors.append((255, 160, 160))  # Light red
     for i in range(255, 15, -8):
-        linecolors.append(libtcodpy.Color(i, i, i))
+        linecolors.append((i, i, i))  # Grayscale
     all_messages = []
     player = cFactory.make_player(messages)
 
