@@ -2,6 +2,8 @@
 
 A roguelike game written in Python using the tcod library.
 
+> **Note**: This project is currently undergoing restoration and modernization. The codebase is being updated from Python 2.7/libtcodpy to Python 3.12/tcod, while preserving the original game mechanics and expanding upon them.
+
 ## Requirements
 
 - Python 3.12 or higher
@@ -53,23 +55,45 @@ python main.py
 
 ## Development
 
-This game was originally written in Python 2.7 using libtcodpy. It has been modernized to work with Python 3.12 using the tcod library.
+This game was originally written in Python 2.7 using libtcodpy. It is currently being restored and modernized to work with Python 3.12 using the tcod library. The restoration process includes:
+
+- Updating the codebase to modern Python standards
+- Replacing deprecated libtcodpy calls with modern tcod equivalents
+- Preserving and enhancing the original game mechanics
+- Improving code documentation and structure
+- Adding new features while maintaining the original roguelike feel
 
 ## License
 
-[Add your license information here]
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-This is a python roguelike that I'll be maintaining as a hobby project.
-Parts of this will follow the libtcod tutorial.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-Short instructions.
-Arrow keys to move
-- g: pick up items
-- i: bring up inventory
-- q: equip items
-- w: wear items
-- d: drop items
-- e: eat items
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+## Historical Development Notes
+
+This section contains historical information about the project's earlier versions.
+
+### Original Description
+This is a python roguelike that was maintained as a hobby project.
+Parts of this followed the libtcod tutorial.
+
+### Update Log
+- **0.02a/b**: Added Limb system with humanoid creature presets. Relocated message log. Added potion color persistence. Added creature bleeding.
+- **0.02**: Major update! Added Limb system (currently player is a set of hands). Added equipment system. Implemented field of view. Expanded level generation with miner cave algorithm.
+- **0.01e**: Expanded combat, improved message system, basic level generation.
+- **0.01d**: Added run.bat and Python 2.7 release. Added message and basic combat systems.
+- **0.01c**: Added camera system. Made walls bumpable and fungus killable.
+- **0.01b**: Added Entity system with OOP principles.
+- **0.01a**: Initial version with basic @ movement.
 
 ---
 
