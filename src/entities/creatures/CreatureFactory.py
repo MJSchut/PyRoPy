@@ -61,6 +61,8 @@ class CreatureFactory:
         self._add_human_limbs(player)
 
         player.type = 'player'
+        player.messages = messages
+        player.set_Ai(PlayerAi(player, messages, self.level))
 
         self.level.add_at_empty_location(player)
 

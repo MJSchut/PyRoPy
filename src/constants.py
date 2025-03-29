@@ -16,9 +16,11 @@ DEBUG = 1
 BAR_WIDTH = 20
 PANEL_WIDTH = 30
 PANEL_HEIGHT = SCREEN_HEIGHT
-PANEL_Y = SCREEN_HEIGHT - PANEL_HEIGHT
+PANEL_Y = 0  # Position panel at the top
+PANEL_FG = (255, 255, 255)  # White text
+PANEL_BG = (0, 0, 0)  # Black background
 panel = tcod.console.Console(PANEL_WIDTH, SCREEN_HEIGHT, order="F")
-
+panel.clear(fg=PANEL_FG, bg=PANEL_BG)  # Clear with background color
 MSG_Y = BAR_WIDTH + 3
 MSG_WIDTH = PANEL_WIDTH - 1
 MSG_HEIGHT = 20

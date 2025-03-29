@@ -383,6 +383,10 @@ class Player(Creature):
         color = (255, 255, 255)  # White
 
         super(Player, self).__init__(lbt, con, level, char, color)
+        self.inv_size = 20  # Set inventory size before activating
+        self.activate_inventory()  # Activate inventory before creating menus
+        
+        # Create menus after inventory is initialized
         self.inventorymenu = InventoryMenu(lbt, con, 'Inventory', self)
         self.dropmenu = DropMenu(lbt, con, 'Drop items', self)
         self.eatmenu = EatMenu(lbt, con, 'Eat stuff', self)
@@ -407,7 +411,7 @@ class Player(Creature):
         if self.inventory.get_fill() == 0:
             self.dropmenu.update(options=self.inventory, header = 'Nothing to drop')
         else:
-            itemlist = sorted(self.inventory.get_items(), key=lambda x: (x is None, x))
+            itemlist = sorted(self.inventory.get_items(), key=lambda x: x is None)
             self.dropmenu.update(options=itemlist, header = 'Drop items')
         self.dropmenu.draw()
 

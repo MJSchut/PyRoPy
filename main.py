@@ -44,11 +44,15 @@ def render_bar(x, y, total_width, value, maximum, name, bar_color, back_color, t
     else:
         text = f"{name}:"
     
-    constants.panel.print(x + total_width // 2, y, text, text_color, alignment=libtcodpy.CENTER)
+    for i, char in enumerate(text):
+        x_pos = x + total_width // 2 - len(text) // 2 + i
+        constants.panel.print(x_pos, y, char, fg=text_color, bg=(0, 0, 0))
 
 def render_status(x, y, name, value, text_color = (127, 127, 127)):
     text = f"{name}: {value}"
-    constants.panel.print(x + (len(name) - 2) + len(value)//2, y, text, text_color, alignment=libtcodpy.CENTER)
+    for i, char in enumerate(text):
+        x_pos = x + i
+        constants.panel.print(x_pos, y, char, fg=text_color, bg=(0, 0, 0))
 
 # basic tcod initialization
 tileset = tcod.tileset.load_tilesheet(
@@ -78,6 +82,26 @@ with tcod.context.new(
     all_messages = []
     player = cFactory.make_player(messages)
 
+    # Add test messages directly to the message list
+    messages[0].append("Welcome to PyRoPy!")
+    messages[1].append(0)
+    messages[0].append("Use arrow keys to move.")
+    messages[1].append(0)
+    messages[0].append("Press 'i' for inventory.")
+    messages[1].append(0)
+    messages[0].append("Press 'd' to drop items.")
+    messages[1].append(0)
+    messages[0].append("Press 'e' to eat items.")
+    messages[1].append(0)
+    messages[0].append("Press 'r' to drink items.")
+    messages[1].append(0)
+    messages[0].append("Press 'q' to equip items.")
+    messages[1].append(0)
+    messages[0].append("Press 'w' to wear items.")
+    messages[1].append(0)
+    messages[0].append("Press 'x' to examine items.")
+    messages[1].append(0)
+    
     # add some hostile and less hostile creatures & items
     funguscount = 10
     for _ in range(funguscount):
@@ -161,14 +185,16 @@ with tcod.context.new(
                 wy = creature.y - sy
                 creature.draw(wx, wy)
 
-        #prepare to render the bottom panel
-        constants.panel.clear()
-        constants.panel.bg[:] = (0, 0, 0)
+        # prepare to render the bottom panel
+        constants.panel.clear(fg=constants.PANEL_FG, bg=constants.PANEL_BG)
 
-        #show the player's stats
-        htext_color = (127, 127, 127)
+        # Add a debug indicator in the corner
+        constants.panel.print(0, 0, "PyRoPy", fg=(255, 0, 0), bg=(0, 0, 0))
+        
+        # show the player's stats
+        htext_color = (255, 255, 255)
         if float(player.hp) / player.maxhp < 0.3:
-            htext_color = (255, 255, 255)
+            htext_color = (255, 0, 0)
         render_bar(1, 1, constants.BAR_WIDTH, player.hp, player.maxhp, 'Health',
                    (255, 0, 0), (127, 0, 0), text_color=htext_color)
 
@@ -187,30 +213,23 @@ with tcod.context.new(
 
         # show message log
         y = constants.MSG_Y - 1
-        for x in range(0, constants.MSG_WIDTH + 1):
-            constants.panel.print(x, y, constants.chars['window_char'])
-        constants.panel.draw_rect(1, y, constants.MSG_WIDTH, 1, ord(constants.chars['window_char']))
+        constants.panel.print(0, y, "Messages:", fg=(255, 255, 255), bg=(0, 0, 0))
+        constants.panel.draw_rect(0, y, constants.MSG_WIDTH, 1, ord('-'), fg=(255, 255, 255), bg=(0, 0, 0))
 
         y += 1
-        for i in range(len(messages[0]) -1, 0, -1):
-            line = messages[0][i]
-            colorindex = messages[1][i]
-            message = textwrap.wrap(line, width=constants.MSG_WIDTH)
-            for lines in message:
-                constants.panel.print(1, y, lines, linecolors[colorindex], alignment=tcod.LEFT)
-                y += 1
-
-            if colorindex < len(linecolors) - 1:
-                colorindex += 1
-
-            messages[1][i] = colorindex
-
+        
+        # Display at most 5 most recent messages for debugging
+        display_messages = messages[0][-5:] if len(messages[0]) > 5 else messages[0]
+        
+        for i, message in enumerate(display_messages):
+            constants.panel.print(1, y + i, message, fg=(255, 255, 255), bg=(0, 0, 0))
+        
         if len(messages[0]) >= constants.MSG_HEIGHT:
             del messages[0][0]
             del messages[1][0]
 
-        #blit the contents of "panel" to the root console
-        constants.panel.blit(console, 0, 0, 0, 0, constants.SCREEN_WIDTH, constants.PANEL_HEIGHT, constants.PANEL_Y)
+        # blit the contents of "panel" to the root console
+        constants.panel.blit(console, 0, 0, 0, 0, constants.PANEL_WIDTH, constants.PANEL_HEIGHT)
 
         context.present(console)
 

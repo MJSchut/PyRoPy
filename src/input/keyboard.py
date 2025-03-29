@@ -5,19 +5,7 @@ import tcod
 def handle_keys(event):
     keylist = []
 
-    if event.sym == tcod.event.KeySym.ESCAPE:
-        keylist.append('exit')
-    elif event.sym == tcod.event.KeySym.UP:
-        keylist.append('up')
-    elif event.sym == tcod.event.KeySym.DOWN:
-        keylist.append('down')
-    elif event.sym == tcod.event.KeySym.LEFT:
-        keylist.append('left')
-    elif event.sym == tcod.event.KeySym.RIGHT:
-        keylist.append('right')
-    elif event.sym == tcod.event.KeySym.RETURN:
-        keylist.append('enter')
-    elif isinstance(event, tcod.event.TextInput):
+    if isinstance(event, tcod.event.TextInput):
         if event.text == '8':
             keylist.append('up')
         elif event.text == '2':
@@ -50,6 +38,19 @@ def handle_keys(event):
             keylist.append('drinkmenu')
         elif event.text == ';':
             keylist.append('examine')
+    elif isinstance(event, tcod.event.KeyDown):
+        if event.sym == tcod.event.KeySym.ESCAPE:
+            keylist.append('exit')
+        elif event.sym == tcod.event.KeySym.UP:
+            keylist.append('up')
+        elif event.sym == tcod.event.KeySym.DOWN:
+            keylist.append('down')
+        elif event.sym == tcod.event.KeySym.LEFT:
+            keylist.append('left')
+        elif event.sym == tcod.event.KeySym.RIGHT:
+            keylist.append('right')
+        elif event.sym == tcod.event.KeySym.RETURN:
+            keylist.append('enter')
 
     return keylist
 
@@ -60,22 +61,22 @@ def process_keylist(tcod, keylist, player):
         player.pickup()
         return
     if keylist[0] == 'inventory':
-        player.show_inventory()
+        player.inventorymenu.draw()
         return
     if keylist[0] == 'drinkmenu':
-        player.show_drink_menu()
+        player.drinkmenu.draw()
         return
     if keylist[0] == 'dropmenu':
-        player.show_drop_menu()
+        player.dropmenu.draw()
         return
     if keylist[0] == 'equipmenu':
-        player.show_equip_menu()
+        player.equipmenu.draw()
         return
     if keylist[0] == 'wearmenu':
-        player.show_wear_menu()
+        player.wearmenu.draw()
         return
     if keylist[0] == 'eatmenu':
-        player.show_eat_menu()
+        player.eatmenu.draw()
         return
     if keylist[0] == 'examine':
         player.show_examine_menu()
