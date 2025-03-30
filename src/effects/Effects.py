@@ -17,7 +17,7 @@ class Effect(object):
             self.creature.remove_effect(self)
 
 class PoisonEffect(Effect):
-    def __init__(self, duration, creature):
+    def __init__(self, creature, duration):
         super(PoisonEffect, self).__init__(duration, creature)
 
     def on_update(self):

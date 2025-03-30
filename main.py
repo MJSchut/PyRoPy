@@ -112,7 +112,10 @@ with tcod.context.new(
     messages[0].append("Press 'x' to examine items.")
     messages[1].append(0)  # Use white (index 0)
     
-    # add some hostile and less hostile creatures & items
+    # Set reference to the factory in the level for slime splitting
+    level.factory = cFactory
+    
+    # Add original creatures
     funguscount = 10
     for _ in range(funguscount):
         fungus = cFactory.make_fungus()
@@ -128,7 +131,52 @@ with tcod.context.new(
     gargoylecount = 5
     for _ in range(gargoylecount):
         gargoyle = cFactory.make_gargoyle(player)
-
+    
+    # Add new creatures with balanced spawning
+    
+    # Docile creatures (more common)
+    frogcount = 8
+    for _ in range(frogcount):
+        frog = cFactory.make_frog()
+    
+    ratcount = 12  # Scavengers, not threatening
+    for _ in range(ratcount):
+        rat = cFactory.make_rat()
+    
+    diggercount = 4  # Helpful by creating passages
+    for _ in range(diggercount):
+        digger = cFactory.make_digger()
+    
+    huntercount = 3  # Hunts fungus, not the player
+    for _ in range(huntercount):
+        hunter = cFactory.make_hunter()
+    
+    slimecount = 3  # Slow and weak
+    for _ in range(slimecount):
+        slime = cFactory.make_slime()
+    
+    # Dangerous creatures (less common)
+    mimiccount = 2  # Disguised as items
+    for _ in range(mimiccount):
+        mimic = cFactory.make_mimic()
+    
+    spidercount = 3  # Poisonous
+    for _ in range(spidercount):
+        spider = cFactory.make_spider()
+    
+    trap_spidercount = 2  # Hidden traps
+    for _ in range(trap_spidercount):
+        trap_spider = cFactory.make_trap_spider()
+    
+    wolfcount = 3  # Pack hunters
+    for _ in range(wolfcount):
+        wolf = cFactory.make_wolf()
+    
+    shadowcount = 2  # Appear in darkness
+    for _ in range(shadowcount):
+        shadow = cFactory.make_shadow(player)
+    
+    # Add original items
     rockcount = 25
     for _ in range(rockcount):
         rock = iFactory.make_rock()

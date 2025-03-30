@@ -142,3 +142,26 @@ class Level(object):
             else:
                 self.remove_creature(creature)
 
+    def is_valid(self, x, y):
+        """Check if the coordinates are within the level boundaries"""
+        return 0 <= x < self.level_width and 0 <= y < self.level_height
+        
+    def dig(self, x, y):
+        """Convert a wall tile to a floor tile, allowing passage"""
+        if self.is_valid(x, y) and self.map[x][y].blocked:
+            # Replace wall with floor
+            self.map[x][y] = FloorTile()
+            return True
+        return False
+        
+    def get_random_walkable_tile(self):
+        """Get coordinates of a random walkable tile"""
+        x = random.randint(2, self.level_width - 2)
+        y = random.randint(2, self.level_height - 2)
+        
+        while self.map[x][y].blocked:
+            x = random.randint(2, self.level_width - 2)
+            y = random.randint(2, self.level_height - 2)
+            
+        return (x, y)
+

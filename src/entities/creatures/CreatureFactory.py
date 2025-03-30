@@ -13,6 +13,17 @@ from src.ai.CreatureAi import BatAi
 from src.ai.CreatureAi import SnakeAi
 from src.ai.CreatureAi import GargoyleAi
 from src.ai.CreatureAi import EOozeAi
+# Import new AIs
+from src.ai.CreatureAi import DiggerAi
+from src.ai.CreatureAi import JumperAi
+from src.ai.CreatureAi import HunterAi
+from src.ai.CreatureAi import MimicAi
+from src.ai.CreatureAi import ShadowAi
+from src.ai.CreatureAi import PoisonousAi
+from src.ai.CreatureAi import PackHunterAi
+from src.ai.CreatureAi import TrapperAi
+from src.ai.CreatureAi import ScavengerAi
+from src.ai.CreatureAi import SlimeAi
 
 from src.effects.Effects import PoisonEffect
 
@@ -98,7 +109,7 @@ class CreatureFactory:
 
         fungus.set_Ai(BloodFungusAi(fungus, self))
 
-        self.level.add_creature_at(fungus, self.level.get_random_walkable_tile())
+        self.level.add_at_empty_location(fungus)
 
         return fungus
 
@@ -177,3 +188,187 @@ class CreatureFactory:
         ooze.blood_color = (255, 255, 255)  # White
 
         return ooze
+
+    def make_digger(self):
+        digger = Creature(self.lbt, self.con, self.level, 'D', (139, 69, 19))  # Saddle Brown
+        digger.set_maxhp(15)
+        digger.set_attack(2)
+        digger.set_defence(3)
+        digger.set_vision_radius(4)
+        digger.set_inventory_size(0)
+
+        digger.blood_color = (139, 69, 19)  # Saddle Brown
+        digger.type = 'digger'
+
+        digger.set_Ai(DiggerAi(digger, self.level))
+
+        self.level.add_at_empty_location(digger)
+
+        return digger
+    
+    def make_frog(self):
+        frog = Creature(self.lbt, self.con, self.level, 'F', (0, 128, 0))  # Green
+        frog.set_maxhp(5)
+        frog.set_attack(1)
+        frog.set_defence(0)
+        frog.set_vision_radius(6)
+        frog.set_inventory_size(0)
+
+        frog.blood_color = (0, 128, 0)  # Green
+        frog.type = 'frog'
+
+        frog.set_Ai(JumperAi(frog))
+
+        self.level.add_at_empty_location(frog)
+
+        return frog
+    
+    def make_hunter(self):
+        hunter = Creature(self.lbt, self.con, self.level, 'h', (165, 42, 42))  # Brown
+        hunter.set_maxhp(10)
+        hunter.set_attack(4)
+        hunter.set_defence(1)
+        hunter.set_vision_radius(8)
+        hunter.set_inventory_size(0)
+
+        hunter.blood_color = (165, 42, 42)  # Brown
+        hunter.type = 'hunter'
+
+        hunter.set_Ai(HunterAi(hunter, self.level))
+
+        self.level.add_at_empty_location(hunter)
+
+        return hunter
+    
+    def make_mimic(self):
+        mimic = Creature(self.lbt, self.con, self.level, '¤', (139, 69, 19))  # Chest-like
+        # Store original appearance, then disguise
+        mimic.original_char = '¤'
+        mimic.original_color = (139, 69, 19)
+        # Disguise as an item
+        mimic.char = '*'
+        mimic.color = (255, 215, 0)  # Gold
+        
+        mimic.set_maxhp(12)
+        mimic.set_attack(6)
+        mimic.set_defence(2)
+        mimic.set_vision_radius(3)
+        mimic.set_inventory_size(0)
+
+        mimic.blood_color = (139, 69, 19)  # Brown
+        mimic.type = 'mimic'
+
+        mimic.set_Ai(MimicAi(mimic))
+
+        self.level.add_at_empty_location(mimic)
+
+        return mimic
+    
+    def make_shadow(self, player):
+        shadow = Creature(self.lbt, self.con, self.level, 'S', (50, 50, 50))  # Dark grey
+        shadow.set_maxhp(8)
+        shadow.set_attack(3)
+        shadow.set_defence(1)
+        shadow.set_vision_radius(10)  # Good vision to find the player
+        shadow.set_inventory_size(0)
+
+        shadow.blood_color = (0, 0, 0)  # Black
+        shadow.type = 'shadow'
+
+        shadow.set_Ai(ShadowAi(shadow, player))
+
+        self.level.add_at_empty_location(shadow)
+
+        return shadow
+    
+    def make_spider(self):
+        spider = Creature(self.lbt, self.con, self.level, 's', (0, 0, 0))  # Black
+        spider.set_maxhp(6)
+        spider.set_attack(2)
+        spider.set_defence(1)
+        spider.set_vision_radius(5)
+        spider.set_inventory_size(0)
+
+        spider.blood_color = (0, 100, 0)  # Dark green
+        spider.type = 'spider'
+
+        spider.set_Ai(PoisonousAi(spider, self))
+
+        self.level.add_at_empty_location(spider)
+
+        return spider
+    
+    def make_wolf(self):
+        wolf = Creature(self.lbt, self.con, self.level, 'w', (128, 128, 128))  # Grey
+        wolf.set_maxhp(8)
+        wolf.set_attack(3)
+        wolf.set_defence(1)
+        wolf.set_vision_radius(7)
+        wolf.set_inventory_size(0)
+
+        wolf.blood_color = (255, 0, 0)  # Red
+        wolf.type = 'wolf'
+
+        wolf.set_Ai(PackHunterAi(wolf, self.level))
+
+        self.level.add_at_empty_location(wolf)
+
+        return wolf
+    
+    def make_trap_spider(self):
+        spider = Creature(self.lbt, self.con, self.level, 'T', (165, 42, 42))  # Brown
+        # Store original appearance
+        spider.original_char = 'T'
+        spider.original_color = (165, 42, 42)
+        # Disguise as floor
+        spider.char = '.'
+        spider.color = (127, 127, 127)  # Grey
+        
+        spider.set_maxhp(7)
+        spider.set_attack(5)  # Strong attack when it traps you
+        spider.set_defence(0)
+        spider.set_vision_radius(2)
+        spider.set_inventory_size(0)
+
+        spider.blood_color = (0, 100, 0)  # Dark green
+        spider.type = 'trap spider'
+
+        spider.set_Ai(TrapperAi(spider))
+
+        self.level.add_at_empty_location(spider)
+
+        return spider
+    
+    def make_rat(self):
+        rat = Creature(self.lbt, self.con, self.level, 'r', (128, 128, 128))  # Grey
+        rat.set_maxhp(3)
+        rat.set_attack(1)
+        rat.set_defence(0)
+        rat.set_vision_radius(6)
+        rat.set_inventory_size(0)
+
+        rat.blood_color = (255, 0, 0)  # Red
+        rat.type = 'rat'
+
+        rat.set_Ai(ScavengerAi(rat, self.level))
+
+        self.level.add_at_empty_location(rat)
+
+        return rat
+    
+    def make_slime(self):
+        slime = Creature(self.lbt, self.con, self.level, 'j', (0, 255, 0))  # Green
+        slime.set_maxhp(10)
+        slime.set_attack(2)
+        slime.set_defence(2)
+        slime.set_vision_radius(3)
+        slime.set_inventory_size(0)
+
+        slime.blood_color = (0, 255, 0)  # Green
+        slime.type = 'slime'
+
+        slime.set_Ai(SlimeAi(slime, self.level))
+
+        self.level.add_at_empty_location(slime)
+
+        return slime
