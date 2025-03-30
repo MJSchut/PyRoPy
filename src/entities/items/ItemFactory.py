@@ -62,6 +62,10 @@ class ItemFactory(object):
         potion.set_equip_to(Hand)
         potion.item_factory = self
         potion.swings_to_break = 1
+        
+        # Add nutrition value to potions too
+        potion.set_nutrition(15)
+        potion.set_taste('sweet')
 
         self.level.add_at_empty_location(potion)
 
@@ -115,3 +119,33 @@ class ItemFactory(object):
             self.level.add_at_empty_location(shard)
         else:
             self.level.add_item(shard, location[0], location[1])
+
+    def make_food(self):
+        """Create a generic food item with high nutrition value"""
+        food_types = [
+            ('apple', '%', (255, 0, 0), 'juicy and sweet', 20),
+            ('bread', '%', (139, 69, 19), 'freshly baked', 30),
+            ('cheese', '%', (255, 255, 0), 'sharp and tangy', 25),
+            ('meat', '%', (165, 42, 42), 'savory', 35),
+            ('mushroom', '%', (160, 82, 45), 'earthy', 20)
+        ]
+        
+        food_type = random.choice(food_types)
+        name, char, color, taste, nutrition = food_type
+        
+        food = Item(self.lbt, self.con, self.level, char, color)
+        food.set_name(name)
+        food.set_appearance(name)
+        food.set_nutrition(nutrition)
+        food.set_taste(taste)
+        
+        self.level.add_at_empty_location(food)
+        
+        return food
+
+    def make_corpse_edible(self, corpse):
+        """Increase nutrition value of corpses"""
+        corpse.set_nutrition(random.randint(15, 30))  # Corpses have high nutrition
+        tastes = ['gamey', 'stringy', 'salty', 'chewy', 'tender']
+        corpse.set_taste(random.choice(tastes))
+        return corpse

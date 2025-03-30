@@ -18,7 +18,10 @@ class CreatureAi(object):
 
     def on_update(self):
         if self.creature.hunger > 0 and self.creature.maxhunger > 0:
-            self.creature.hunger -= 1
+            # Slow down hunger decrease - only decrement every few turns
+            if random.random() < 0.1:  # ~10% chance to decrease hunger each turn
+                self.creature.hunger -= 1
+            
             rat = (float(self.creature.hunger)/ float(self.creature.maxhunger))
 
             if rat < 0.05:
@@ -39,7 +42,8 @@ class CreatureAi(object):
                 self.creature.doAction('feel really hungry')
 
         if self.creature.hunger <= 0 and self.creature.maxhunger > 0:
-            self.creature.hurt(int(float(self.creature.maxhp / 10)))
+            # Reduce starvation damage
+            self.creature.hurt(int(float(self.creature.maxhp / 20)))  # Changed from 10 to 20
             self.creature.doAction('starve')
 
         for effect in self.creature.effect_list:
@@ -105,11 +109,16 @@ class PlayerAi(CreatureAi):
             self.creature.doAction('see a %s lying here' %item.get_name())
 
     def on_notify(self, message):
-        #print self.messages
-        #message_lines = textwrap.wrap(message, constants.MSG_WIDTH)
-        #for x, line in enumerate(message_lines):
-            self.messages[0].append(message)
-            self.messages[1].append(0)
+        # Determine appropriate color based on message content
+        color_index = 1  # Default to white (index 1, after the pink)
+        
+        # Check for combat/damage related messages - use pink (index 0)
+        if any(keyword in message.lower() for keyword in ['attack', 'hit', 'hurt', 'damage', 'kill', 'die', 'pain', 'bleed', 'blood', 'wound', 'toxin', 'starve']):
+            color_index = 0
+        
+        # Add message with appropriate color index
+        self.messages[0].append(message)
+        self.messages[1].append(color_index)
 
 
 class EOozeAi(CreatureAi):
@@ -163,8 +172,9 @@ class FungusAi(CreatureAi):
 class BloodFungusAi(CreatureAi):
     # Mutant fungus that'll counter attack
 
-    def __init__(self,creature, factory):
+    def __init__(self, creature, factory):
         super(BloodFungusAi, self).__init__(creature)
+        self.factory = factory
 
     def on_attacked(self, attacker):
         attacker.hurt(self.creature.attack)

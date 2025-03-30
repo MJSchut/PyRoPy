@@ -61,22 +61,22 @@ def process_keylist(tcod, keylist, player):
         player.pickup()
         return
     if keylist[0] == 'inventory':
-        player.inventorymenu.draw()
+        player.show_inventory()
         return
     if keylist[0] == 'drinkmenu':
-        player.drinkmenu.draw()
+        player.show_drink_menu()
         return
     if keylist[0] == 'dropmenu':
-        player.dropmenu.draw()
+        player.show_drop_menu()
         return
     if keylist[0] == 'equipmenu':
-        player.equipmenu.draw()
+        player.show_equip_menu()
         return
     if keylist[0] == 'wearmenu':
-        player.wearmenu.draw()
+        player.show_wear_menu()
         return
     if keylist[0] == 'eatmenu':
-        player.eatmenu.draw()
+        player.show_eat_menu()
         return
     if keylist[0] == 'examine':
         player.show_examine_menu()

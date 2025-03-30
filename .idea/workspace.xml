@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9f47447-5e89-45e2-b67c-03b9df1518b8" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ai/CreatureAi.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/CreatureAi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/creatures/CreatureFactory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/creatures/CreatureFactory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/creatures/Creatures.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/creatures/Creatures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/items/ItemFactory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/items/ItemFactory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/input/keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/input/keyboard.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,9 +117,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
@@ -495,8 +500,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.main" />
       <item itemvalue="Python.Analysis" />
+      <item itemvalue="Python.main" />
     </list>
     <recent_temporary>
       <list>
@@ -525,6 +530,7 @@
       <option name="presentableId" value="Default" />
       <updated>1468416007072</updated>
       <workItem from="1743198185694" duration="2785000" />
+      <workItem from="1743366602585" duration="1936000" />
     </task>
     <servers />
   </component>
@@ -591,14 +597,15 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>192</line>
+          <line>209</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PyRoPy$main.coverage" NAME="main Coverage Results" MODIFIED="1743201029421" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PyRoPy$main.coverage" NAME="main Coverage Results" MODIFIED="1743369183998" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PyRoPy$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1743287727264" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/main.py">

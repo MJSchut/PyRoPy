@@ -164,6 +164,9 @@ class Creature(Entity):
         self.vision_radius = radius
 
     def can_see(self, x, y):
+        # If AI is None (dead), can't see anything
+        if self.ai is None:
+            return False
         return self.ai.can_see(x, y)
 
     def add_effect(self, effect):
@@ -174,11 +177,25 @@ class Creature(Entity):
 
     def die(self):
         self.alive = False
-        corpse = Item(self.lbt, self.con, self.level, self.char, self.lbt.dark_grey)
+        # Use RGB tuple instead of tcod constant to avoid FutureWarning
+        corpse = Item(self.lbt, self.con, self.level, self.char, (95, 95, 95))  # dark grey
         corpse.set_name('dead %s' %self.type)
         corpse.set_postion(self.x, self.y)
-        corpse.set_nutrition(self.corpse_nutrition)
-        corpse.set_taste(self.taste)
+        
+        # Enhance corpse nutrition - all corpses are now more nutritious
+        if self.corpse_nutrition == 0:
+            # Default nutrition value for corpses with none specified
+            corpse.set_nutrition(max(10, int(self.maxhp / 3)))
+        else:
+            corpse.set_nutrition(self.corpse_nutrition)
+            
+        # All corpses have a taste now
+        if self.taste == 'bland' or self.taste is None:
+            tastes = ['chewy', 'gamey', 'stringy', 'odd', 'meaty', 'tender']
+            corpse.set_taste(random.choice(tastes))
+        else:
+            corpse.set_taste(self.taste)
+            
         self.level.items.append(corpse)
 
     def revive(self):
@@ -230,8 +247,25 @@ class Creature(Entity):
         if item.eat_effect is not None:
             self.add_effect(item.eat_effect)
 
-        self.hunger += item.nutrition
+        # Apply the nutrition with a bonus to make eating more worthwhile
+        nutrition_bonus = int(item.nutrition * 0.5)  # 50% bonus
+        total_nutrition = item.nutrition + nutrition_bonus
+        
+        # Cap nutrition at maximum hunger
+        if self.hunger + total_nutrition > self.maxhunger:
+            self.hunger = self.maxhunger
+        else:
+            self.hunger += total_nutrition
+            
+        # Display eat message
         self.doAction('eat a %s' %item.get_name())
+        
+        # Health bonus from eating
+        if random.random() < 0.3:  # 30% chance to heal from food
+            heal_amount = max(1, int(total_nutrition / 10))
+            self.heal(heal_amount)
+            self.notify("The food restores some of your strength.")
+            
         if item.taste is not None:
             self.notify('Tastes %s.' %item.taste)
 
@@ -239,10 +273,17 @@ class Creature(Entity):
 
     def drink(self, item):
         if item.drink_effect is not None:
-            effect = item.drink_effect(item.drink_effect_duration, self)
-            self.add_effect(effect)
+            # Create a new instance of the effect with proper duration and target
+            try:
+                effect = item.drink_effect(item.drink_effect_duration, self)
+                self.add_effect(effect)
+                self.notify(f"You feel the effects of the {item.get_name()}.")
+            except Exception as e:
+                # Fallback if the effect creation fails
+                self.notify(f"You drink the {item.get_name()} but nothing happens.")
+                print(f"Effect error: {e}")
 
-        self.doAction('drink a %s' %item.get_name())
+        self.doAction(f'drink a {item.get_name()}')
         self.inventory.remove(item)
 
     def set_taste(self, taste):
@@ -386,14 +427,22 @@ class Player(Creature):
         self.inv_size = 20  # Set inventory size before activating
         self.activate_inventory()  # Activate inventory before creating menus
         
-        # Create menus after inventory is initialized
-        self.inventorymenu = InventoryMenu(lbt, con, 'Inventory', self)
-        self.dropmenu = DropMenu(lbt, con, 'Drop items', self)
-        self.eatmenu = EatMenu(lbt, con, 'Eat stuff', self)
-        self.drinkmenu = DrinkMenu(lbt, con, 'Drink stuff', self)
-        self.equipmenu = EquipMenu(lbt, con, 'Equip stuff', self)
-        self.wearmenu = WearMenu(lbt, con, 'Wear stuff', self)
+        # Initialize menus with empty lists first
+        self.inventorymenu = InventoryMenu(lbt, con, 'Inventory', [])
+        self.dropmenu = DropMenu(lbt, con, 'Drop items', [])
+        self.eatmenu = EatMenu(lbt, con, 'Eat stuff', [])
+        self.drinkmenu = DrinkMenu(lbt, con, 'Drink stuff', [])
+        self.equipmenu = EquipMenu(lbt, con, 'Equip stuff', [])
+        self.wearmenu = WearMenu(lbt, con, 'Wear stuff', [])
         self.examinemenu = ExamineMenu(lbt, con, self, 'examine', self.x, self.y)
+        
+        # Update menus with actual inventory
+        self.inventorymenu.options = self.inventory
+        self.dropmenu.options = self.inventory
+        self.eatmenu.options = self.inventory.get_edible_items()
+        self.drinkmenu.options = self.inventory.get_drinkable_items()
+        self.equipmenu.options = self.inventory.get_equipable_items()
+        self.wearmenu.options = self.inventory.get_wearable_items()
 
     def show_examine_menu(self):
         self.examinemenu.orix = self.examinemenu.curx = self.x
@@ -404,47 +453,130 @@ class Player(Creature):
             self.examinemenu.update()
 
     def show_inventory(self):
-        self.inventorymenu.update(options=self.inventory, header = 'Inventory: %s/%s' %(self.inventory.get_fill(), self.inv_size))
-        self.inventorymenu.draw()
+        self._in_menu = True
+        self.inventorymenu.header = 'Inventory: %s/%s' %(self.inventory.get_fill(), self.inv_size)
+        self.inventorymenu.options = self.inventory
+        choice = self.inventorymenu.draw()
+        if choice is not None:
+            index = ord(choice) - ord('a')
+            if 0 <= index < len(self.inventory.get_items()):
+                item = self.inventory.get_items()[index]
+                if item is not None:
+                    self.notify(f"Selected {item.get_name()}")
+        self._in_menu = False
 
     def show_drop_menu(self):
+        self._in_menu = True
         if self.inventory.get_fill() == 0:
-            self.dropmenu.update(options=self.inventory, header = 'Nothing to drop')
+            self.dropmenu.header = 'Nothing to drop'
+            self.dropmenu.options = [None for i in range(self.inv_size)]
         else:
-            itemlist = sorted(self.inventory.get_items(), key=lambda x: x is None)
-            self.dropmenu.update(options=itemlist, header = 'Drop items')
-        self.dropmenu.draw()
-
-    def show_eat_menu(self):
-        if self.inventory.get_edible_items() == [None] * len(self.inventory.get_edible_items()):
-            self.eatmenu.update(options = [None for i in range(self.inv_size)], header = 'Nothing to eat...')
-
-        else:
-            self.eatmenu.update(options = self.inventory.get_edible_items(), header = 'Eat stuff')
-
-        self.eatmenu.draw()
+            self.dropmenu.header = 'Drop items'
+            self.dropmenu.options = sorted(self.inventory.get_items(), key=lambda x: x is None)
+        
+        choice = self.dropmenu.draw()
+        if choice is not None:
+            index = ord(choice) - ord('a')
+            if 0 <= index < len(self.inventory.get_items()):
+                item = self.inventory.get_items()[index]
+                if item is not None:
+                    self.drop(item)
+        self._in_menu = False
 
     def show_drink_menu(self):
+        self._in_menu = True
         if self.inventory.get_drinkable_items() == [None] * len(self.inventory.get_drinkable_items()):
-            self.drinkmenu.update(options = [None for i in range(self.inv_size)], header = 'Nothing to drink...')
-
+            self.drinkmenu.header = 'Nothing to drink...'
+            self.drinkmenu.options = [None for i in range(self.inv_size)]
         else:
-            self.drinkmenu.update(options = self.inventory.get_drinkable_items(), header = 'Drink stuff')
+            self.drinkmenu.header = 'Drink stuff'
+            self.drinkmenu.options = self.inventory.get_drinkable_items()
 
-        self.drinkmenu.draw()
+        choice = self.drinkmenu.draw()
+        if choice is not None:
+            index = ord(choice) - ord('a')
+            if 0 <= index < len(self.inventory.get_drinkable_items()):
+                item = self.inventory.get_drinkable_items()[index]
+                if item is not None:
+                    self.drink(item)
+        self._in_menu = False
+
+    def show_eat_menu(self):
+        self._in_menu = True
+        if self.inventory.get_edible_items() == [None] * len(self.inventory.get_edible_items()):
+            self.eatmenu.header = 'Nothing to eat...'
+            self.eatmenu.options = [None for i in range(self.inv_size)]
+        else:
+            self.eatmenu.header = 'Eat stuff'
+            self.eatmenu.options = self.inventory.get_edible_items()
+
+        choice = self.eatmenu.draw()
+        if choice is not None:
+            index = ord(choice) - ord('a')
+            if 0 <= index < len(self.inventory.get_edible_items()):
+                item = self.inventory.get_edible_items()[index]
+                if item is not None:
+                    self.eat(item)
+        self._in_menu = False
 
     def show_equip_menu(self):
+        self._in_menu = True
         if self.inventory.get_equipable_items() == [None] * len(self.inventory.get_equipable_items()):
-            self.equipmenu.update(options = [None for i in range(self.inv_size)], header = 'Nothing to equip')
+            self.equipmenu.header = 'Nothing to equip'
+            self.equipmenu.options = [None for i in range(self.inv_size)]
         else:
-            self.equipmenu.update(options = self.inventory.get_equipable_items(), header = 'Equip stuff')
+            self.equipmenu.header = 'Equip stuff'
+            self.equipmenu.options = self.inventory.get_equipable_items()
 
-        self.equipmenu.draw()
+        choice = self.equipmenu.draw()
+        if choice is not None:
+            index = ord(choice) - ord('a')
+            if 0 <= index < len(self.inventory.get_equipable_items()):
+                item = self.inventory.get_equipable_items()[index]
+                if item is not None:
+                    self.equip(item)
+        self._in_menu = False
 
     def show_wear_menu(self):
+        self._in_menu = True
         if self.inventory.get_wearable_items() == [None] * len(self.inventory.get_wearable_items()):
-            self.wearmenu.update(options = [None for i in range(self.inv_size)], header = 'Nothing to wear')
+            self.wearmenu.header = 'Nothing to wear'
+            self.wearmenu.options = [None for i in range(self.inv_size)]
         else:
-            self.wearmenu.update(options = self.inventory.get_wearable_items(), header = 'Wear stuff')
+            self.wearmenu.header = 'Wear stuff'
+            self.wearmenu.options = self.inventory.get_wearable_items()
 
-        self.wearmenu.draw()
+        choice = self.wearmenu.draw()
+        if choice is not None:
+            index = ord(choice) - ord('a')
+            if 0 <= index < len(self.inventory.get_wearable_items()):
+                item = self.inventory.get_wearable_items()[index]
+                if item is not None:
+                    self.wear(item)
+        self._in_menu = False
+
+    def equip(self, item):
+        """Equip an item (weapon) from inventory"""
+        if item and item in self.inventory.get_items():
+            # Get the appropriate limb type from the item
+            if hasattr(item, 'wearon'):
+                limb_type = item.wearon
+                self.equip_to_limbtype(item, limb_type)
+                return True
+            else:
+                self.notify(f"You can't figure out how to equip the {item.get_name()}")
+                return False
+        return False
+        
+    def wear(self, item):
+        """Wear an item (armor) from inventory"""
+        if item and item in self.inventory.get_items():
+            # Get the appropriate limb type from the item
+            if hasattr(item, 'wearon'):
+                limb_type = item.wearon
+                self.wear_on_limbtype(item, limb_type)
+                return True
+            else:
+                self.notify(f"You can't figure out how to wear the {item.get_name()}")
+                return False
+        return False

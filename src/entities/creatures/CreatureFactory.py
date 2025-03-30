@@ -96,14 +96,14 @@ class CreatureFactory:
         fungus.blood_color = (191, 0, 0)  # Dark red
         fungus.type = 'blood fungus'
 
-        fungus.set_Ai(BloodFungusAi(fungus))
+        fungus.set_Ai(BloodFungusAi(fungus, self))
 
         self.level.add_creature_at(fungus, self.level.get_random_walkable_tile())
 
         return fungus
 
     def make_husk_fungus(self):
-        fungus = Creature(self.lbt, self.con, self.level, 'f', self.lbt.dark_cyan)
+        fungus = Creature(self.lbt, self.con, self.level, 'f', (0, 127, 127))  # Dark cyan
         fungus.set_Ai(HuskFungusAi(fungus, self.level))
         fungus.set_maxhp(60 + random.randint(0,5))
         fungus.set_attack(1 + random.randint(0,1))
@@ -166,7 +166,7 @@ class CreatureFactory:
         return gargoyle
 
     def make_eooze(self):
-        ooze = Creature(self.lbt, self.con, self.level, 'O', self.lbt.dark_cyan)
+        ooze = Creature(self.lbt, self.con, self.level, 'O', (0, 127, 127))  # Dark cyan
         ooze.set_Ai(EOozeAi(ooze, self))
         ooze.set_maxhp(1)
         ooze.set_attack(3)
@@ -174,6 +174,6 @@ class CreatureFactory:
         ooze.set_name('Endless Ooze')
         ooze.set_type('eldritch')
         self.level.add_at_empty_location(ooze)
-        ooze.blood_color = self.lbt.white
+        ooze.blood_color = (255, 255, 255)  # White
 
         return ooze

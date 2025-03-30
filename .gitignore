@@ -47,3 +47,4 @@ Temporary Item
 .apdisk
 /.idea
 /src/__pycache__
+.idea/workspace.xml
