@@ -127,10 +127,13 @@ class Level(object):
         entity.x = x
         entity.y = y
 
-        if type(entity) == Creature or type(entity) == Player:
+        # Add to appropriate list based on entity type
+        if isinstance(entity, Creature):
             self.creatures.append(entity)
-        if type(entity) == Item:
+        elif isinstance(entity, Item):
             self.items.append(entity)
+        else:
+            debug_msg(f'Unknown entity type: {type(entity)}')
 
     def update(self):
         # we slice the list (i.e. make a copy) so we don't get stuck in a loop

@@ -1,6 +1,7 @@
 __author__ = 'Martijn Schut'
 
 import random
+from typing import Dict, Any
 
 from src import constants
 from src.ai.CreatureAi import BatAi
@@ -11,6 +12,7 @@ from src.ai.CreatureAi import GargoyleAi
 from src.ai.CreatureAi import HuskFungusAi
 from src.ai.CreatureAi import PlayerAi
 from src.ai.CreatureAi import SnakeAi
+from src.util.config_loader import ConfigLoader
 from .Creatures import Creature
 from .Creatures import Player
 from .Limb import *
@@ -21,6 +23,7 @@ class CreatureFactory:
         self.lbt = lbt
         self.con = con
         self.level = level
+        self.config = ConfigLoader()
 
     @staticmethod
     def _add_human_limbs(creature):
@@ -47,42 +50,110 @@ class CreatureFactory:
         left_lower_leg = creature.add_limb(LowerLeg(creature, left_upper_leg, 'left lower leg'))
         creature.add_limb(Foot(creature, left_lower_leg, 'left foot'))
 
+    def _create_creature_from_config(self, creature_type: str, config: Dict[str, Any], messages=None, player=None) -> Creature:
+        """Create a creature from its configuration."""
+        if creature_type == 'player':
+            creature = Player(self.lbt, self.con, self.level)
+            self._add_human_limbs(creature)
+            # Set player-specific properties
+            creature.messages = messages
+            creature.set_maxhunger(config['maxhunger'])
+            creature.set_hunger(config['hunger'])
+        else:
+            creature = Creature(self.lbt, self.con, self.level, config['char'], config['color'])
+
+        # Set basic properties
+        creature.set_maxhp(config['hp'])
+        creature.set_attack(config['attack'])
+        creature.set_defence(config['defense'])
+        
+        # Set vision radius with proper default
+        vision_radius = config.get('vision_radius')
+        if vision_radius is not None:
+            creature.set_vision_radius(vision_radius)
+        
+        creature.set_inventory_size(config.get('inventory_size', 0))
+        creature.type = creature_type
+
+        # Set AI based on type
+        ai_type = config['ai_type']
+        if ai_type == 'player':
+            creature.set_Ai(PlayerAi(creature, messages, self.level))
+        elif ai_type == 'fungus':
+            creature.set_Ai(FungusAi(creature, self))
+        elif ai_type == 'bat':
+            creature.set_Ai(BatAi(creature))
+        elif ai_type == 'snake':
+            creature.set_Ai(SnakeAi(creature))
+        elif ai_type == 'gargoyle':
+            creature.set_Ai(GargoyleAi(creature, player))
+
+        # Add to level
+        if creature_type == 'player':
+            # Get a random walkable tile for the player
+            x, y = self.level.get_random_walkable_tile()
+            creature.x = x
+            creature.y = y
+            self.level.creatures.append(creature)  # Add player to level's creatures list
+        else:
+            self.level.add_at_empty_location(creature)
+
+        return creature
+
     def make_player(self, messages):
-        player = Player(self.lbt, self.con, self.level)
-        player.set_maxhp(100)
-        player.set_maxhunger(100)
-        player.set_hunger(100)
-        player.set_attack(5)
-        player.set_defence(2)
-        player.set_vision_radius(9)
-        player.set_inventory_size(20)
-
-        self._add_human_limbs(player)
-
-        player.type = 'player'
-        player.messages = messages
-        player.set_Ai(PlayerAi(player, messages, self.level))
-
-        self.level.add_at_empty_location(player)
-
+        """Create a player character."""
+        config = self.config.get_creature_definition('player')
+        spawn_config = self.config.get_spawn_config('player')
+        # Merge spawn config over base config
+        config.update(spawn_config)
+        
+        player = self._create_creature_from_config('player', config, messages)
         return player
 
     def make_fungus(self):
-        fungus = Creature(self.lbt, self.con, self.level, 'f', (0, 255, 0))
-        fungus.set_maxhp(10)
-        fungus.set_attack(0)
-        fungus.set_defence(0)
-        fungus.set_vision_radius(0)
-        fungus.set_inventory_size(0)
+        """Create a fungus creature."""
+        config = self.config.get_creature_definition('fungus')
+        spawn_config = self.config.get_spawn_config('fungus')
+        config.update(spawn_config)
+        return self._create_creature_from_config('fungus', config)
 
-        fungus.blood_color = (0, 191, 0)  # Dark green
-        fungus.type = 'fungus'
+    def make_bat(self):
+        """Create a bat creature."""
+        config = self.config.get_creature_definition('bat')
+        spawn_config = self.config.get_spawn_config('bat')
+        config.update(spawn_config)
+        return self._create_creature_from_config('bat', config)
 
-        fungus.set_Ai(FungusAi(fungus, self))
+    def make_snake(self):
+        """Create a snake creature."""
+        config = self.config.get_creature_definition('snake')
+        spawn_config = self.config.get_spawn_config('snake')
+        config.update(spawn_config)
+        return self._create_creature_from_config('snake', config)
 
-        self.level.add_at_empty_location(fungus)
+    def make_gargoyle(self, player):
+        """Create a gargoyle creature."""
+        config = self.config.get_creature_definition('gargoyle')
+        spawn_config = self.config.get_spawn_config('gargoyle')
+        config.update(spawn_config)
+        return self._create_creature_from_config('gargoyle', config, player=player)
 
-        return fungus
+    def spawn_initial_creatures(self, player):
+        """Spawn all initial creatures based on spawn configuration."""
+        spawns = self.config.get_all_creature_spawns()
+        for creature_type, spawn_config in spawns.items():
+            if creature_type == 'player':  # Skip player as it's already spawned
+                continue
+            count = spawn_config['count']
+            for _ in range(count):
+                if creature_type == 'fungus':
+                    self.make_fungus()
+                elif creature_type == 'bat':
+                    self.make_bat()
+                elif creature_type == 'snake':
+                    self.make_snake()
+                elif creature_type == 'gargoyle':
+                    self.make_gargoyle(player)
 
     def make_blood_fungus(self):
         fungus = Creature(self.lbt, self.con, self.level, 'f', (255, 0, 0))
@@ -112,57 +183,6 @@ class CreatureFactory:
         self.level.add_at_empty_location(fungus)
 
         return fungus
-
-    def make_bat(self):
-        bat = Creature(self.lbt, self.con, self.level, 'b', (191, 95, 0))  # Dark orange
-        bat.set_maxhp(3)
-        bat.set_attack(2)
-        bat.set_defence(0)
-        bat.set_vision_radius(5)
-        bat.set_inventory_size(0)
-
-        bat.blood_color = (255, 0, 0)  # Red
-        bat.type = 'bat'
-
-        bat.set_Ai(BatAi(bat))
-
-        self.level.add_at_empty_location(bat)
-
-        return bat
-
-    def make_snake(self):
-        snake = Creature(self.lbt, self.con, self.level, 's', (0, 191, 0))  # Dark green
-        snake.set_maxhp(4)
-        snake.set_attack(3)
-        snake.set_defence(1)
-        snake.set_vision_radius(7)
-        snake.set_inventory_size(0)
-
-        snake.blood_color = (255, 0, 0)  # Red
-        snake.type = 'snake'
-
-        snake.set_Ai(SnakeAi(snake))
-
-        self.level.add_at_empty_location(snake)
-
-        return snake
-
-    def make_gargoyle(self, player):
-        gargoyle = Creature(self.lbt, self.con, self.level, 'G', (127, 127, 127))  # Grey
-        gargoyle.set_maxhp(15)
-        gargoyle.set_attack(5)
-        gargoyle.set_defence(4)
-        gargoyle.set_vision_radius(8)
-        gargoyle.set_inventory_size(0)
-
-        gargoyle.blood_color = (95, 95, 95)  # Dark grey
-        gargoyle.type = 'gargoyle'
-
-        gargoyle.set_Ai(GargoyleAi(gargoyle, player))
-
-        self.level.add_at_empty_location(gargoyle)
-
-        return gargoyle
 
     def make_eooze(self):
         ooze = Creature(self.lbt, self.con, self.level, 'O', (0, 127, 127))  # Dark cyan

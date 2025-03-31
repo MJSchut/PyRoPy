@@ -4,18 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88786c85-3308-4e23-9740-ab85ddece670" name="Changes" comment="">
+    <list default="true" id="88786c85-3308-4e23-9740-ab85ddece670" name="Changes" comment="same manual refactoring, also removed ai added content for now">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ai/CreatureAi.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/CreatureAi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/creatures/CreatureFactory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/creatures/CreatureFactory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/creatures/Creatures.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/creatures/Creatures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/items/Inventory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/items/Inventory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/items/ItemFactory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/items/ItemFactory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/items/Items.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/items/Items.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/world/Level.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/Level.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/LevelBuilder.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/LevelBuilder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/LevelDigger.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/LevelDigger.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,14 +70,24 @@
     </recent_temporary>
   </component>
   <component name="TaskManager">
+    <task id="LOCAL-00001" summary="same manual refactoring, also removed ai added content for now">
+      <option name="closed" value="true" />
+      <created>1743454074779</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1743454074779</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add more enemies" />
-    <option name="LAST_COMMIT_MESSAGE" value="add more enemies" />
+    <MESSAGE value="same manual refactoring, also removed ai added content for now" />
+    <option name="LAST_COMMIT_MESSAGE" value="same manual refactoring, also removed ai added content for now" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PyRoPy$main.coverage" NAME="main Coverage Results" MODIFIED="1743453273053" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PyRoPy$main.coverage" NAME="main Coverage Results" MODIFIED="1743456653566" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PyRoPy$CreatureAi.coverage" NAME="CreatureAi Coverage Results" MODIFIED="1743453123330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ai" />
   </component>
 </project>

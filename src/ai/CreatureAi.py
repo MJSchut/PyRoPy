@@ -63,17 +63,24 @@ class CreatureAi(object):
         pass
 
     def can_see(self, x, y):
-        if ((self.creature.x-x)**2 + (self.creature.y-y)**2 >
-                    self.creature.vision_radius**2):
+        # First check if the point is within vision radius
+        distance = math.sqrt((self.creature.x-x)**2 + (self.creature.y-y)**2)
+        if distance > self.creature.vision_radius:
             return False
 
+        # Create a line from creature to target point
         n_line = Line(self.creature.x, self.creature.y, x, y)
 
+        # Check each point in the line
         for point in n_line.get_points():
-            if not self.creature.level.get_tile(point.x, point.y).blocked or (point.x == x and point.y == y):
+            # Skip the target point (we want to see it even if it's blocked)
+            if point.x == x and point.y == y:
                 continue
-
-            return False
+                
+            # If we hit a blocked tile, we can't see past it
+            if self.creature.level.get_tile(point.x, point.y).blocked:
+                return False
+                
         return True
 
     def stupid_hunt(self):

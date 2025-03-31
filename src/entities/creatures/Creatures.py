@@ -52,7 +52,7 @@ class Creature(Entity):
         self.defence = 0
 
         self.ai = CreatureAi(self)
-        self.vision_radius = 11
+        self.vision_radius = 0  # Initialize to 0, will be set by config
 
         self.effect_list = []
 
@@ -118,7 +118,7 @@ class Creature(Entity):
         for limb in self.limbs:
             item = limb.holding
             if item is not None:
-                amnt += (item.attack_val - creature.get_defence())
+                amnt += (item.attack_value - creature.get_defence())
                 items.append(item)
         r = random.random()
 
@@ -415,11 +415,12 @@ class Creature(Entity):
 
 class Player(Creature):
     def __init__(self, lbt, con, level):
-        self.in_menu = None
-        char = '@'  # Player character
-        color = (255, 255, 255)  # White
-
-        super(Player, self).__init__(lbt, con, level, char, color)
+        super(Player, self).__init__(lbt, con, level, '@', (255, 255, 255))
+        self._in_menu = False
+        self.messages = None
+        print(f"Creating player at ({self.x}, {self.y})")  # Debug print
+        self.type = 'player'
+        self.name = 'Player'
         self.inv_size = 20  # Set inventory size before activating
         self.activate_inventory()  # Activate inventory before creating menus
         
@@ -439,6 +440,17 @@ class Player(Creature):
         self.drinkmenu.options = self.inventory.get_drinkable_items()
         self.equipmenu.options = self.inventory.get_equipable_items()
         self.wearmenu.options = self.inventory.get_wearable_items()
+
+    @property
+    def in_menu(self):
+        return self._in_menu
+
+    @in_menu.setter
+    def in_menu(self, value):
+        self._in_menu = value
+
+    def draw(self, wx, wy):
+        super(Player, self).draw(wx, wy)
 
     def show_examine_menu(self):
         self.examinemenu.orix = self.examinemenu.curx = self.x
@@ -556,7 +568,7 @@ class Player(Creature):
         if item and item in self.inventory.get_items():
             # Get the appropriate limb type from the item
             if hasattr(item, 'wearon'):
-                limb_type = item.wearon
+                limb_type = item.wear_on
                 self.equip_to_limbtype(item, limb_type)
                 return True
             else:
@@ -576,3 +588,7 @@ class Player(Creature):
                 self.notify(f"You can't figure out how to wear the {item.get_name()}")
                 return False
         return False
+
+    def doAction(self, message):
+        if self.messages is not None:
+            self.notify(message)

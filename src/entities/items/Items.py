@@ -12,9 +12,11 @@ class Item(Entity):
         self.type = 'unremarkable thing'
         self.nutrition = 0
         self.equipment = False
-        self.equipto = None
-        self.wearon = None
-        self.attack_val = 0
+        self.equip_to = None
+        self.description = "Undefined"
+        self.wear_on = None
+        self.weight = 1
+        self.attack_value = 0
         self.defence_val = 0
         self.taste = None
         self.eat_effect = None
@@ -46,7 +48,7 @@ class Item(Entity):
         self.equipment = val
 
     def set_attack_value(self, val):
-        self.attack_val = val
+        self.attack_value = val
 
     def set_defence_value(self, val):
         self.defence_val = val
@@ -61,18 +63,18 @@ class Item(Entity):
     def set_equip_to(self, equipto, wearable = False):
         self.equipment = True
         self.holdable = True
-        self.equipto = equipto
+        self.equip_to = equipto
         self.wearable = wearable
 
         if self.wearable:
-            self.wearon = equipto
+            self.wear_on = equipto
 
     def set_wear_to(self, wearon):
         self.equipment = True
-        self.wearon = wearon
+        self.wear_on = wearon
         self.wearable = True
         self.holdable = True
-        self.equipto = Hand
+        self.equip_to = Hand
 
     def set_wear_effect(self, effect, duration = -1):
         self.wear_effect = effect
@@ -82,6 +84,8 @@ class Item(Entity):
         if self.wear_effect is not None and self.worn:
             self.wear_effect.on_update()
 
+    def set_description(self, param):
+        self.description = param
 
-
-
+    def set_wearable(self, param):
+        self.wearable = True

@@ -1,3 +1,5 @@
+from src.util.config_loader import ConfigLoader
+
 __author__ = 'Martijn Schut'
 
 import tcod
@@ -30,12 +32,14 @@ INVENTORY_WIDTH = MSG_WIDTH
 appearance_potion_dictionary = {}
 player_name = 'Steve'
 
+# Load colors from config
+config_loader = ConfigLoader()
 colors = {
-    "floor_color": (30, 30, 30),
-    "floor_color_front": (40, 40, 40),
-    "wall_color": (50, 50, 50),
-    "wall_color_front": (150, 110, 110),
-    "darkness_color": (10, 10, 10),
+    "floor_color": config_loader.get_color("floor_color"),
+    "floor_color_front": config_loader.get_color("floor_color_front"),
+    "wall_color": config_loader.get_color("wall_color"),
+    "wall_color_front": config_loader.get_color("wall_color_front"),
+    "darkness_color": config_loader.get_color("darkness_color"),
 }
 
 chars = {
@@ -46,16 +50,51 @@ chars = {
 }
 
 item_color_pointers = {
-    'red': (255, 0, 0),
-    'purple': (191, 0, 255),
-    'cyan': (0, 191, 191),
-    'blue': (0, 95, 191),
-    'turqoise': (0, 255, 191),
-    'green': (0, 255, 0),
-    'yellow': (191, 191, 0),
-    'amber': (255, 191, 0),
-    'orange': (255, 127, 0),
-    'pink': (191, 0, 95)
+    'red': config_loader.get_color("red"),
+    'purple': config_loader.get_color("purple"),
+    'green': config_loader.get_color("green"),
+    'blue': config_loader.get_color("blue"),
+    'yellow': config_loader.get_color("yellow"),
+    'white': config_loader.get_color("white"),
+    'black': config_loader.get_color("black"),
+    'gray': config_loader.get_color("gray"),
+    'orange': config_loader.get_color("orange"),
+    'brown': config_loader.get_color("brown"),
+    'pink': config_loader.get_color("pink"),
+    'cyan': config_loader.get_color("cyan"),
+    'magenta': config_loader.get_color("magenta"),
+    'lime': config_loader.get_color("lime"),
+    'maroon': config_loader.get_color("maroon"),
+    'navy': config_loader.get_color("navy"),
+    'olive': config_loader.get_color("olive"),
+    'teal': config_loader.get_color("teal"),
+    'aqua': config_loader.get_color("aqua"),
+    'fuchsia': config_loader.get_color("fuchsia"),
+    'silver': config_loader.get_color("silver"),
+    'gold': config_loader.get_color("gold"),
+    'beige': config_loader.get_color("beige"),
+    'ivory': config_loader.get_color("ivory"),
+    'lavender': config_loader.get_color("lavender"),
+    'linen': config_loader.get_color("linen"),
+    'moccasin': config_loader.get_color("moccasin"),
+    'oldlace': config_loader.get_color("oldlace"),
+    'papayawhip': config_loader.get_color("papayawhip"),
+    'seashell': config_loader.get_color("seashell"),
+    'mintcream': config_loader.get_color("mintcream"),
+    'slategray': config_loader.get_color("slategray"),
+    'snow': config_loader.get_color("snow"),
+    'springgreen': config_loader.get_color("springgreen"),
+    'steelblue': config_loader.get_color("steelblue"),
+    'tan': config_loader.get_color("tan"),
+    'thistle': config_loader.get_color("thistle"),
+    'tomato': config_loader.get_color("tomato"),
+    'turquoise': config_loader.get_color("turquoise"),
+    'violet': config_loader.get_color("violet"),
+    'wheat': config_loader.get_color("wheat"),
+    'whitesmoke': config_loader.get_color("whitesmoke"),
+    'yellowgreen': config_loader.get_color("yellowgreen"),
+    'rebeccapurple': config_loader.get_color("rebeccapurple"),
+    'amber': config_loader.get_color("amber")
 }
 
 item_colors = [
@@ -63,7 +102,7 @@ item_colors = [
     'purple',
     'cyan',
     'blue',
-    'turqoise',
+    'turquoise',
     'green',
     'yellow',
     'amber',

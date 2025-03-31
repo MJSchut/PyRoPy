@@ -103,52 +103,11 @@ with tcod.context.new(
     # Set reference to the factory in the level for slime splitting
     level.factory = cFactory
     
-    # Add original creatures
-    fungus_count = 10
-    for _ in range(fungus_count):
-        fungus = cFactory.make_fungus()
+    # Spawn all initial creatures based on configuration
+    cFactory.spawn_initial_creatures(player)
 
-    bat_count = 5
-    for _ in range(bat_count):
-        bat = cFactory.make_bat()
-
-    snake_count = 5
-    for _ in range(snake_count):
-        snake = cFactory.make_snake()
-
-    gargoyle_count = 5
-    for _ in range(gargoyle_count):
-        gargoyle = cFactory.make_gargoyle(player)
-
-    # Add original items
-    rock_count = 25
-    for _ in range(rock_count):
-        rock = iFactory.make_rock()
-
-    sword_count = 3
-    for _ in range(sword_count):
-        sword = iFactory.make_sword()
-
-    glove_count = 2
-    for _ in range(glove_count):
-        glove = iFactory.make_gauntlet()
-
-    potions = 15
-    for _ in range(potions):
-        potion = iFactory.make_random_potion()
-
-    necklace_count = 2
-    for _ in range(necklace_count):
-        necklace = iFactory.make_amulet()
-
-    fedora_count = 2
-    for _ in range(fedora_count):
-        fedora = iFactory.make_fedora()
-        
-    # Add food items to the game world
-    food_count = 20
-    for _ in range(food_count):
-        food = iFactory.make_food()
+    # Spawn all initial items based on configuration
+    iFactory.spawn_initial_items()
 
     while True:
         # show stuff
@@ -165,7 +124,11 @@ with tcod.context.new(
                     wx = x - sx
                     wy = y - sy
                     if 0 <= wx < constants.SCREEN_WIDTH and 0 <= wy < constants.SCREEN_HEIGHT:
-                        console.bg[wx, wy] = level.map[x][y].color
+                        # Only set background color for visible tiles
+                        if player.can_see(x, y):
+                            console.bg[wx, wy] = level.map[x][y].color
+                        else:
+                            console.bg[wx, wy] = constants.colors['darkness_color']
 
                         if level.map[x][y].char is not None:
                             if level.map[x][y].front_color is not None and player.can_see(x, y):
@@ -177,7 +140,6 @@ with tcod.context.new(
                             elif level.map[x][y].identified == 1:
                                 console.print(wx, wy, level.map[x][y].char, constants.colors['darkness_color'])
                             else:
-                                console.bg[wx, wy] = constants.colors['darkness_color']
                                 console.print(wx, wy, constants.chars['darkness_char'], constants.colors['darkness_color'])
 
             for item in level.items:
