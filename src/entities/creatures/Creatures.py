@@ -113,7 +113,6 @@ class Creature(Entity):
 
     def attack_creature(self, creature):
         creature.ai.on_attacked(self)
-        item = None
         items = []
         amnt = max(0, self.attack - creature.get_defence())
         for limb in self.limbs:
@@ -232,16 +231,14 @@ class Creature(Entity):
         ux = self.x + dx
         uy = self.y + dy
 
-        othercreature = self.level.check_for_creatures(ux, uy)
+        other_creature = self.level.check_for_creatures(ux, uy)
 
-        if othercreature is not None:
-            if othercreature is not self:
-                self.attack_creature(othercreature)
+        if other_creature is not None:
+            if other_creature is not self:
+                self.attack_creature(other_creature)
         else:
             if self.ai is not None:
                 self.ai.on_enter(ux, uy, self.level.map[ux][uy])
-            else:
-                self = None
 
     def eat(self, item):
         if item.eat_effect is not None:
@@ -396,15 +393,13 @@ class Creature(Entity):
     def notify(self, message):
         if self.ai is not None:
             self.ai.on_notify(str(message))
-        else:
-            self = None
 
     # TODO: a to an
     def doAction(self, message):
         r = 9
         for ox in range(-r, r+1):
             for oy in range(-r, r+1):
-                if (ox*ox + oy*oy > r*r):
+                if ox*ox + oy*oy > r*r:
                     continue
 
                 other_creature = self.level.check_for_creatures(self.x+ox, self.y+oy)
@@ -420,6 +415,7 @@ class Creature(Entity):
 
 class Player(Creature):
     def __init__(self, lbt, con, level):
+        self.in_menu = None
         char = '@'  # Player character
         color = (255, 255, 255)  # White
 
@@ -463,13 +459,13 @@ class Player(Creature):
                 item = self.inventory.get_items()[index]
                 if item is not None:
                     self.notify(f"Selected {item.get_name()}")
-        self._in_menu = False
+        self.in_menu = False
 
     def show_drop_menu(self):
-        self._in_menu = True
+        self.in_menu = True
         if self.inventory.get_fill() == 0:
             self.dropmenu.header = 'Nothing to drop'
-            self.dropmenu.options = [None for i in range(self.inv_size)]
+            self.dropmenu.options = [None for _ in range(self.inv_size)]
         else:
             self.dropmenu.header = 'Drop items'
             self.dropmenu.options = sorted(self.inventory.get_items(), key=lambda x: x is None)
@@ -481,13 +477,13 @@ class Player(Creature):
                 item = self.inventory.get_items()[index]
                 if item is not None:
                     self.drop(item)
-        self._in_menu = False
+        self.in_menu = False
 
     def show_drink_menu(self):
-        self._in_menu = True
+        self.in_menu = True
         if self.inventory.get_drinkable_items() == [None] * len(self.inventory.get_drinkable_items()):
             self.drinkmenu.header = 'Nothing to drink...'
-            self.drinkmenu.options = [None for i in range(self.inv_size)]
+            self.drinkmenu.options = [None for _ in range(self.inv_size)]
         else:
             self.drinkmenu.header = 'Drink stuff'
             self.drinkmenu.options = self.inventory.get_drinkable_items()
@@ -499,13 +495,13 @@ class Player(Creature):
                 item = self.inventory.get_drinkable_items()[index]
                 if item is not None:
                     self.drink(item)
-        self._in_menu = False
+        self.in_menu = False
 
     def show_eat_menu(self):
-        self._in_menu = True
+        self.in_menu = True
         if self.inventory.get_edible_items() == [None] * len(self.inventory.get_edible_items()):
             self.eatmenu.header = 'Nothing to eat...'
-            self.eatmenu.options = [None for i in range(self.inv_size)]
+            self.eatmenu.options = [None for _ in range(self.inv_size)]
         else:
             self.eatmenu.header = 'Eat stuff'
             self.eatmenu.options = self.inventory.get_edible_items()
@@ -517,13 +513,13 @@ class Player(Creature):
                 item = self.inventory.get_edible_items()[index]
                 if item is not None:
                     self.eat(item)
-        self._in_menu = False
+        self.in_menu = False
 
     def show_equip_menu(self):
-        self._in_menu = True
+        self.in_menu = True
         if self.inventory.get_equipable_items() == [None] * len(self.inventory.get_equipable_items()):
             self.equipmenu.header = 'Nothing to equip'
-            self.equipmenu.options = [None for i in range(self.inv_size)]
+            self.equipmenu.options = [None for _ in range(self.inv_size)]
         else:
             self.equipmenu.header = 'Equip stuff'
             self.equipmenu.options = self.inventory.get_equipable_items()
@@ -535,10 +531,10 @@ class Player(Creature):
                 item = self.inventory.get_equipable_items()[index]
                 if item is not None:
                     self.equip(item)
-        self._in_menu = False
+        self.in_menu = False
 
     def show_wear_menu(self):
-        self._in_menu = True
+        self.in_menu = True
         if self.inventory.get_wearable_items() == [None] * len(self.inventory.get_wearable_items()):
             self.wearmenu.header = 'Nothing to wear'
             self.wearmenu.options = [None for i in range(self.inv_size)]
@@ -553,7 +549,7 @@ class Player(Creature):
                 item = self.inventory.get_wearable_items()[index]
                 if item is not None:
                     self.wear(item)
-        self._in_menu = False
+        self.in_menu = False
 
     def equip(self, item):
         """Equip an item (weapon) from inventory"""

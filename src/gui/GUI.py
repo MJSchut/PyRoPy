@@ -1,15 +1,14 @@
 __author__ = 'Martijn Schut'
 
+import tcod
+
 from src import constants
 from src.util.Line import Line
-from src.util.Point import Point
-from src.entities.items.Inventory import Inventory
-import tcod
-import textwrap
 
 
 class TargetMenu(object):
     def __init__(self, lbt, con, player, caption, orix, oriy):
+        self.key = None
         self.lbt = lbt
         self.con = con
         self.player = player
@@ -77,7 +76,8 @@ class Menu(object):
         self.height = self._get_options_length() + self.header_height
         self.window = tcod.console.Console(self.width, self.height, order="F")
 
-    def _format_item_text(self, item, letter_index):
+    @staticmethod
+    def _format_item_text(item, letter_index):
         # Use get_name method if available, otherwise fallback to item.name or str representation
         if hasattr(item, 'get_name'):
             item_name = item.get_name()
@@ -85,16 +85,16 @@ class Menu(object):
             item_name = item.name
         else:
             item_name = str(item)
-            
+
         # Add special markers for equipped or worn items
         status = ""
         if hasattr(item, 'equipped') and item.equipped:
             status = " (equipped)"
         elif hasattr(item, 'worn') and item.worn:
             status = " (worn)"
-            
+
         return f"{chr(letter_index)}: {item_name}{status}"
-        
+
     def draw(self):
         # Calculate position for centered menu
         x = constants.SCREEN_WIDTH // 2 - self.width // 2

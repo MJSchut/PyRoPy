@@ -44,15 +44,13 @@ class LevelBuilder(object):
 
         return self.map
 
+    @property
     def dig_cave(self):
         steps = 0
         max_step = 1500
         digger_count = 0
         max_digger = 19
-        digger_list = []
-        # I seriously regret calling these things diggers. I have to double check for typos all the time now.
-        # Especially when I start killing diggers randomly.
-        digger_list.append(LevelDigger(self.map, int(round(self.level_width)/2), int(round(self.level_height)/2)))
+        digger_list = [LevelDigger(self.map, int(round(self.level_width) / 2), int(round(self.level_height) / 2))]
 
         while steps < max_step:
             for x in range(0, len(digger_list)):

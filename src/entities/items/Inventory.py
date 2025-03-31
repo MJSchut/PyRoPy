@@ -43,7 +43,7 @@ class Inventory(object):
     def is_full(self):
         size = 0
         for i in range (0, len(self.items)):
-            if (self.items[i] != None):
+            if self.items[i] != None:
                 size += 1
 
         return size == len(self.items)

@@ -24,7 +24,7 @@ class Level(object):
         self.level_height = level_height
 
         self.builder = LevelBuilder(self.level_width, self.level_height)
-        self.map = self.builder.dig_cave()
+        self.map = self.builder.dig_cave
 
     def check_for_creatures(self, x, y):
         for creature in self.creatures:
@@ -163,5 +163,5 @@ class Level(object):
             x = random.randint(2, self.level_width - 2)
             y = random.randint(2, self.level_height - 2)
             
-        return (x, y)
+        return x, y
 

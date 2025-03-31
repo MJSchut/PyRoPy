@@ -1,35 +1,27 @@
 __author__ = 'Martijn Schut'
 
-from src.entities.creatures.CreatureFactory import CreatureFactory
-from src.world.Level import Level
-from src.entities.items.ItemFactory import ItemFactory
-
 import tcod
-import numpy as np
-from tcod import libtcodpy
 
-from src.input import keyboard as kb
 from src import constants
-
-import random
-import textwrap
+from src.entities.creatures.CreatureFactory import CreatureFactory
+from src.entities.items.ItemFactory import ItemFactory
+from src.input import keyboard as kb
+from src.world.Level import Level
 
 # Global context for menu rendering
 global_context = None
 
-def getScrollX():
+
+def get_scroll_x() -> int:
     return max(0, min(player.x - constants.SCREEN_WIDTH // 2 - constants.PANEL_WIDTH//2, 
                      level.level_width - constants.SCREEN_WIDTH - constants.PANEL_WIDTH//2.5))
 
-def getScrollY():
+def get_scroll_y () -> int:
     # adjust for size of the panel
     return max(0, min(player.y - constants.SCREEN_HEIGHT // 2, 
                      level.level_height - constants.SCREEN_HEIGHT))
 
 def render_bar(x, y, total_width, value, maximum, name, bar_color, back_color, text_color = (255, 255, 255), show_exact = False):
-    # M: I really liked this code, so I kept it pretty much the way it is.
-
-    #now render the bar on top
     if show_exact:
         bar_width = int(float(value) / maximum * total_width)
         constants.panel.bg[x:x + total_width, y] = back_color
@@ -72,8 +64,6 @@ with tcod.context.new(
     title="PyRoPy",
     vsync=True,
 ) as context:
-    # Make the context available globally
-    global_context = context
     
     # Store the context in constants for easy access
     constants.game_context = context
@@ -84,138 +74,92 @@ with tcod.context.new(
 
     # add the player
     messages = [[], []]
-    linecolors = []
-    linecolors.append((255, 255, 255))  # White (default text color)
-    linecolors.append((255, 160, 160))  # Light red/pink (for combat messages)
+    lineColors = [(255, 255, 255), (255, 160, 160)]
     for i in range(255, 15, -8):
-        linecolors.append((i, i, i))  # Grayscale fade
+        lineColors.append((i, i, i))  # Grayscale fade
     all_messages = []
     player = cFactory.make_player(messages)
 
     # Add test messages directly to the message list
     messages[0].append("Welcome to PyRoPy!")
-    messages[1].append(0)  # Use white (index 0)
+    messages[1].append(0)
     messages[0].append("Use arrow keys to move.")
-    messages[1].append(0)  # Use white (index 0)
+    messages[1].append(0)
     messages[0].append("Press 'i' for inventory.")
-    messages[1].append(0)  # Use white (index 0)
+    messages[1].append(0)
     messages[0].append("Press 'd' to drop items.")
-    messages[1].append(0)  # Use white (index 0)
+    messages[1].append(0)
     messages[0].append("Press 'e' to eat items.")
-    messages[1].append(0)  # Use white (index 0)
+    messages[1].append(0)
     messages[0].append("Press 'r' to drink items.")
-    messages[1].append(0)  # Use white (index 0)
+    messages[1].append(0)
     messages[0].append("Press 'q' to equip items.")
-    messages[1].append(0)  # Use white (index 0)
+    messages[1].append(0)
     messages[0].append("Press 'w' to wear items.")
-    messages[1].append(0)  # Use white (index 0)
+    messages[1].append(0)
     messages[0].append("Press 'x' to examine items.")
-    messages[1].append(0)  # Use white (index 0)
+    messages[1].append(0)
     
     # Set reference to the factory in the level for slime splitting
     level.factory = cFactory
     
     # Add original creatures
-    funguscount = 10
-    for _ in range(funguscount):
+    fungus_count = 10
+    for _ in range(fungus_count):
         fungus = cFactory.make_fungus()
 
-    batcount = 5
-    for _ in range(batcount):
+    bat_count = 5
+    for _ in range(bat_count):
         bat = cFactory.make_bat()
 
-    snakecount = 5
-    for _ in range(snakecount):
+    snake_count = 5
+    for _ in range(snake_count):
         snake = cFactory.make_snake()
 
-    gargoylecount = 5
-    for _ in range(gargoylecount):
+    gargoyle_count = 5
+    for _ in range(gargoyle_count):
         gargoyle = cFactory.make_gargoyle(player)
-    
-    # Add new creatures with balanced spawning
-    
-    # Docile creatures (more common)
-    frogcount = 8
-    for _ in range(frogcount):
-        frog = cFactory.make_frog()
-    
-    ratcount = 12  # Scavengers, not threatening
-    for _ in range(ratcount):
-        rat = cFactory.make_rat()
-    
-    diggercount = 4  # Helpful by creating passages
-    for _ in range(diggercount):
-        digger = cFactory.make_digger()
-    
-    huntercount = 3  # Hunts fungus, not the player
-    for _ in range(huntercount):
-        hunter = cFactory.make_hunter()
-    
-    slimecount = 3  # Slow and weak
-    for _ in range(slimecount):
-        slime = cFactory.make_slime()
-    
-    # Dangerous creatures (less common)
-    mimiccount = 2  # Disguised as items
-    for _ in range(mimiccount):
-        mimic = cFactory.make_mimic()
-    
-    spidercount = 3  # Poisonous
-    for _ in range(spidercount):
-        spider = cFactory.make_spider()
-    
-    trap_spidercount = 2  # Hidden traps
-    for _ in range(trap_spidercount):
-        trap_spider = cFactory.make_trap_spider()
-    
-    wolfcount = 3  # Pack hunters
-    for _ in range(wolfcount):
-        wolf = cFactory.make_wolf()
-    
-    shadowcount = 2  # Appear in darkness
-    for _ in range(shadowcount):
-        shadow = cFactory.make_shadow(player)
-    
+
     # Add original items
-    rockcount = 25
-    for _ in range(rockcount):
+    rock_count = 25
+    for _ in range(rock_count):
         rock = iFactory.make_rock()
 
-    swordcount = 3
-    for _ in range(swordcount):
+    sword_count = 3
+    for _ in range(sword_count):
         sword = iFactory.make_sword()
 
-    glovecount = 2
-    for _ in range(glovecount):
+    glove_count = 2
+    for _ in range(glove_count):
         glove = iFactory.make_gauntlet()
 
     potions = 15
     for _ in range(potions):
         potion = iFactory.make_random_potion()
 
-    necklacecount = 2
-    for _ in range(necklacecount):
+    necklace_count = 2
+    for _ in range(necklace_count):
         necklace = iFactory.make_amulet()
 
-    fedoracount = 2
-    for _ in range(fedoracount):
+    fedora_count = 2
+    for _ in range(fedora_count):
         fedora = iFactory.make_fedora()
         
     # Add food items to the game world
-    foodcount = 20
-    for _ in range(foodcount):
+    food_count = 20
+    for _ in range(food_count):
         food = iFactory.make_food()
 
     while True:
         # show stuff
-        sx = getScrollX()
-        sy = getScrollY()
+        sx = get_scroll_x()
+        sy = get_scroll_y()
 
         console.clear()
         root_console.clear()
 
         # Only render the game world if not in a menu and player is alive
-        if (not hasattr(player, '_in_menu') or not player._in_menu) and player.alive:
+        if (not hasattr(player, '_in_menu') or not player.in_menu) and player.alive:
             for y in range(level.level_height):
                 for x in range(level.level_width):
                     wx = x - sx
@@ -257,24 +201,24 @@ with tcod.context.new(
         constants.panel.print(0, 0, "PyRoPy", fg=(255, 0, 0), bg=(0, 0, 0))
         
         # show the player's stats
-        htext_color = (255, 255, 255)
+        health_text_color = (255, 255, 255)
         if float(player.hp) / player.maxhp < 0.3:
-            htext_color = (255, 0, 0)
+            health_text_color = (255, 0, 0)
         render_bar(1, 1, constants.BAR_WIDTH, player.hp, player.maxhp, 'Health',
-                   (255, 0, 0), (127, 0, 0), text_color=htext_color)
+                   (255, 0, 0), (127, 0, 0), text_color=health_text_color)
 
         # show hunger
-        hutext_color = (127, 127, 127)
+        hunger_text_color = (127, 127, 127)
         if (float(player.hunger) / player.maxhunger) < 0.1:
-            hutext_color = (255, 0, 0)
+            hunger_text_color = (255, 0, 0)
         elif (float(player.hunger) / player.maxhunger) < 0.3:
-            hutext_color = (255, 255, 255)
+            hunger_text_color = (255, 255, 255)
 
-        render_status(1, 3, 'Hunger', player.hunger_value, text_color=hutext_color)
+        render_status(1, 3, 'Hunger', player.hunger_value, text_color=hunger_text_color)
 
         # show thirst (unimplemented)
-        hutext_color = (127, 127, 127)
-        render_status(1, 5, 'Thirst', " ", text_color=hutext_color)
+        hunger_text_color = (127, 127, 127)
+        render_status(1, 5, 'Thirst', " ", text_color=hunger_text_color)
 
         # show message log
         y = constants.MSG_Y - 1
@@ -300,9 +244,9 @@ with tcod.context.new(
             color_age = display_colors[i]
             
             # Get the color based on age (fade from white to dark gray)
-            if color_age >= len(linecolors):
-                color_age = len(linecolors) - 1
-            message_color = linecolors[color_age]
+            if color_age >= len(lineColors):
+                color_age = len(lineColors) - 1
+            message_color = lineColors[color_age]
             
             # Split message into lines if needed
             if len(message) <= max_chars_per_line:
@@ -390,7 +334,7 @@ with tcod.context.new(
                     constants.debug_msg(f'Pressed key {keylist[0]}')
                     # Set menu state before processing key
                     if keylist[0] in ['inventory', 'drop', 'eat', 'drink', 'equip', 'wear']:
-                        player._in_menu = True
+                        player.in_menu = True
                     kb.process_keylist(tcod, keylist, player)
                     
                     # Process enemy turns if player made a move (not just opened a menu)

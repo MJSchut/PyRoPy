@@ -7,8 +7,8 @@ from src.world.Tile import WallTile
 from src.world.Tile import FloorTile
 
 class LevelDigger(object):
-    def __init__(self, map, x, y):
-        self.map = map
+    def __init__(self, game_map, x, y):
+        self.map = game_map
         self.x = x
         self.y = y
 
@@ -39,9 +39,9 @@ class LevelDigger(object):
 
     def move(self):
         coords = [[0,1], [1,0], [-1, 0], [0, -1]]
-        ccoords = random.choice(coords)
-        dx = ccoords[0]
-        dy = ccoords[1]
+        chosen_coords = random.choice(coords)
+        dx = chosen_coords[0]
+        dy = chosen_coords[1]
 
         if 1 < self.x < len(self.map) - 2 and 1 < self.y < len(self.map[0]) - 2:
             self.x += dx
