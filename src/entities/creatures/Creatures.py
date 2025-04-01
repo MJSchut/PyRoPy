@@ -59,6 +59,8 @@ class Creature(Entity):
         self.inventory = None
         self.inv_size = 3
         self.limbs = []
+        
+        self.messages = None  # Initialize messages attribute
 
     def set_maxhp(self, hp):
         self.maxhp = hp
@@ -178,7 +180,7 @@ class Creature(Entity):
         self.alive = False
         # Use RGB tuple instead of tcod constant to avoid FutureWarning
         corpse = Item(self.lbt, self.con, self.level, self.char, (95, 95, 95))  # dark grey
-        corpse.set_name('dead %s' %self.type)
+        corpse.set_corpse(self.type)  # Set up the corpse with the creature type
         corpse.set_postion(self.x, self.y)
         
         # Enhance corpse nutrition - all corpses are now more nutritious
@@ -246,41 +248,37 @@ class Creature(Entity):
 
         # Apply the nutrition with a bonus to make eating more worthwhile
         nutrition_bonus = int(item.nutrition * 0.5)  # 50% bonus
-        total_nutrition = item.nutrition + nutrition_bonus
-        
-        # Cap nutrition at maximum hunger
-        if self.hunger + total_nutrition > self.maxhunger:
-            self.hunger = self.maxhunger
-        else:
-            self.hunger += total_nutrition
-            
-        # Display eat message
+        self.hunger = min(self.maxhunger, self.hunger + item.nutrition + nutrition_bonus)
+
         self.doAction('eat a %s' %item.get_name())
         
-        # Health bonus from eating
-        if random.random() < 0.3:  # 30% chance to heal from food
-            heal_amount = max(1, int(total_nutrition / 10))
-            self.heal(heal_amount)
+        # Only try to remove from level if it's there
+        if item in self.level.items:
+            self.level.remove_item(item)
+        
+        # Call on_eat and check if it sent a message already
+        message_sent = item.on_eat(self)
+        
+        # Only show our own message if on_eat didn't already send one
+        if not message_sent and item.taste is not None:
             self.notify("The food restores some of your strength.")
-            
-        if item.taste is not None:
             self.notify('Tastes %s.' %item.taste)
-
+            
         self.inventory.remove(item)
 
     def drink(self, item):
         if item.drink_effect is not None:
-            # Create a new instance of the effect with proper duration and target
-            try:
-                effect = item.drink_effect(item.drink_effect_duration, self)
-                self.add_effect(effect)
-                self.notify(f"You feel the effects of the {item.get_name()}.")
-            except Exception as e:
-                # Fallback if the effect creation fails
-                self.notify(f"You drink the {item.get_name()} but nothing happens.")
-                print(f"Effect error: {e}")
+            self.notify(f"You feel the effects of the {item.get_name()}.")
+            item.on_drink(self)
+        else:
+            self.notify(f"You drink the {item.get_name()} but nothing happens.")
+            item.on_drink(self)
 
         self.doAction(f'drink a {item.get_name()}')
+        
+        # Only try to remove from level if it's there
+        if item in self.level.items:
+            self.level.remove_item(item)
         self.inventory.remove(item)
 
     def set_taste(self, taste):
@@ -319,76 +317,58 @@ class Creature(Entity):
         return None
 
     def wear(self, item):
-        if item is None:
-            return
-
-        limbtowear = None
-        for limb in self.limbs:
-            if type(limb) == item.wearon:
-                limbtowear = limb
-                break
-
-        if limbtowear is not None:
-            self.wear_on_limbtype(item, type(limbtowear))
-            self.inventory.sort()
-
-    def wear_on_limbtype(self, item, limbtype):
-        if item is None:
-            return
-
-        if not item.wearable:
+        if item.wearable:
+            for limb in self.limbs:
+                if limb.name == item.wear_on:
+                    if limb.wearing is not None:
+                        self.doAction('cannot wear a %s' %item.get_name())
+                        return
+                    else:
+                        self.doAction('put the %s on your %s' %(item.get_name(), limb.name))
+                        limb.wearing = item
+                        item.worn = True
+                        self.inventory.remove(item)
+                        item.on_wear(self)
+                        return
+        else:
             self.doAction('cannot wear a %s' %item.get_name())
-            return
 
-        if item.worn:
-            self.take_off_item(item)
-            return
-
-        for limb in self.limbs:
-            if type(limb) == limbtype and limb.wearing is None:
-                limb.wearing = item
-                self.doAction('put the %s on your %s' %(item.get_name(), limb.name))
-                item.worn = True
-                return
-
-    def equip_to_limbtype(self, item, limbtype):
-        if item is None:
-            return
-
-        if not item.holdable:
+    def equip(self, item):
+        if item.holdable:
+            for limb in self.limbs:
+                if limb.name == item.equip_to:
+                    if limb.holding is not None:
+                        self.doAction('cannot equip a %s' %item.get_name())
+                        return
+                    else:
+                        self.doAction('equip the %s to %s' %(item.get_name(), limb.name))
+                        limb.holding = item
+                        item.equipped = True
+                        self.inventory.remove(item)
+                        item.on_equip(self)
+                        return
+        else:
             self.doAction('cannot equip a %s' %item.get_name())
-            return
 
+    def unequip(self, item):
         if item.equipped:
-            self.unequip_item(item)
-            return
+            for limb in self.limbs:
+                if limb.holding == item:
+                    self.doAction('unequip the %s' %item.get_name())
+                    limb.holding = None
+                    item.equipped = False
+                    self.inventory.add(item)
+                    return
 
-        for limb in self.limbs:
-            if type(limb) == limbtype and limb.holding is None:
-                limb.holding = item
-                self.doAction('equip the %s to %s' %(item.get_name(), limb.name))
-                item.equipped = True
-                return
-
-    def unequip_item(self, item):
-        if item is None:
-            return
-
-        for limb in self.limbs:
-            if limb.holding is item:
-                self.doAction('unequip the %s' %item.get_name())
-                limb.holding = None
-                item.equipped = False
-
-    def take_off_item(self, item):
-        if item is None:
-            return
-
-        for limb in self.limbs:
-            if limb.wearing is item:
-                self.doAction('take off the %s' %item.get_name())
-                limb.wearing = None
-                item.worn = False
+    def unwear(self, item):
+        if item.worn:
+            for limb in self.limbs:
+                if limb.wearing == item:
+                    self.doAction('take off the %s' %item.get_name())
+                    limb.wearing = None
+                    item.worn = False
+                    self.inventory.add(item)
+                    return
 
     def notify(self, message):
         if self.ai is not None:
@@ -396,21 +376,11 @@ class Creature(Entity):
 
     # TODO: a to an
     def doAction(self, message):
-        r = 9
-        for ox in range(-r, r+1):
-            for oy in range(-r, r+1):
-                if ox*ox + oy*oy > r*r:
-                    continue
-
-                other_creature = self.level.check_for_creatures(self.x+ox, self.y+oy)
-
-                if other_creature is None:
-                    continue
-
-                if other_creature == self:
-                    other_creature.notify("You " + message + ".")
-                else:
-                    other_creature.notify(str("The %s %s.") %(self.type, makeSecondPerson(message)))
+        # For non-player creatures, format the message appropriately
+        if self.type == 'player':
+            self.notify("You " + message + ".")
+        else:
+            self.notify(str("The %s %s.") %(self.type, makeSecondPerson(message)))
 
 
 class Player(Creature):

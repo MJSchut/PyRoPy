@@ -4,6 +4,9 @@ from typing import Dict, Any
 from .Items import Item
 from src.effects.Effects import PoisonEffect
 from src.effects.Effects import MinorHealEffect
+from src.effects.Effects import StrongHealEffect
+from src.effects.Effects import FoodPoisoningEffect  
+from src.effects.Effects import HallucinationEffect
 from src.effects.Effects import AsphyxiationEffect
 from src.constants import item_color_pointers
 from src.constants import item_colors
@@ -31,6 +34,7 @@ class ItemFactory(object):
         
         # Set basic properties
         item.name = config['name']  # Direct assignment since no setter exists
+        item.type = config.get('type', 'item')  # Use generic type for unidentified items
         item.set_appearance(config['char'])
         item.set_description(config['description'])
         item.weight = config.get('weight', 1)  # Direct assignment since no setter exists
@@ -43,6 +47,8 @@ class ItemFactory(object):
             item.set_defence_value(config['defense'])
             if config.get('wearable', False):
                 item.set_wear_to(Head)  # Default to head for wearable items
+                item.set_equipment(True)  # Make sure it's marked as equipment
+                item.set_wearable(True)  # Make sure it's marked as wearable
         elif config['type'] == 'consumable':
             if config.get('effect') == 'heal':
                 item.set_drink_effect(MinorHealEffect)  # Use the actual effect class
@@ -113,8 +119,15 @@ class ItemFactory(object):
         config['color'] = item_color_pointers[appearance.split(" ")[1]]
         config['name'] = f'potion of {effect_noun[effect]}'
         config['appearance'] = f'{appearance} potion'
+        config['type'] = 'potion'  # Set potion type
         
-        return self._create_item_from_config(config)
+        # Create the item
+        item = self._create_item_from_config(config)
+        
+        # Set the appearance directly on the item
+        item.appearance = f'{appearance} potion'
+        
+        return item
 
     def make_amulet(self):
         """Create an amulet item."""
@@ -136,30 +149,90 @@ class ItemFactory(object):
         return self._create_item_from_config(config)
 
     def make_food(self):
-        """Create a food item."""
+        """Create a food item with variations."""
         config = self.config.get_item_definition('food')
         spawn_config = self.config.get_item_spawn_config('food')
         config.update(spawn_config)
         
-        # Add random food type
+        # Base food types
         food_types = [
-            ('apple', '%', (255, 0, 0), 'juicy and sweet', 20),
-            ('bread', '%', (139, 69, 19), 'freshly baked', 30),
-            ('cheese', '%', (255, 255, 0), 'sharp and tangy', 25),
-            ('meat', '%', (165, 42, 42), 'savory', 35),
-            ('mushroom', '%', (160, 82, 45), 'earthy', 20)
+            # name, char, color, base_taste
+            ('bread', '%', (139, 69, 19)),
+            ('meat', '%', (165, 42, 42)),
+            ('apple', '%', (255, 0, 0)),
+            ('cheese', '%', (255, 255, 0)),
+            ('mushroom', '%', (160, 82, 45))
         ]
         
+        # Choose a base food type
         food_type = random.choice(food_types)
-        name, char, color, taste, nutrition = food_type
+        name, char, color = food_type
         
-        config['name'] = name
+        # Apply variations based on food type
+        if name == 'bread':
+            # Bread variations
+            variations = [
+                # name, description, taste, nutrition, effect, duration
+                ('freshly baked bread', 'A warm, crusty loaf of bread.', 'warm and satisfying', 30, None, 0),
+                ('stale bread', 'A hardened loaf of bread.', 'dry and bland', 20, None, 0),
+                ('moldy bread', 'A loaf covered in blue-green spots.', 'foul and sour', 10, FoodPoisoningEffect, 5),
+                ('enriched bread', 'A hearty, nutrient-rich loaf.', 'hearty and nourishing', 40, StrongHealEffect, 3),
+                ('sweet bread', 'A sugary, dessert-like bread.', 'sweet and delicious', 25, MinorHealEffect, 2),
+            ]
+        
+        elif name == 'meat':
+            # Meat variations
+            variations = [
+                # name, description, taste, nutrition, effect, duration
+                ('fresh meat', 'A raw piece of meat.', 'juicy and savory', 35, None, 0),
+                ('cooked meat', 'A well-prepared piece of meat.', 'perfectly cooked and delicious', 45, MinorHealEffect, 2),
+                ('rotten meat', 'A putrid piece of meat.', 'putrid and revolting', 15, FoodPoisoningEffect, 8),
+                ('smoked meat', 'A preserved piece of meat.', 'smoky and rich', 40, None, 0),
+                ('strange meat', 'An unusual-looking piece of meat.', 'unusual but not unpleasant', 30, HallucinationEffect, 10),
+            ]
+            
+        elif name == 'mushroom':
+            # Mushroom variations
+            variations = [
+                # name, description, taste, nutrition, effect, duration
+                ('common mushroom', 'An ordinary-looking mushroom.', 'earthy and mild', 20, None, 0),
+                ('red-capped mushroom', 'A mushroom with a bright red cap.', 'spicy and tangy', 15, MinorHealEffect, 3),
+                ('pale mushroom', 'A pale, sickly-looking mushroom.', 'bitter and unpleasant', 10, FoodPoisoningEffect, 6),
+                ('glowing mushroom', 'A mushroom that emits a faint glow.', 'sweet and intoxicating', 25, HallucinationEffect, 12),
+                ('spotted mushroom', 'A mushroom with unusual spots.', 'nutty and rich', 30, StrongHealEffect, 4),
+            ]
+            
+        else:  # Apple or cheese or other foods
+            # Generic variations
+            variations = [
+                # name, description, taste, nutrition, effect
+                (f'fresh {name}', f'A fresh {name}.', 'fresh and delicious', 25, None, 0),
+                (f'aged {name}', f'An aged {name}.', 'rich and complex', 30, MinorHealEffect, 2),
+                (f'spoiled {name}', f'A spoiled {name}.', 'sour and off-putting', 15, FoodPoisoningEffect, 4),
+                (f'exotic {name}', f'An unusual variety of {name}.', 'complex and unusual', 35, HallucinationEffect, 6),
+            ]
+        
+        # Select a variation
+        variation = random.choice(variations)
+        variant_name, description, taste, nutrition, effect, duration = variation
+        
+        # Update config with the variation details
+        config['name'] = variant_name
         config['char'] = char
         config['color'] = color
+        config['description'] = description
         config['taste'] = taste
         config['value'] = nutrition
         
-        return self._create_item_from_config(config)
+        # Create the item
+        item = self._create_item_from_config(config)
+        
+        # Set the eat effect if applicable
+        if effect:
+            item.eat_effect = effect
+            item.drink_effect_duration = duration  # Reuse this field for eat effects too
+            
+        return item
 
     def spawn_initial_items(self):
         """Spawn all initial items based on spawn configuration."""

@@ -11,6 +11,7 @@ class CreatureAi(object):
     def __init__(self, creature):
         self.player = None
         self.creature = creature
+        self.level = None  # Will be set by factory
 
     def on_enter(self, x, y, tile):
         if not tile.blocked:
@@ -49,7 +50,6 @@ class CreatureAi(object):
         for effect in self.creature.effect_list:
             effect.on_update()
 
-
         if self.creature.inventory is not None:
             for item in self.creature.inventory.get_items():
                 if item is None:
@@ -60,7 +60,22 @@ class CreatureAi(object):
         pass
 
     def on_notify(self, message):
-        pass
+        # If this is a non-player creature and we have access to the player, send the message to them
+        if self.creature.type != 'player' and self.level is not None:
+            player = self.level.get_player()
+            if player is not None and player.messages is not None:
+                # Only show messages if the player can see the creature
+                if player.can_see(self.creature.x, self.creature.y):
+                    # Determine appropriate color based on message content
+                    color_index = 1  # Default to white (index 1, after the pink)
+                    
+                    # Check for combat/damage related messages - use pink (index 0)
+                    if any(keyword in message.lower() for keyword in ['attack', 'hit', 'hurt', 'damage', 'kill', 'die', 'pain', 'bleed', 'blood', 'wound', 'toxin', 'starve']):
+                        color_index = 0
+                    
+                    # Add message with appropriate color index
+                    player.messages[0].append(message)
+                    player.messages[1].append(color_index)
 
     def can_see(self, x, y):
         # First check if the point is within vision radius
@@ -113,7 +128,7 @@ class PlayerAi(CreatureAi):
         item = self.level.check_for_items(x, y)
 
         if item is not None:
-            self.creature.doAction('see a %s lying here' %item.get_name())
+            self.creature.notify(f"You see a {item.get_name()} lying here.")
 
     def on_notify(self, message):
         # Determine appropriate color based on message content
@@ -201,9 +216,15 @@ class HuskFungusAi(CreatureAi):
 
             r = random.random()
             if r < 0.3:
-                creature.doAction('feel drained')
+                if creature.type == 'player':
+                    creature.notify("You feel drained.")
+                else:
+                    creature.doAction('feel drained')
             elif r < 0.6:
-                creature.doAction('feel fatigued')
+                if creature.type == 'player':
+                    creature.notify("You feel fatigued.")
+                else:
+                    creature.doAction('feel fatigued')
 
 class BatAi(CreatureAi):
     def __init__(self, creature):
@@ -246,9 +267,9 @@ class GargoyleAi(CreatureAi):
                 self.creature.vision_radius = 6
 
                 if random.random() < 0.3:
-                    self.player.doAction('feel your ears are ringing')
+                    self.player.notify("You feel your ears are ringing.")
                 elif random.random() < 0.1:
-                    self.player.doAction('feel blood dripping from your ears')
+                    self.player.notify("You feel blood dripping from your ears.")
                     self.player.hurt(1)
 
         else:

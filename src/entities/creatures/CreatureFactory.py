@@ -52,41 +52,61 @@ class CreatureFactory:
 
     def _create_creature_from_config(self, creature_type: str, config: Dict[str, Any], messages=None, player=None) -> Creature:
         """Create a creature from its configuration."""
+        # Validate required fields
+        required_fields = ['name', 'char', 'color', 'hp', 'max_hp', 'attack', 'defense', 'ai_type']
+        for field in required_fields:
+            if field not in config:
+                raise ValueError(f"Missing required field '{field}' in creature configuration for {creature_type}")
+
         if creature_type == 'player':
+            if messages is None:
+                raise ValueError("Messages must be provided when creating a player")
             creature = Player(self.lbt, self.con, self.level)
             self._add_human_limbs(creature)
             # Set player-specific properties
             creature.messages = messages
-            creature.set_maxhunger(config['maxhunger'])
-            creature.set_hunger(config['hunger'])
+            creature.set_maxhunger(config.get('max_hunger', 100))
+            creature.set_hunger(config.get('hunger', 100))
         else:
             creature = Creature(self.lbt, self.con, self.level, config['char'], config['color'])
 
         # Set basic properties
-        creature.set_maxhp(config['hp'])
+        creature.set_maxhp(config['max_hp'])
         creature.set_attack(config['attack'])
         creature.set_defence(config['defense'])
         
         # Set vision radius with proper default
-        vision_radius = config.get('vision_radius')
-        if vision_radius is not None:
-            creature.set_vision_radius(vision_radius)
+        vision_radius = config.get('vision_radius', 0)
+        creature.set_vision_radius(vision_radius)
         
-        creature.set_inventory_size(config.get('inventory_size', 0))
+        # Set inventory size with proper default
+        inventory_size = config.get('inventory_size', 0)
+        creature.set_inventory_size(inventory_size)
+        
         creature.type = creature_type
 
         # Set AI based on type
         ai_type = config['ai_type']
         if ai_type == 'player':
-            creature.set_Ai(PlayerAi(creature, messages, self.level))
+            if messages is None:
+                raise ValueError("Messages must be provided when creating a player AI")
+            ai = PlayerAi(creature, messages, self.level)
         elif ai_type == 'fungus':
-            creature.set_Ai(FungusAi(creature, self))
+            ai = FungusAi(creature, self)
         elif ai_type == 'bat':
-            creature.set_Ai(BatAi(creature))
+            ai = BatAi(creature)
         elif ai_type == 'snake':
-            creature.set_Ai(SnakeAi(creature))
+            ai = SnakeAi(creature)
         elif ai_type == 'gargoyle':
-            creature.set_Ai(GargoyleAi(creature, player))
+            if player is None:
+                raise ValueError("Player reference must be provided when creating a gargoyle")
+            ai = GargoyleAi(creature, player)
+        else:
+            raise ValueError(f"Unknown AI type '{ai_type}' for creature {creature_type}")
+
+        # Set the level reference for the AI
+        ai.level = self.level
+        creature.set_Ai(ai)
 
         # Add to level
         if creature_type == 'player':

@@ -7,12 +7,14 @@ return {
         char = "f",
         color = {0, 255, 0},  -- Green
         hp = 10,
-        maxhp = 10,
+        max_hp = 10,
         attack = 2,
         defense = 0,
         speed = 1,
         ai_type = "fungus",
-        description = "A slow-growing fungus that spreads through the dungeon."
+        description = "A slow-growing fungus that spreads through the dungeon.",
+        vision_radius = 3,
+        inventory_size = 0
     },
     
     bat = {
@@ -20,12 +22,14 @@ return {
         char = "b",
         color = {128, 128, 128},  -- Gray
         hp = 5,
-        maxhp = 5,
+        max_hp = 5,
         attack = 3,
         defense = 1,
         speed = 2,
         ai_type = "bat",
-        description = "A small flying creature that hunts in the darkness."
+        description = "A small flying creature that hunts in the darkness.",
+        vision_radius = 5,
+        inventory_size = 0
     },
     
     snake = {
@@ -33,12 +37,14 @@ return {
         char = "s",
         color = {0, 255, 0},  -- Green
         hp = 8,
-        maxhp = 8,
+        max_hp = 8,
         attack = 4,
         defense = 1,
         speed = 2,
         ai_type = "snake",
-        description = "A venomous snake that slithers through the dungeon."
+        description = "A venomous snake that slithers through the dungeon.",
+        vision_radius = 4,
+        inventory_size = 0
     },
     
     gargoyle = {
@@ -46,12 +52,14 @@ return {
         char = "G",
         color = {128, 128, 128},  -- Gray
         hp = 15,
-        maxhp = 15,
+        max_hp = 15,
         attack = 5,
         defense = 3,
         speed = 1,
         ai_type = "gargoyle",
-        description = "A stone guardian that comes to life to protect the dungeon."
+        description = "A stone guardian that comes to life to protect the dungeon.",
+        vision_radius = 6,
+        inventory_size = 0
     },
     
     player = {
@@ -59,7 +67,7 @@ return {
         char = "@",
         color = {255, 255, 255},  -- White
         hp = 30,
-        maxhp = 30,
+        max_hp = 30,
         attack = 5,
         defense = 2,
         speed = 1,
@@ -67,8 +75,7 @@ return {
         description = "You are the player character.",
         vision_radius = 9,
         inventory_size = 20,
-        maxhunger = 100,
-        hunger = 100,
-        messages = None  -- This will be set by the factory
+        max_hunger = 100,
+        hunger = 100
     }
 } 

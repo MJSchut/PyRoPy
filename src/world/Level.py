@@ -168,3 +168,10 @@ class Level(object):
             
         return x, y
 
+    def get_player(self):
+        """Get the player creature from the level's creatures list"""
+        for creature in self.creatures:
+            if isinstance(creature, Player):
+                return creature
+        return None
+

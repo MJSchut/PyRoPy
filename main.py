@@ -235,9 +235,6 @@ with tcod.context.new(
                 if line:
                     constants.panel.print(1, current_y, line, fg=message_color, bg=(0, 0, 0))
                     current_y += 1
-            
-            # Increment color age for older messages
-            messages[1][i] += 1
         
         if len(messages[0]) >= max_messages * 2:  # Keep twice as many messages in memory before pruning
             del messages[0][0]
@@ -283,7 +280,35 @@ with tcod.context.new(
                         elif event.sym == tcod.event.KeySym.SPACE:
                             # Restart the game
                             waiting_for_input = False
+                            
+                            # Regenerate the world
+                            level = Level(constants.MAP_WIDTH, constants.MAP_HEIGHT)
+                            cFactory = CreatureFactory(tcod, console, level)
+                            iFactory = ItemFactory(tcod, console, level)
+                            
+                            # Clear messages
+                            messages = [[], []]
+                            for i in range(255, 15, -8):
+                                lineColors.append((i, i, i))  # Grayscale fade
+                                
+                            # Add the player
                             player = cFactory.make_player(messages)
+                            
+                            # Set reference to the factory in the level for slime splitting
+                            level.factory = cFactory
+                            
+                            # Add welcome messages
+                            messages[0].append("Welcome back to PyRoPy!")
+                            messages[1].append(0)
+                            messages[0].append("Be more careful this time...")
+                            messages[1].append(0)
+                            
+                            # Spawn all initial creatures based on configuration
+                            cFactory.spawn_initial_creatures(player)
+
+                            # Spawn all initial items based on configuration
+                            iFactory.spawn_initial_items()
+                            
                             break
 
         # get input
@@ -309,6 +334,10 @@ with tcod.context.new(
                         for creature in level.creatures:
                             if creature != player and creature.ai:
                                 creature.ai.on_update()
+                                
+                        # Increment message colors only during player turns
+                        for i in range(len(messages[1])):
+                            messages[1][i] += 1
                     
                     if keylist[0] == 'exit':
                         raise SystemExit()
